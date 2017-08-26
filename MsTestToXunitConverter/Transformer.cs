@@ -33,18 +33,35 @@ namespace MsTestToXunitConverter
 
         internal static ClassDeclarationSyntax StripTestInitializerAttribute(this ClassDeclarationSyntax type)
         {
-            var target = type.Members.OfType<MethodDeclarationSyntax>()
-                                        .SingleOrDefault(m => m.GetTargetAttribute("TestInitialize") != null);
+            var target = type.Members.OfType<MethodDeclarationSyntax>().SingleOrDefault(m => m.GetTargetAttribute("TestInitialize") != null);
             if (target == null) { return type; }
 
-            var ctor = type.Members.OfType<ConstructorDeclarationSyntax>()
-                                    .SingleOrDefault(c => c.ParameterList.Parameters.Count == 0);
+            var ctor = type.Members.OfType<ConstructorDeclarationSyntax>().SingleOrDefault(c => c.ParameterList.Parameters.Count == 0);
 
             var initializeStatement = ParseStatement($"{target.Identifier}();");
-            var replacement = ctor == null ? Block(initializeStatement) : Block(ctor.Body.Statements.Add(initializeStatement));
+            var replacementBody = ctor == null ? Block(initializeStatement) : Block(ctor.Body.Statements.Add(initializeStatement));
+            var replacementCtor = ConstructorDeclaration(type.Identifier).WithBody(replacementBody);
 
-            type = type.ReplaceNode(ctor, ConstructorDeclaration(type.Identifier).WithBody(replacement));
+            type = ctor == null ? type.AddMembers(replacementCtor) : type.ReplaceNode(ctor, replacementCtor);
             type = type.ReplaceNode(target, target.RemoveNode(target.GetTargetAttribute("TestInitialize"), SyntaxRemoveOptions.KeepNoTrivia));
+
+            return type;
+        }
+
+        internal static ClassDeclarationSyntax StripTestCleanupAttribute(this ClassDeclarationSyntax type)
+        {
+            var target = type.Members.OfType<MethodDeclarationSyntax>().SingleOrDefault(m => m.GetTargetAttribute("TestCleanup") != null);
+            if (target == null) { return type; }
+
+            var dispose = type.Members.OfType<MethodDeclarationSyntax>().SingleOrDefault(m => m.Identifier.ToString() == "Dispose");
+
+            var cleanupStatement = ParseStatement($"{target.Identifier}();");
+            var replacementBody = dispose == null ? Block(cleanupStatement) : Block(dispose.Body.Statements.Insert(0, cleanupStatement));
+            var replacementDisp = MethodDeclaration(ParseName("void"), "Dispose").WithBody(replacementBody);
+            
+            type = dispose == null ? type.AddMembers(replacementDisp) : type.ReplaceNode(dispose, replacementDisp);
+            type = type.ReplaceNode(target, target.RemoveNode(target.GetTargetAttribute("TestCleanup"), SyntaxRemoveOptions.KeepNoTrivia));
+
             return type;
         }
     }
