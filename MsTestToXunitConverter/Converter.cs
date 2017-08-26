@@ -6,6 +6,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 using System.Collections.Immutable;
 using System.Collections.Generic;
+using static MsTestToXunitConverter.Transformer;
 
 namespace MsTestToXunitConverter
 {
@@ -29,28 +30,18 @@ namespace MsTestToXunitConverter
             //return the node instead of the base.VisitAttribute(node) cause we have nothing left to do
             return node;
         }
-
-        private MethodDeclarationSyntax StripExpectedExceptionAttribute(MethodDeclarationSyntax method)
+        
+        public override SyntaxNode VisitClassDeclaration(ClassDeclarationSyntax node)
         {
-            var target = method.AttributeLists.SelectMany(al => al.Attributes).FirstOrDefault(a => a.Name == IdentifierName("ExpectedException"));
-            if (target == null) { return method; }
+            node = node.StripTestInitializerAttribute();
 
-            var newbody = $"Assert.Throws<{target.ArgumentList.Arguments.First()}>({ParenthesizedLambdaExpression(method.Body)});";
-            if (target.ArgumentList.Arguments.Count > 1)
-            {
-                newbody = $"var ex = {newbody}";
-                newbody += Environment.NewLine;
-                newbody += $"Assert.Equal(\"{target.ArgumentList.Arguments.ElementAt(1)}\", ex.Message);";
-            }
-
-            method = method.ReplaceNode(method.Body, ParseExpression(newbody));
-            method = method.RemoveNode(target, SyntaxRemoveOptions.KeepNoTrivia);
-            return method;
+            return base.VisitClassDeclaration(node);
         }
 
         public override SyntaxNode VisitMethodDeclaration(MethodDeclarationSyntax method)
         {
-            method = StripExpectedExceptionAttribute(method);
+            method = method.StripExpectedExceptionAttribute();
+
             return base.VisitMethodDeclaration(method);
         }
     }
