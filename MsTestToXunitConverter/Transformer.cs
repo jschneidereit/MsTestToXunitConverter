@@ -12,12 +12,16 @@ namespace MsTestToXunitConverter
     {
         private static MethodDeclarationSyntax Cleanup(this MethodDeclarationSyntax method)
         {
+            //TODO: consider .WithAdditionalAnnotations(Formatter.Annotation)
+
             method = method.RemoveNodes(method.AttributeLists.Where(als => als.Attributes.Count == 0), SyntaxRemoveOptions.KeepNoTrivia);
             return method.NormalizeWhitespace(elasticTrivia: true);
         }
 
         private static ClassDeclarationSyntax Cleanup(this ClassDeclarationSyntax type)
         {
+            //TODO: consider .WithAdditionalAnnotations(Formatter.Annotation)
+
             foreach (var m in type.Members.OfType<MethodDeclarationSyntax>())
             {
                 type = type.ReplaceNode(m, m.Cleanup());
@@ -30,22 +34,31 @@ namespace MsTestToXunitConverter
         {
             return method.AttributeLists.SelectMany(al => al.Attributes).SingleOrDefault(a => a.Name.ToString() == target);
         }
-
+        
         internal static MethodDeclarationSyntax StripExpectedExceptionAttribute(this MethodDeclarationSyntax method)
         {
             var target = method.GetTargetAttribute("ExpectedException");
             if (target == null) { return method; }
 
-            var newbody = $"Assert.Throws<{target.ArgumentList.Arguments.First()}>({ParenthesizedLambdaExpression(method.Body)});";
+            var arg = target.ArgumentList.Arguments.FirstOrDefault();
+            var exceptionIdentifierName = arg?.ChildNodes().FirstOrDefault()?.ChildNodes().FirstOrDefault();
+
+            if (exceptionIdentifierName == null) { return method; } //TODO: Throw exception? not valid MSTest if we get here
+
+            var newbody = $"Assert.Throws<{exceptionIdentifierName}>({ParenthesizedLambdaExpression(method.Body)});";
             if (target.ArgumentList.Arguments.Count > 1)
             {
                 newbody = $"var ex = {newbody}";
                 newbody += Environment.NewLine;
                 newbody += $"Assert.Equal(\"{target.ArgumentList.Arguments.ElementAt(1)}\", ex.Message);";
             }
+            
+            method = method.ReplaceNode(method.Body, Block(ParseStatement(newbody)));
 
-            method = method.ReplaceNode(method.Body, ParseExpression(newbody));
-            method = method.RemoveNode(target, SyntaxRemoveOptions.KeepNoTrivia); //TODO: determine what option I want here
+            //Refresh reference
+            target = method.GetTargetAttribute("ExpectedException");
+            method = method.RemoveNode(target, SyntaxRemoveOptions.KeepNoTrivia);
+
             return method.Cleanup();
         }
 

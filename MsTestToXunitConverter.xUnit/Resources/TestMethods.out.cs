@@ -73,5 +73,10 @@ namespace MsTestToXunitConverter.xUnit.Resources
         {
 
         }
+        
+        public void DoSomethingBad()
+        {
+            Assert.Throws<ArgumentNullException>(() => { Foo(); });
+        }
     }
 }

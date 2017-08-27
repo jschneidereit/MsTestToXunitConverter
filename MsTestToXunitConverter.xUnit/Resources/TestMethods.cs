@@ -73,5 +73,11 @@ namespace MsTestToXunitConverter.xUnit.Resources
         {
 
         }
+
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void DoSomethingBad()
+        {
+            Foo();
+        }
     }
 }
