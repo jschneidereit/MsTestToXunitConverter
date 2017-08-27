@@ -64,19 +64,19 @@ namespace MsTestToXunitConverter
 
             if (description != null)
             {
-                factAttribute = factAttribute.WithArgumentList(CreateArgumentList("DisplayName", description, factAttribute.ArgumentList));                
-                method = method.RemoveNode(description.Parent, SyntaxRemoveOptions.KeepNoTrivia);
+                factAttribute = factAttribute.WithArgumentList(CreateArgumentList("DisplayName", description, factAttribute.ArgumentList));
+                method = method.RemoveNode(method.GetTargetAttribute("Description"), SyntaxRemoveOptions.KeepNoTrivia);
             }
             
             if (ignore != null)
             {
                 factAttribute = factAttribute.WithArgumentList(CreateArgumentList("Skip", ignore, factAttribute.ArgumentList));
-                method = method.RemoveNode(ignore.Parent, SyntaxRemoveOptions.KeepNoTrivia);
+                method = method.RemoveNode(method.GetTargetAttribute("Ignore"), SyntaxRemoveOptions.KeepNoTrivia);
             }
             
             if (testmethod != null)
             {
-                method = method.RemoveNode(testmethod.Parent, SyntaxRemoveOptions.KeepNoTrivia);
+                method = method.RemoveNode(method.GetTargetAttribute("TestMethod"), SyntaxRemoveOptions.KeepNoTrivia);
             }
 
             var attributeList = AttributeList(SingletonSeparatedList(factAttribute));
