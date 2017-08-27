@@ -10,6 +10,22 @@ namespace MsTestToXunitConverter
 {
     internal static class Transformer
     {
+        private static MethodDeclarationSyntax Cleanup(this MethodDeclarationSyntax method)
+        {
+            method = method.RemoveNodes(method.AttributeLists.Where(als => als.Attributes.Count == 0), SyntaxRemoveOptions.KeepNoTrivia);
+            return method.NormalizeWhitespace(elasticTrivia: true);
+        }
+
+        private static ClassDeclarationSyntax Cleanup(this ClassDeclarationSyntax type)
+        {
+            foreach (var m in type.Members.OfType<MethodDeclarationSyntax>())
+            {
+                type = type.ReplaceNode(m, m.Cleanup());
+            }
+
+            return type.NormalizeWhitespace(elasticTrivia: true);
+        }
+
         private static AttributeSyntax GetTargetAttribute(this MethodDeclarationSyntax method, string target)
         {
             return method.AttributeLists.SelectMany(al => al.Attributes).SingleOrDefault(a => a.Name.ToString() == target);
@@ -30,7 +46,7 @@ namespace MsTestToXunitConverter
 
             method = method.ReplaceNode(method.Body, ParseExpression(newbody));
             method = method.RemoveNode(target, SyntaxRemoveOptions.KeepNoTrivia); //TODO: determine what option I want here
-            return method.NormalizeWhitespace(elasticTrivia: true);
+            return method.Cleanup();
         }
 
         /// <summary>
@@ -88,9 +104,8 @@ namespace MsTestToXunitConverter
             var syntaxList = method.AttributeLists.Add(attributeList);
 
             method = method.WithAttributeLists(syntaxList);
-            method = method.RemoveNodes(method.AttributeLists.Where(als => als.Attributes.Count == 0), SyntaxRemoveOptions.KeepNoTrivia);
-            
-            return method.NormalizeWhitespace(elasticTrivia: true);
+                        
+            return method.Cleanup();
         }
 
         internal static ClassDeclarationSyntax StripTestInitializerAttribute(this ClassDeclarationSyntax type)
@@ -105,26 +120,51 @@ namespace MsTestToXunitConverter
             var replacementCtor = ConstructorDeclaration(type.Identifier).WithBody(replacementBody);
 
             type = ctor == null ? type.AddMembers(replacementCtor) : type.ReplaceNode(ctor, replacementCtor);
-            type = type.ReplaceNode(target, target.RemoveNode(target.GetTargetAttribute("TestInitialize"), SyntaxRemoveOptions.KeepNoTrivia));
 
-            return type.NormalizeWhitespace(elasticTrivia: true);
+            //Refresh reference
+            target = type.Members.OfType<MethodDeclarationSyntax>().SingleOrDefault(m => m.GetTargetAttribute("TestInitialize") != null);
+            type = type.ReplaceNode(target, target.RemoveNode(target.GetTargetAttribute("TestInitialize"), SyntaxRemoveOptions.KeepNoTrivia));
+                        
+            return type.Cleanup();
         }
 
         internal static ClassDeclarationSyntax StripTestCleanupAttribute(this ClassDeclarationSyntax type)
         {
+            BaseListSyntax CreateBaseList(string name, BaseListSyntax other)
+            {
+                if (other == null)
+                {
+                    return BaseList(SingletonSeparatedList<BaseTypeSyntax>(SimpleBaseType(IdentifierName(name))));
+                }
+
+                if (other.Types.Select(t => t.ToString()).Contains(name))
+                {
+                    return other;
+                }
+
+                return other.AddTypes(SimpleBaseType(IdentifierName(name)));
+            }
+
             var target = type.Members.OfType<MethodDeclarationSyntax>().SingleOrDefault(m => m.GetTargetAttribute("TestCleanup") != null);
             if (target == null) { return type; }
 
             var dispose = type.Members.OfType<MethodDeclarationSyntax>().SingleOrDefault(m => m.Identifier.ToString() == "Dispose");
 
+
             var cleanupStatement = ParseStatement($"{target.Identifier}();");
             var replacementBody = dispose == null ? Block(cleanupStatement) : Block(dispose.Body.Statements.Insert(0, cleanupStatement));
-            var replacementDisp = MethodDeclaration(ParseName("void"), "Dispose").WithBody(replacementBody);
+            var replacementDisp = MethodDeclaration(ParseName("void"), "Dispose").WithBody(replacementBody).WithModifiers(dispose.Modifiers); //TODO: Inserting spaces for some reason
+
+            
             
             type = dispose == null ? type.AddMembers(replacementDisp) : type.ReplaceNode(dispose, replacementDisp);
+
+            target = type.Members.OfType<MethodDeclarationSyntax>().SingleOrDefault(m => m.GetTargetAttribute("TestCleanup") != null);
             type = type.ReplaceNode(target, target.RemoveNode(target.GetTargetAttribute("TestCleanup"), SyntaxRemoveOptions.KeepNoTrivia));
 
-            return type.NormalizeWhitespace(elasticTrivia: true);
+            type = type.WithBaseList(CreateBaseList("IDisposable", type.BaseList));
+
+            return type.Cleanup();
         }
     }
 }

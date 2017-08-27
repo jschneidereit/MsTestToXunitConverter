@@ -69,7 +69,63 @@ namespace MsTestToXunitConverter.xUnit.Properties {
         ///
         ///namespace MsTestToXunitConverter.xUnit.Resources
         ///{
-        ///    class FactTest
+        ///    class TestCleanup
+        ///    {
+        ///        [TestInitialize]
+        ///        public void TestInitializeA()
+        ///        {
+        ///
+        ///        }
+        ///    }
+        ///}
+        ///.
+        /// </summary>
+        internal static string TestClasses {
+            get {
+                return ResourceManager.GetString("TestClasses", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///
+        ///namespace MsTestToXunitConverter.xUnit.Resources
+        ///{
+        ///    class TestCleanup
+        ///    {
+        ///        public TestCleanup()
+        ///        {
+        ///            TestInitializeA();
+        ///        }
+        ///        
+        ///        public void TestInitializeA()
+        ///        {
+        ///
+        ///        }
+        ///    }
+        ///}
+        ///.
+        /// </summary>
+        internal static string TestClasses_out {
+            get {
+                return ResourceManager.GetString("TestClasses_out", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///
+        ///namespace MsTestToXunitConverter.xUnit.Resources
+        ///{
+        ///    public class FactTest
         ///    {
         ///        [TestMethod]
         ///        public void TestMethodA()
@@ -89,11 +145,11 @@ namespace MsTestToXunitConverter.xUnit.Properties {
         ///
         ///        }
         ///
-        ///		[TestMethod, Description(&quot;Descriptio [rest of string was truncated]&quot;;.
+        ///		[TestMethod, Description(&quot;Des [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string TestMethod {
+        internal static string TestMethods {
             get {
-                return ResourceManager.GetString("TestMethod", resourceCulture);
+                return ResourceManager.GetString("TestMethods", resourceCulture);
             }
         }
         
@@ -106,7 +162,7 @@ namespace MsTestToXunitConverter.xUnit.Properties {
         ///
         ///namespace MsTestToXunitConverter.xUnit.Resources
         ///{
-        ///    class FactTest
+        ///    public class FactTest
         ///    {
         ///        [Fact]
         ///        public void TestMethodA()
@@ -126,11 +182,11 @@ namespace MsTestToXunitConverter.xUnit.Properties {
         ///
         ///        }
         ///
-        ///        [Fact(Disp [rest of string was truncated]&quot;;.
+        ///        [Fa [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string TestMethod_out {
+        internal static string TestMethods_out {
             get {
-                return ResourceManager.GetString("TestMethod_out", resourceCulture);
+                return ResourceManager.GetString("TestMethods_out", resourceCulture);
             }
         }
     }

@@ -1,10 +1,6 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Microsoft.CodeAnalysis.Formatting;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using Xunit;
 
 
@@ -12,31 +8,10 @@ namespace MsTestToXunitConverter.xUnit
 {
     public class TestMethodToFactTests
     {
-        /// <summary>
-        /// (Actual, Expected)
-        /// </summary>
-        private Tuple<MethodDeclarationSyntax, MethodDeclarationSyntax> GetTestMethod(string name)
-        {
-            MethodDeclarationSyntax GetMethod(string text, string functionname)
-            {
-                var tree = CSharpSyntaxTree.ParseText(text, options: new CSharpParseOptions(kind: SourceCodeKind.Script));                
-                var root = tree.GetRoot() as CompilationUnitSyntax;
-                
-                var methods = root.DescendantNodesAndSelf().OfType<MethodDeclarationSyntax>();
-                    
-                return methods.Single(m => m.Identifier.ToString().Equals(functionname, System.StringComparison.OrdinalIgnoreCase));
-            }
-
-            var source = Properties.Resources.TestMethod.ToString();
-            var result = Properties.Resources.TestMethod_out.ToString();
-
-            return Tuple.Create(GetMethod(source, name), GetMethod(result, name));
-        }
-
         [Fact(DisplayName = "Converts TestMethod to fact")]
         public void ConvertTestMethod()
         {
-            var method = GetTestMethod("TestMethodA");
+            var method = ResourceHelper.GetTestMethod("TestMethodA");
 
             var actual = method.Item1.StripSurjectiveFactAttributes().ToFullString();
             var expected = method.Item2.NormalizeWhitespace(elasticTrivia: true).ToString();            
@@ -50,7 +25,7 @@ namespace MsTestToXunitConverter.xUnit
             var methods = new List<string> { "IgnoreA", "IgnoreB", "IgnoreC", "IgnoreD" };
             methods.ForEach(m =>
             {
-                var method = GetTestMethod(m);
+                var method = ResourceHelper.GetTestMethod(m);
 
                 var actual = method.Item1.StripSurjectiveFactAttributes().ToFullString();
                 var expected = method.Item2.NormalizeWhitespace(elasticTrivia: true).ToString();
@@ -67,7 +42,7 @@ namespace MsTestToXunitConverter.xUnit
             var methods = new List<string> { "DescriptionA", "DescriptionB", "DescriptionC" };
             methods.ForEach(m =>
             {
-                var method = GetTestMethod(m);
+                var method = ResourceHelper.GetTestMethod(m);
 
                 var actual = method.Item1.StripSurjectiveFactAttributes().ToFullString();
                 var expected = method.Item2.NormalizeWhitespace(elasticTrivia: true).ToString();
@@ -82,7 +57,7 @@ namespace MsTestToXunitConverter.xUnit
             var methods = new List<string> { "TestMethodB", "TestMethodC" };
             methods.ForEach(m =>
             {
-                var method = GetTestMethod(m);
+                var method = ResourceHelper.GetTestMethod(m);
 
                 var actual = method.Item1.StripSurjectiveFactAttributes().ToFullString();
                 var expected = method.Item2.NormalizeWhitespace(elasticTrivia: true).ToString();
@@ -94,7 +69,7 @@ namespace MsTestToXunitConverter.xUnit
         [Fact(DisplayName = "Ignores methods without target attributes")]
         public void ConvertPassesOverNormalMethods()
         {
-            var method = GetTestMethod("TestMethodX");
+            var method = ResourceHelper.GetTestMethod("TestMethodX");
 
             var actual = method.Item1.StripSurjectiveFactAttributes().NormalizeWhitespace(elasticTrivia:true).ToFullString();
             var expected = method.Item2.NormalizeWhitespace(elasticTrivia: true).ToString();

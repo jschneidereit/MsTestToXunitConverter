@@ -194,7 +194,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Properties\Resources.Designer.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="ResourceHelper.cs" />
     <Compile Include="TestCleanupToIDisposeTests.cs" />
     <Compile Include="TestInitializeToConstructorTests.cs" />
     <Compile Include="TestMethodToFactTests.cs" />
@@ -202,6 +207,10 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+    <None Include="Resources\TestClasses.cs" />
+    <None Include="Resources\TestClasses.out.cs" />
+    <None Include="Resources\TestMethods.cs" />
+    <None Include="Resources\TestMethods.out.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MsTestToXunitConverter\MsTestToXunitConverter.csproj">
@@ -219,7 +228,10 @@
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Properties\Resources.resx" />
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
