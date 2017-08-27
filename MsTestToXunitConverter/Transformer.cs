@@ -11,7 +11,7 @@ namespace MsTestToXunitConverter
     {
         private static AttributeSyntax GetTargetAttribute(this MethodDeclarationSyntax method, string target)
         {
-            return method.AttributeLists.SelectMany(al => al.Attributes).SingleOrDefault(a => a.Name == IdentifierName(target));
+            return method.AttributeLists.SelectMany(al => al.Attributes).SingleOrDefault(a => a.Name.ToString() == target);
         }
 
         internal static MethodDeclarationSyntax StripExpectedExceptionAttribute(this MethodDeclarationSyntax method)
