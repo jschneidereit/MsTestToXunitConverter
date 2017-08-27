@@ -2,6 +2,7 @@
 using System.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.CodeAnalysis.CSharp;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
 namespace MsTestToXunitConverter
@@ -29,6 +30,67 @@ namespace MsTestToXunitConverter
             method = method.ReplaceNode(method.Body, ParseExpression(newbody));
             method = method.RemoveNode(target, SyntaxRemoveOptions.KeepNoTrivia); //TODO: determine what option I want here
             return method;
+        }
+
+        /// <summary>
+        /// [TestMethod] -> [Fact]
+        /// [Ignore("reason")] -> [Fact(Skip = "reason")]
+        /// [Description("name")] -> [Fact(DisplayName = "name")]
+        /// </summary>
+        /// <param name="method"></param>
+        /// <returns></returns>
+        internal static MethodDeclarationSyntax StripSurjectiveFactAttributes(this MethodDeclarationSyntax method)
+        {
+            var testmethod = method.GetTargetAttribute("TestMethod");
+            var ignore = method.GetTargetAttribute("Ignore");
+            var description = method.GetTargetAttribute("Description");
+
+            if (testmethod == null && ignore == null && description == null)
+            {
+                return method;
+            }
+
+            var factAttribute = Attribute(IdentifierName("Fact"));
+
+            AttributeArgumentListSyntax CreateArgumentList(string name, string value)
+            {
+                var argument = AttributeArgument(
+                                AssignmentExpression(SyntaxKind.SimpleAssignmentExpression, IdentifierName(name), 
+                                LiteralExpression(SyntaxKind.StringLiteralExpression, Literal(value))));
+                return AttributeArgumentList(SeparatedList(new[] { argument }));
+            }
+
+            if (description != null)
+            {
+                var value = description.ArgumentList.Arguments.FirstOrDefault()?.ToString();
+                if (!string.IsNullOrWhiteSpace(value))
+                {
+                    factAttribute = factAttribute.WithArgumentList(CreateArgumentList("DisplayName", value));
+                }
+                
+                method = method.RemoveNode(description, SyntaxRemoveOptions.KeepNoTrivia);
+            }
+            
+            if (ignore != null)
+            {
+                var value = ignore.ArgumentList.Arguments.FirstOrDefault()?.ToString();
+                if (!string.IsNullOrWhiteSpace(value))
+                {
+                    factAttribute = factAttribute.WithArgumentList(CreateArgumentList("Skip", value));
+                }
+
+                method = method.RemoveNode(ignore, SyntaxRemoveOptions.KeepNoTrivia);
+            }
+            
+            if (testmethod != null)
+            {
+                return method.ReplaceNode(testmethod, factAttribute);
+            }
+
+            var attributeList = AttributeList(SingletonSeparatedList(factAttribute));
+            var syntaxList = method.AttributeLists.Add(attributeList.NormalizeWhitespace());
+
+            return method.WithAttributeLists(syntaxList);
         }
 
         internal static ClassDeclarationSyntax StripTestInitializerAttribute(this ClassDeclarationSyntax type)

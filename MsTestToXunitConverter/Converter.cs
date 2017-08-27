@@ -15,7 +15,7 @@ namespace MsTestToXunitConverter
         private static ImmutableDictionary<string, AttributeSyntax> AttributeMapping = new Dictionary<string, AttributeSyntax>()
         {
             ["TestClass"] = null,
-            ["TestMethod"] = Attribute(IdentifierName("Fact")),
+            //["TestMethod"] = Attribute(IdentifierName("Fact")),
             ["TestProperty"] = Attribute(IdentifierName("Trait")),
             ["DataSource"] = Attribute(IdentifierName("Theory")),
         }.ToImmutableDictionary();
