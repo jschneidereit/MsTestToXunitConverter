@@ -79,5 +79,13 @@ namespace MsTestToXunitConverter.xUnit.Resources
         {
             Foo();
         }
+
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void DoSeveralThingsBad()
+        {
+            Foo();
+            Bar();
+            Baz();
+        }
     }
 }

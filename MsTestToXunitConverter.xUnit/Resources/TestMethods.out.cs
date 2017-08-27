@@ -78,5 +78,15 @@ namespace MsTestToXunitConverter.xUnit.Resources
         {
             Assert.Throws<ArgumentNullException>(() => { Foo(); });
         }
+
+        public void DoSeveralThingsBad()
+        {
+            Assert.Throws<ArgumentNullException>(() =>
+            {
+                Foo();
+                Bar();
+                Baz();
+            });                
+        }
     }
 }
