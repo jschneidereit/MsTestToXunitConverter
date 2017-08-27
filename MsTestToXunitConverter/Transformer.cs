@@ -52,38 +52,40 @@ namespace MsTestToXunitConverter
 
             var factAttribute = Attribute(IdentifierName("Fact"));
 
-            AttributeArgumentListSyntax CreateArgumentList(string name, string value)
+            AttributeArgumentListSyntax CreateArgumentList(string name, AttributeSyntax attribute, AttributeArgumentListSyntax other)
             {
-                value = value ?? string.Empty;
+                var value = attribute.ArgumentList.Arguments.FirstOrDefault()?.WithoutTrivia().ToString() ?? string.Empty;
                 var argument = AttributeArgument(
                                 AssignmentExpression(SyntaxKind.SimpleAssignmentExpression, IdentifierName(name), 
                                 LiteralExpression(SyntaxKind.StringLiteralExpression, Literal(value))));
-                return AttributeArgumentList(SeparatedList(new[] { argument }));
+                
+                return other == null ? AttributeArgumentList(SeparatedList(new[] { argument })) : other.AddArguments(argument);
             }
 
             if (description != null)
             {
-                var value = description.ArgumentList.Arguments.FirstOrDefault()?.ToString();
-                factAttribute = factAttribute.WithArgumentList(CreateArgumentList("DisplayName", value));                
-                method = method.RemoveNode(description, SyntaxRemoveOptions.KeepNoTrivia);
+                factAttribute = factAttribute.WithArgumentList(CreateArgumentList("DisplayName", description, factAttribute.ArgumentList));                
+                method = method.RemoveNode(description.Parent, SyntaxRemoveOptions.KeepNoTrivia);
             }
             
             if (ignore != null)
             {
-                var value = ignore.ArgumentList.Arguments.FirstOrDefault()?.ToString();
-                factAttribute = factAttribute.WithArgumentList(CreateArgumentList("Skip", value));
-                method = method.RemoveNode(ignore, SyntaxRemoveOptions.KeepNoTrivia);
+                factAttribute = factAttribute.WithArgumentList(CreateArgumentList("Skip", ignore, factAttribute.ArgumentList));
+                method = method.RemoveNode(ignore.Parent, SyntaxRemoveOptions.KeepNoTrivia);
             }
             
             if (testmethod != null)
             {
-                return method.ReplaceNode(testmethod, factAttribute);
+                method = method.RemoveNode(testmethod.Parent, SyntaxRemoveOptions.KeepNoTrivia);
             }
 
             var attributeList = AttributeList(SingletonSeparatedList(factAttribute));
             var syntaxList = method.AttributeLists.Add(attributeList.NormalizeWhitespace());
 
-            return method.WithAttributeLists(syntaxList);
+            method = method.WithAttributeLists(syntaxList);
+            method = method.RemoveNodes(method.AttributeLists.Where(als => als.Attributes.Count == 0), SyntaxRemoveOptions.KeepNoTrivia);
+            
+            return method;
         }
 
         internal static ClassDeclarationSyntax StripTestInitializerAttribute(this ClassDeclarationSyntax type)
