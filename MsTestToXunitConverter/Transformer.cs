@@ -55,13 +55,16 @@ namespace MsTestToXunitConverter
 
             AttributeArgumentListSyntax CreateArgumentList(string name, AttributeSyntax attribute, AttributeArgumentListSyntax other)
             {
-                var value = attribute.ArgumentList.Arguments.FirstOrDefault()?.Expression.ChildTokens().FirstOrDefault().Value.ToString() ?? string.Empty;
-                
-                var argument = AttributeArgument(
+                var argument = attribute.ArgumentList?.Arguments.FirstOrDefault();
+                var expression = argument?.Expression?.ChildTokens().FirstOrDefault();
+
+                var value = expression ?? Literal("");
+
+                var attributeArgument = AttributeArgument(
                                 AssignmentExpression(SyntaxKind.SimpleAssignmentExpression, IdentifierName(name), 
-                                LiteralExpression(SyntaxKind.StringLiteralExpression, Literal(value))));
+                                LiteralExpression(SyntaxKind.StringLiteralExpression, value)));
                 
-                return other == null ? AttributeArgumentList(SeparatedList(new[] { argument })) : other.AddArguments(argument);
+                return other == null ? AttributeArgumentList(SeparatedList(new[] { attributeArgument })) : other.AddArguments(attributeArgument);
             }
 
             if (description != null)

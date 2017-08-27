@@ -50,7 +50,13 @@ namespace MsTestToXunitConverter.xUnit.Resources
 
         }
 
-		[TestMethod][Description("Description")][Ignore("Reason")]
+        [Ignore]
+        public void IgnoreD()
+        {
+
+        }
+
+        [TestMethod][Description("Description")][Ignore("Reason")]
 		public void TestMethodB()
         {
 

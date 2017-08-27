@@ -47,7 +47,7 @@ namespace MsTestToXunitConverter.xUnit
         [Fact(DisplayName = "Converts ignore to Skip")]
         public void ConvertTestMethodIgnore()
         {
-            var methods = new List<string> { "IgnoreA", "IgnoreB", "IgnoreC" };
+            var methods = new List<string> { "IgnoreA", "IgnoreB", "IgnoreC", "IgnoreD" };
             methods.ForEach(m =>
             {
                 var method = GetTestMethod(m);

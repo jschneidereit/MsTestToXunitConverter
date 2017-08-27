@@ -50,6 +50,12 @@ namespace MsTestToXunitConverter.xUnit.Resources
 
         }
 
+        [Fact(Skip = "")]
+        public void IgnoreD()
+        {
+
+        }
+
         [Fact(DisplayName = "Description", Skip = "Reason")]
         public void TestMethodB()
         {
