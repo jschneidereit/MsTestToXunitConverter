@@ -54,6 +54,7 @@ namespace MsTestToXunitConverter
 
             AttributeArgumentListSyntax CreateArgumentList(string name, string value)
             {
+                value = value ?? string.Empty;
                 var argument = AttributeArgument(
                                 AssignmentExpression(SyntaxKind.SimpleAssignmentExpression, IdentifierName(name), 
                                 LiteralExpression(SyntaxKind.StringLiteralExpression, Literal(value))));
@@ -63,22 +64,14 @@ namespace MsTestToXunitConverter
             if (description != null)
             {
                 var value = description.ArgumentList.Arguments.FirstOrDefault()?.ToString();
-                if (!string.IsNullOrWhiteSpace(value))
-                {
-                    factAttribute = factAttribute.WithArgumentList(CreateArgumentList("DisplayName", value));
-                }
-                
+                factAttribute = factAttribute.WithArgumentList(CreateArgumentList("DisplayName", value));                
                 method = method.RemoveNode(description, SyntaxRemoveOptions.KeepNoTrivia);
             }
             
             if (ignore != null)
             {
                 var value = ignore.ArgumentList.Arguments.FirstOrDefault()?.ToString();
-                if (!string.IsNullOrWhiteSpace(value))
-                {
-                    factAttribute = factAttribute.WithArgumentList(CreateArgumentList("Skip", value));
-                }
-
+                factAttribute = factAttribute.WithArgumentList(CreateArgumentList("Skip", value));
                 method = method.RemoveNode(ignore, SyntaxRemoveOptions.KeepNoTrivia);
             }
             

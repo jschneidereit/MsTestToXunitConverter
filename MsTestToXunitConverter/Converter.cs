@@ -15,7 +15,6 @@ namespace MsTestToXunitConverter
         private static ImmutableDictionary<string, AttributeSyntax> AttributeMapping = new Dictionary<string, AttributeSyntax>()
         {
             ["TestClass"] = null,
-            //["TestMethod"] = Attribute(IdentifierName("Fact")),
             ["TestProperty"] = Attribute(IdentifierName("Trait")),
             ["DataSource"] = Attribute(IdentifierName("Theory")),
         }.ToImmutableDictionary();
@@ -41,6 +40,7 @@ namespace MsTestToXunitConverter
 
         public override SyntaxNode VisitMethodDeclaration(MethodDeclarationSyntax method)
         {
+            method = method.StripSurjectiveFactAttributes();
             method = method.StripExpectedExceptionAttribute();
 
             return base.VisitMethodDeclaration(method);
