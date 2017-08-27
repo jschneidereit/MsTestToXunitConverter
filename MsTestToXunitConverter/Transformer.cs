@@ -4,6 +4,7 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.CSharp;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
+using Microsoft.CodeAnalysis.Formatting;
 
 namespace MsTestToXunitConverter
 {
@@ -29,7 +30,7 @@ namespace MsTestToXunitConverter
 
             method = method.ReplaceNode(method.Body, ParseExpression(newbody));
             method = method.RemoveNode(target, SyntaxRemoveOptions.KeepNoTrivia); //TODO: determine what option I want here
-            return method;
+            return method.NormalizeWhitespace(elasticTrivia: true);
         }
 
         /// <summary>
@@ -80,12 +81,12 @@ namespace MsTestToXunitConverter
             }
 
             var attributeList = AttributeList(SingletonSeparatedList(factAttribute));
-            var syntaxList = method.AttributeLists.Add(attributeList.NormalizeWhitespace());
+            var syntaxList = method.AttributeLists.Add(attributeList);
 
             method = method.WithAttributeLists(syntaxList);
             method = method.RemoveNodes(method.AttributeLists.Where(als => als.Attributes.Count == 0), SyntaxRemoveOptions.KeepNoTrivia);
             
-            return method;
+            return method.NormalizeWhitespace(elasticTrivia: true);
         }
 
         internal static ClassDeclarationSyntax StripTestInitializerAttribute(this ClassDeclarationSyntax type)
@@ -102,7 +103,7 @@ namespace MsTestToXunitConverter
             type = ctor == null ? type.AddMembers(replacementCtor) : type.ReplaceNode(ctor, replacementCtor);
             type = type.ReplaceNode(target, target.RemoveNode(target.GetTargetAttribute("TestInitialize"), SyntaxRemoveOptions.KeepNoTrivia));
 
-            return type;
+            return type.NormalizeWhitespace(elasticTrivia: true);
         }
 
         internal static ClassDeclarationSyntax StripTestCleanupAttribute(this ClassDeclarationSyntax type)
@@ -119,7 +120,7 @@ namespace MsTestToXunitConverter
             type = dispose == null ? type.AddMembers(replacementDisp) : type.ReplaceNode(dispose, replacementDisp);
             type = type.ReplaceNode(target, target.RemoveNode(target.GetTargetAttribute("TestCleanup"), SyntaxRemoveOptions.KeepNoTrivia));
 
-            return type;
+            return type.NormalizeWhitespace(elasticTrivia: true);
         }
     }
 }

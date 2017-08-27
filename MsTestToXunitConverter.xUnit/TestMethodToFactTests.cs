@@ -1,6 +1,7 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.CodeAnalysis.Formatting;
 using System.Collections.Generic;
 using System.Linq;
 using Xunit;
@@ -36,9 +37,9 @@ namespace MsTestToXunitConverter.xUnit
         {
             var method = GetTestMethod("TestMethodA");
 
-            var actual = method.Item1.StripSurjectiveFactAttributes().NormalizeWhitespace().ToString();
-            var expected = method.Item2.NormalizeWhitespace().ToString();            
-
+            var actual = method.Item1.StripSurjectiveFactAttributes().ToFullString();
+            var expected = method.Item2.NormalizeWhitespace(elasticTrivia: true).ToString();            
+            
             Assert.Equal(expected, actual);
         }
 
@@ -50,8 +51,10 @@ namespace MsTestToXunitConverter.xUnit
             {
                 var method = GetTestMethod(m);
 
-                var actual = method.Item1.StripSurjectiveFactAttributes().ToString();
-                var expected = method.Item2.ToString();
+                var actual = method.Item1.StripSurjectiveFactAttributes().ToFullString();
+                var expected = method.Item2.NormalizeWhitespace(elasticTrivia: true).ToString();
+
+                
 
                 Assert.Equal(expected, actual);
             });
@@ -65,8 +68,8 @@ namespace MsTestToXunitConverter.xUnit
             {
                 var method = GetTestMethod(m);
 
-                var actual = method.Item1.StripSurjectiveFactAttributes().ToString();
-                var expected = method.Item2.ToString();
+                var actual = method.Item1.StripSurjectiveFactAttributes().ToFullString();
+                var expected = method.Item2.NormalizeWhitespace(elasticTrivia: true).ToString();
 
                 Assert.Equal(expected, actual);
             });
@@ -80,8 +83,8 @@ namespace MsTestToXunitConverter.xUnit
             {
                 var method = GetTestMethod(m);
 
-                var actual = method.Item1.StripSurjectiveFactAttributes().ToString();
-                var expected = method.Item2.ToString();
+                var actual = method.Item1.StripSurjectiveFactAttributes().ToFullString();
+                var expected = method.Item2.NormalizeWhitespace(elasticTrivia: true).ToString();
 
                 Assert.Equal(expected, actual);
             });
@@ -92,8 +95,8 @@ namespace MsTestToXunitConverter.xUnit
         {
             var method = GetTestMethod("TestMethodX");
 
-            var actual = method.Item1.StripSurjectiveFactAttributes().ToString();
-            var expected = method.Item2.ToString();
+            var actual = method.Item1.StripSurjectiveFactAttributes().NormalizeWhitespace(elasticTrivia:true).ToFullString();
+            var expected = method.Item2.NormalizeWhitespace(elasticTrivia: true).ToString();
 
             Assert.Equal(expected, actual);
         }
