@@ -50,7 +50,7 @@ namespace MsTestToXunitConverter.xUnit
         [Fact(DisplayName = "Converts all three attributes to one")]
         public void ConvertTestMethodIgnoreAndDescription()
         {
-            var method = GetTestMethod(@"[TestMethod][Skip(""reason"")][Description(""description"")]public void Foo() {}");
+            var method = GetTestMethod(@"[TestMethod][Ignore(""reason"")][Description(""description"")]public void Foo() {}");
             var actual = method.StripSurjectiveFactAttributes().ToString();
 
             var expected = GetTestMethod(@"[Fact(DisplayName = ""description"", Skip = ""reason"")]public void Foo() {}").ToString();
