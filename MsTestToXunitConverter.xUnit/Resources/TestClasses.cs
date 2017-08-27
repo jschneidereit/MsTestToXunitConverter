@@ -51,4 +51,13 @@ namespace MsTestToXunitConverter.xUnit.Resources
             var x = 1 + 2;
         }
     }
+
+    class TestDisposeC : ICloneable
+    {
+        [TestCleanup]
+        public void Cleanup()
+        {
+
+        }
+    }
 }

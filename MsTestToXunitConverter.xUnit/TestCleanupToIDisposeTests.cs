@@ -35,7 +35,12 @@ namespace MsTestToXunitConverter.xUnit
         [Fact(DisplayName = "TestCleanup - properly preserves existing basetypes")]
         public void PreserveBaseTypes()
         {
-            throw new NotImplementedException();
+            var tclass = ResourceHelper.GetTestClass("TestDisposeC");
+
+            var actual = tclass.Item1.StripTestCleanupAttribute().ToFullString();
+            var expected = tclass.Item2.NormalizeWhitespace(elasticTrivia: true).ToFullString();
+
+            Assert.Equal(expected, actual);
         }
     }
 }
