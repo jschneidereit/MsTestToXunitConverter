@@ -31,7 +31,7 @@ namespace MsTestToXunitConverter.xUnit.Resources
         }
     }
 
-    class TestDisposeA
+    class TestDisposeA : IDisposable
     {
         public void Cleanup()
         {

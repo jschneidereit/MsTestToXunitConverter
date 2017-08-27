@@ -153,7 +153,12 @@ namespace MsTestToXunitConverter
 
             var cleanupStatement = ParseStatement($"{target.Identifier}();");
             var replacementBody = dispose == null ? Block(cleanupStatement) : Block(dispose.Body.Statements.Insert(0, cleanupStatement));
-            var replacementDisp = MethodDeclaration(ParseName("void"), "Dispose").WithBody(replacementBody).WithModifiers(dispose.Modifiers); //TODO: Inserting spaces for some reason
+            var replacementDisp = MethodDeclaration(PredefinedType(Token(SyntaxKind.VoidKeyword)), "Dispose").WithBody(replacementBody); //TODO: Inserting spaces for some reason
+
+            if (dispose != null && dispose.Modifiers.Count > 0)
+            {
+                replacementDisp = replacementDisp.WithModifiers(dispose.Modifiers);
+            }
 
             
             
