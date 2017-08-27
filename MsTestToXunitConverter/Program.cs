@@ -24,7 +24,7 @@ namespace MsTestToXunitConverter
 
         private static void Workspace_WorkspaceFailed(object sender, WorkspaceDiagnosticEventArgs e)
         {
-            throw new NotImplementedException();
+            Console.WriteLine(e.Diagnostic.Message);
         }
 
         static async Task RewriteCompilation(Compilation compilation)
@@ -41,7 +41,7 @@ namespace MsTestToXunitConverter
 
         static bool ShouldRewriteSyntaxTree(SyntaxNode root)
         {
-            foreach (var cd in root.ChildNodes().OfType<ClassDeclarationSyntax>())
+            foreach (var cd in root.DescendantNodes().OfType<ClassDeclarationSyntax>())
             {
                 foreach (var attr in cd.AttributeLists.SelectMany(al => al.Attributes))
                 {

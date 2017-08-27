@@ -2,6 +2,7 @@
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Formatting;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Xunit;
@@ -14,7 +15,7 @@ namespace MsTestToXunitConverter.xUnit
         /// <summary>
         /// (Actual, Expected)
         /// </summary>
-        private (MethodDeclarationSyntax, MethodDeclarationSyntax) GetTestMethod(string name)
+        private Tuple<MethodDeclarationSyntax, MethodDeclarationSyntax> GetTestMethod(string name)
         {
             MethodDeclarationSyntax GetMethod(string text, string functionname)
             {
@@ -29,7 +30,7 @@ namespace MsTestToXunitConverter.xUnit
             var source = Properties.Resources.TestMethod.ToString();
             var result = Properties.Resources.TestMethod_out.ToString();
 
-            return (GetMethod(source, name), GetMethod(result, name));
+            return Tuple.Create(GetMethod(source, name), GetMethod(result, name));
         }
 
         [Fact(DisplayName = "Converts TestMethod to fact")]
