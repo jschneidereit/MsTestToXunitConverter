@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MsTestToXunitConverter.xUnit.Resources
 {
-    class FactTest
+    public class FactTest
     {
         [TestMethod]
         public void TestMethodA()
@@ -56,8 +56,14 @@ namespace MsTestToXunitConverter.xUnit.Resources
 
         }
 
-        [TestMethod][Description("Description")][Ignore("Reason")]
+        [TestMethod, Description("Description"), Ignore("Reason")]
         public void TestMethodC()
+        {
+
+        }
+
+        [ayyyyy]
+        public void TestMethodX()
         {
 
         }
