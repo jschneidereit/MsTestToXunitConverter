@@ -10,7 +10,7 @@ namespace MsTestToXunitConverter
         {
             var workspace = MSBuildWorkspace.Create();
             var project = await workspace.OpenProjectAsync(projectFilePath);
-            var converter = new Converter();
+            var converter = new TestClassRewriter();
             foreach (var docId in project.DocumentIds)
             {
                 var doc = project.GetDocument(docId);

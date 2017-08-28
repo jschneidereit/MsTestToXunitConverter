@@ -10,7 +10,7 @@ using static MsTestToXunitConverter.Transformer;
 
 namespace MsTestToXunitConverter
 {
-    internal class Converter : CSharpSyntaxRewriter
+    internal class TestClassRewriter : CSharpSyntaxRewriter
     {
         private static ImmutableDictionary<string, AttributeSyntax> AttributeMapping = new Dictionary<string, AttributeSyntax>()
         {

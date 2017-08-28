@@ -201,6 +201,8 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="ResourceHelper.cs" />
+    <None Include="Resources\TestInvocations.out.cs" />
+    <None Include="Resources\TestInvocations.cs" />
     <Compile Include="TestCleanupToIDisposeTests.cs" />
     <Compile Include="TestInitializeToConstructorTests.cs" />
     <Compile Include="TestMethodToFactTests.cs" />

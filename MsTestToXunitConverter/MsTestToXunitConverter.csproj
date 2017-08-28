@@ -139,7 +139,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Converter.cs" />
+    <Compile Include="TestClassRewriter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="ProjectConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
