@@ -35,7 +35,8 @@ namespace MsTestToXunitConverter
             node = node.StripTestInitializerAttribute();
             node = node.StripTestCleanupAttribute();
 
-            return base.VisitClassDeclaration(node);
+            node = (ClassDeclarationSyntax) base.VisitClassDeclaration(node);
+            return node.Cleanup();
         }
 
         public override SyntaxNode VisitMethodDeclaration(MethodDeclarationSyntax method)

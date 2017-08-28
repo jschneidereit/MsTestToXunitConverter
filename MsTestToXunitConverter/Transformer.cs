@@ -12,22 +12,19 @@ namespace MsTestToXunitConverter
     {
         private static MethodDeclarationSyntax Cleanup(this MethodDeclarationSyntax method)
         {
-            //TODO: consider .WithAdditionalAnnotations(Formatter.Annotation)
-
             method = method.RemoveNodes(method.AttributeLists.Where(als => als.Attributes.Count == 0), SyntaxRemoveOptions.KeepNoTrivia);
-            return method.NormalizeWhitespace(elasticTrivia: true);
+            return method;
         }
 
-        private static ClassDeclarationSyntax Cleanup(this ClassDeclarationSyntax type)
+        internal static ClassDeclarationSyntax Cleanup(this ClassDeclarationSyntax type)
         {
-            //TODO: consider .WithAdditionalAnnotations(Formatter.Annotation)
-
+            type = type.RemoveNodes(type.AttributeLists.Where(als => als.Attributes.Count == 0), SyntaxRemoveOptions.KeepNoTrivia);
             foreach (var m in type.Members.OfType<MethodDeclarationSyntax>())
             {
                 type = type.ReplaceNode(m, m.Cleanup());
             }
 
-            return type.NormalizeWhitespace(elasticTrivia: true);
+            return type;
         }
 
         private static AttributeSyntax GetTargetAttribute(this MethodDeclarationSyntax method, string target)
@@ -72,15 +69,15 @@ namespace MsTestToXunitConverter
         internal static MethodDeclarationSyntax StripSurjectiveFactAttributes(this MethodDeclarationSyntax method)
         {
             var testmethod = method.GetTargetAttribute("TestMethod");
-            var ignore = method.GetTargetAttribute("Ignore");
-            var description = method.GetTargetAttribute("Description");
-
-            if (testmethod == null && ignore == null && description == null)
+            if (testmethod == null)
             {
                 return method;
             }
 
-            var factAttribute = Attribute(IdentifierName("Fact"));
+            var ignore = method.GetTargetAttribute("Ignore");
+            var description = method.GetTargetAttribute("Description");
+
+            var factAttribute = testmethod.WithName(IdentifierName("Fact"));
 
             AttributeArgumentListSyntax CreateArgumentList(string name, AttributeSyntax attribute, AttributeArgumentListSyntax other)
             {
@@ -113,7 +110,7 @@ namespace MsTestToXunitConverter
                 method = method.RemoveNode(method.GetTargetAttribute("TestMethod"), SyntaxRemoveOptions.KeepNoTrivia);
             }
 
-            var attributeList = AttributeList(SingletonSeparatedList(factAttribute));
+            var attributeList = ((AttributeListSyntax)testmethod.Parent).ReplaceNode(testmethod, factAttribute);
             var syntaxList = method.AttributeLists.Add(attributeList);
 
             method = method.WithAttributeLists(syntaxList);
@@ -138,7 +135,7 @@ namespace MsTestToXunitConverter
             target = type.Members.OfType<MethodDeclarationSyntax>().SingleOrDefault(m => m.GetTargetAttribute("TestInitialize") != null);
             type = type.ReplaceNode(target, target.RemoveNode(target.GetTargetAttribute("TestInitialize"), SyntaxRemoveOptions.KeepNoTrivia));
                         
-            return type.Cleanup();
+            return type;
         }
 
         internal static ClassDeclarationSyntax StripTestCleanupAttribute(this ClassDeclarationSyntax type)
@@ -182,7 +179,7 @@ namespace MsTestToXunitConverter
 
             type = type.WithBaseList(CreateBaseList("IDisposable", type.BaseList));
 
-            return type.Cleanup();
+            return type;
         }
     }
 }
