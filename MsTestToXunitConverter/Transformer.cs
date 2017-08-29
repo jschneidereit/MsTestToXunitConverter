@@ -13,6 +13,20 @@ namespace MsTestToXunitConverter
         internal const string MSTEST_USING = "Microsoft.VisualStudio.TestTools.UnitTesting";
         internal const string XUNIT_USING = "Xunit";
 
+        private static AttributeArgumentListSyntax CreateArgumentList(string name, AttributeSyntax attribute, AttributeArgumentListSyntax other)
+        {
+            var argument = attribute.ArgumentList?.Arguments.FirstOrDefault();
+            var expression = argument?.Expression?.ChildTokens().FirstOrDefault();
+
+            var value = expression ?? Literal("");
+
+            var attributeArgument = AttributeArgument(
+                            AssignmentExpression(SyntaxKind.SimpleAssignmentExpression, IdentifierName(name),
+                            LiteralExpression(SyntaxKind.StringLiteralExpression, value)));
+
+            return other == null ? AttributeArgumentList(SeparatedList(new[] { attributeArgument })) : other.AddArguments(attributeArgument);
+        }
+
         private static MethodDeclarationSyntax Cleanup(this MethodDeclarationSyntax method)
         {
             method = method.RemoveNodes(method.AttributeLists.Where(als => als.Attributes.Count == 0), SyntaxRemoveOptions.KeepNoTrivia);
@@ -76,41 +90,21 @@ namespace MsTestToXunitConverter
             {
                 return method;
             }
-
-            var ignore = method.GetTargetAttribute("Ignore");
-            var description = method.GetTargetAttribute("Description");
-
+            
             var factAttribute = testmethod.WithName(IdentifierName("Fact"));
-
-            AttributeArgumentListSyntax CreateArgumentList(string name, AttributeSyntax attribute, AttributeArgumentListSyntax other)
-            {
-                var argument = attribute.ArgumentList?.Arguments.FirstOrDefault();
-                var expression = argument?.Expression?.ChildTokens().FirstOrDefault();
-
-                var value = expression ?? Literal("");
-
-                var attributeArgument = AttributeArgument(
-                                AssignmentExpression(SyntaxKind.SimpleAssignmentExpression, IdentifierName(name),
-                                LiteralExpression(SyntaxKind.StringLiteralExpression, value)));
-
-                return other == null ? AttributeArgumentList(SeparatedList(new[] { attributeArgument })) : other.AddArguments(attributeArgument);
-            }
-
+            
+            var description = method.GetTargetAttribute("Description");
             if (description != null)
             {
                 factAttribute = factAttribute.WithArgumentList(CreateArgumentList("DisplayName", description, factAttribute.ArgumentList));
-                method = method.RemoveNode(method.GetTargetAttribute("Description"), SyntaxRemoveOptions.KeepNoTrivia);
+                method = method.RemoveNode(method.GetTargetAttribute("Description"), SyntaxRemoveOptions.KeepExteriorTrivia);
             }
 
+            var ignore = method.GetTargetAttribute("Ignore");
             if (ignore != null)
             {
                 factAttribute = factAttribute.WithArgumentList(CreateArgumentList("Skip", ignore, factAttribute.ArgumentList));
-                method = method.RemoveNode(method.GetTargetAttribute("Ignore"), SyntaxRemoveOptions.KeepNoTrivia);
-            }
-
-            if (testmethod != null)
-            {
-                method = method.RemoveNode(method.GetTargetAttribute("TestMethod"), SyntaxRemoveOptions.KeepNoTrivia);
+                method = method.RemoveNode(method.GetTargetAttribute("Ignore"), SyntaxRemoveOptions.KeepExteriorTrivia);
             }
 
             var attributeList = ((AttributeListSyntax)testmethod.Parent).ReplaceNode(testmethod, factAttribute);
