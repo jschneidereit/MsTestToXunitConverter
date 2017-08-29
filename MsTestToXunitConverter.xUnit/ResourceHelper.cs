@@ -28,6 +28,15 @@ namespace MsTestToXunitConverter.xUnit
             return classes.Single(m => m.Identifier.ToString().Equals(classname, System.StringComparison.OrdinalIgnoreCase));
         }
 
+        internal static Tuple<CompilationUnitSyntax, CompilationUnitSyntax> GetTestCompilations(string file)
+        {
+            //Kinda lame... but for now it'll have to do
+            var source = Properties.Resources.TestClasses;
+            var result = Properties.Resources.TestClasses_out;
+
+            return Tuple.Create(GetCompilationUnit(source), GetCompilationUnit(result));
+        }
+
         /// <summary>
         /// (Actual, Expected)
         /// </summary>

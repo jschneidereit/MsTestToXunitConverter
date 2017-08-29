@@ -10,6 +10,9 @@ namespace MsTestToXunitConverter
 {
     internal static class Transformer
     {
+        internal const string MSTEST_USING = "Microsoft.VisualStudio.TestTools.UnitTesting";
+        internal const string XUNIT_USING = "Xunit";
+
         private static MethodDeclarationSyntax Cleanup(this MethodDeclarationSyntax method)
         {
             method = method.RemoveNodes(method.AttributeLists.Where(als => als.Attributes.Count == 0), SyntaxRemoveOptions.KeepNoTrivia);
@@ -31,7 +34,7 @@ namespace MsTestToXunitConverter
         {
             return method.AttributeLists.SelectMany(al => al.Attributes).SingleOrDefault(a => a.Name.ToString() == target);
         }
-        
+
         internal static MethodDeclarationSyntax StripExpectedExceptionAttribute(this MethodDeclarationSyntax method)
         {
             var target = method.GetTargetAttribute("ExpectedException");
@@ -49,7 +52,7 @@ namespace MsTestToXunitConverter
                 newbody += Environment.NewLine;
                 newbody += $"Assert.Equal(\"{target.ArgumentList.Arguments.ElementAt(1)}\", ex.Message);";
             }
-            
+
             method = method.ReplaceNode(method.Body, Block(ParseStatement(newbody)));
 
             //Refresh reference
@@ -87,9 +90,9 @@ namespace MsTestToXunitConverter
                 var value = expression ?? Literal("");
 
                 var attributeArgument = AttributeArgument(
-                                AssignmentExpression(SyntaxKind.SimpleAssignmentExpression, IdentifierName(name), 
+                                AssignmentExpression(SyntaxKind.SimpleAssignmentExpression, IdentifierName(name),
                                 LiteralExpression(SyntaxKind.StringLiteralExpression, value)));
-                
+
                 return other == null ? AttributeArgumentList(SeparatedList(new[] { attributeArgument })) : other.AddArguments(attributeArgument);
             }
 
@@ -98,13 +101,13 @@ namespace MsTestToXunitConverter
                 factAttribute = factAttribute.WithArgumentList(CreateArgumentList("DisplayName", description, factAttribute.ArgumentList));
                 method = method.RemoveNode(method.GetTargetAttribute("Description"), SyntaxRemoveOptions.KeepNoTrivia);
             }
-            
+
             if (ignore != null)
             {
                 factAttribute = factAttribute.WithArgumentList(CreateArgumentList("Skip", ignore, factAttribute.ArgumentList));
                 method = method.RemoveNode(method.GetTargetAttribute("Ignore"), SyntaxRemoveOptions.KeepNoTrivia);
             }
-            
+
             if (testmethod != null)
             {
                 method = method.RemoveNode(method.GetTargetAttribute("TestMethod"), SyntaxRemoveOptions.KeepNoTrivia);
@@ -114,7 +117,7 @@ namespace MsTestToXunitConverter
             var syntaxList = method.AttributeLists.Add(attributeList);
 
             method = method.WithAttributeLists(syntaxList);
-                        
+
             return method.Cleanup();
         }
 
@@ -134,7 +137,7 @@ namespace MsTestToXunitConverter
             //Refresh reference
             target = type.Members.OfType<MethodDeclarationSyntax>().SingleOrDefault(m => m.GetTargetAttribute("TestInitialize") != null);
             type = type.ReplaceNode(target, target.RemoveNode(target.GetTargetAttribute("TestInitialize"), SyntaxRemoveOptions.KeepNoTrivia));
-                        
+
             return type;
         }
 
@@ -170,8 +173,8 @@ namespace MsTestToXunitConverter
                 replacementDisp = replacementDisp.WithModifiers(dispose.Modifiers);
             }
 
-            
-            
+
+
             type = dispose == null ? type.AddMembers(replacementDisp) : type.ReplaceNode(dispose, replacementDisp);
 
             target = type.Members.OfType<MethodDeclarationSyntax>().SingleOrDefault(m => m.GetTargetAttribute("TestCleanup") != null);
@@ -180,6 +183,16 @@ namespace MsTestToXunitConverter
             type = type.WithBaseList(CreateBaseList("IDisposable", type.BaseList));
 
             return type;
+        }
+
+        internal static UsingDirectiveSyntax ReplaceUsing(this UsingDirectiveSyntax node, string oldUsing, string newUsing)
+        {
+            if (node.Name.ToString().Equals(oldUsing, StringComparison.OrdinalIgnoreCase))
+            {
+                return node.WithName(IdentifierName(newUsing));
+            }
+
+            return node;
         }
     }
 }

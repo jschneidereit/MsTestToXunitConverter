@@ -1,12 +1,9 @@
-﻿using System;
-using System.Linq;
-using Microsoft.CodeAnalysis;
+﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 using System.Collections.Immutable;
 using System.Collections.Generic;
-using static MsTestToXunitConverter.Transformer;
 
 namespace MsTestToXunitConverter
 {
@@ -45,6 +42,13 @@ namespace MsTestToXunitConverter
             method = method.StripExpectedExceptionAttribute();
 
             return base.VisitMethodDeclaration(method);
+        }
+
+        public override SyntaxNode VisitUsingDirective(UsingDirectiveSyntax node)
+        {
+            node = node.ReplaceUsing(oldUsing: Transformer.MSTEST_USING, newUsing: Transformer.XUNIT_USING);
+
+            return base.VisitUsingDirective(node);
         }
     }
 }
