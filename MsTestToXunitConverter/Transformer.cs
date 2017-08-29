@@ -85,13 +85,13 @@ namespace MsTestToXunitConverter
         /// <returns></returns>
         internal static MethodDeclarationSyntax StripSurjectiveFactAttributes(this MethodDeclarationSyntax method)
         {
-            var testmethod = method.GetTargetAttribute("TestMethod");
-            if (testmethod == null)
+            var attr = method.GetTargetAttribute("TestMethod");
+            if (attr == null)
             {
                 return method;
             }
             
-            var factAttribute = testmethod.WithName(IdentifierName("Fact"));
+            var factAttribute = attr.WithName(IdentifierName("Fact"));
             
             var description = method.GetTargetAttribute("Description");
             if (description != null)
@@ -107,7 +107,7 @@ namespace MsTestToXunitConverter
                 method = method.RemoveNode(method.GetTargetAttribute("Ignore"), SyntaxRemoveOptions.KeepExteriorTrivia);
             }
 
-            var attributeList = ((AttributeListSyntax)testmethod.Parent).ReplaceNode(testmethod, factAttribute);
+            var attributeList = ((AttributeListSyntax)attr.Parent).ReplaceNode(attr, factAttribute);
             var syntaxList = method.AttributeLists.Add(attributeList);
 
             method = method.WithAttributeLists(syntaxList);
