@@ -7,6 +7,9 @@ using System.Collections.Generic;
 
 namespace MsTestToXunitConverter
 {
+    /// <summary>
+    /// Implements the transformations described here: https://xunit.github.io/docs/comparisons.html
+    /// </summary>
     internal class TestClassRewriter : CSharpSyntaxRewriter
     {
         private static ImmutableDictionary<string, AttributeSyntax> AttributeMapping = new Dictionary<string, AttributeSyntax>()
@@ -53,6 +56,13 @@ namespace MsTestToXunitConverter
 
         public override SyntaxNode VisitInvocationExpression(InvocationExpressionSyntax node)
         {
+            node = node.RewriteAreEqual();
+
+
+
+
+
+
             return base.VisitInvocationExpression(node);
         }
     }

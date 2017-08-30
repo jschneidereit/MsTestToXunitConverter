@@ -4,8 +4,11 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
-namespace MSBuildWorkspaceTest
+namespace MsTestToXunitConverter
 {
+    /// <summary>
+    /// Implements the transformations described here: https://xunit.github.io/docs/comparisons.html
+    /// </summary>
     internal static class AssertRewriter
     {
         private static InvocationExpressionSyntax InvocationRewriter(this InvocationExpressionSyntax invocation, string from, string to)

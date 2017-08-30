@@ -1,6 +1,5 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using MSBuildWorkspaceTest;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -146,28 +145,3 @@ namespace MsTestToXunitConverter.xUnit
         }
     }
 }
-
-
-//Rikki Gibson, [29.08.17 17:49]
-//now what you're basically gonna do there
-
-//Rikki Gibson, [29.08.17 17:49]
-//is you're gonna take the .Expression member of the invocation expression
-
-//Rikki Gibson, [29.08.17 17:50]
-//that's the "thing which is being invoked", an expression resulting in a delegate or method reference or something like that
-
-//Rikki Gibson, [29.08.17 17:50]
-//You're gonna check if it's IdentifierName or SimpleMemberAccessExpr
-
-//Rikki Gibson, [29.08.17 17:50]
-//Probably SimpleMemberAccessExpr, so get the rightmost I think by saying Identifier
-
-//Rikki Gibson, [29.08.17 17:52]
-//SMAE has the "left side" of a dot operator as the.Expression property and the rightmost identifier contained in that SMAE as .Identifier
-
-//Rikki Gibson, [29.08.17 17:52]
-//Pretty sure
-
-//Rikki Gibson, [29.08.17 17:53]
-//So basically the leftmost identifier is the.Expression deepest in the syntax tree, then.Identifier on the same SMAE node, and that SMAE node is the.Expression of some parent SMAE node, which has the next identifier as its.Identifier, etc.
