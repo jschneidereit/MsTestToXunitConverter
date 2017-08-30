@@ -57,11 +57,17 @@ namespace MsTestToXunitConverter
         public override SyntaxNode VisitInvocationExpression(InvocationExpressionSyntax node)
         {
             node = node.RewriteAreEqual();
-
-
-
-
-
+            node = node.RewriteAreNotEqual();
+            node = node.RewriteAreSame();
+            node = node.RewriteContains();
+            node = node.RewriteDoesNotContain();
+            //node = node.RewriteInconclusive();
+            node = node.RewriteIsFalse();
+            //node = node.RewriteIsInstanceOfType();
+            //node = node.RewriteIsNotInstanceOfType();
+            node = node.RewriteIsNotNull();
+            node = node.RewriteIsNull();
+            node = node.RewriteIsTrue();
 
             return base.VisitInvocationExpression(node);
         }
