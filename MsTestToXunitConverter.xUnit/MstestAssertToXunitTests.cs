@@ -38,7 +38,7 @@ namespace MsTestToXunitConverter.xUnit
         {
             var resource = ResourceHelper.GetTestInvocation("TestContains");
 
-            var actual = resource.Item1.RewriteAreSame().ToString();
+            var actual = resource.Item1.RewriteContains().ToString();
             var expected = resource.Item2.ToString();
 
             Assert.Equal(expected, actual);
@@ -66,7 +66,7 @@ namespace MsTestToXunitConverter.xUnit
             //Assert.Equal(expected, actual);
         }
 
-        [Fact]
+        [Fact(Skip = "not implemented yet")]
         public void ConvertsAssertInconclusive()
         {
             var resource = ResourceHelper.GetTestInvocation("TestInconculsive");
@@ -88,7 +88,7 @@ namespace MsTestToXunitConverter.xUnit
             Assert.Equal(expected, actual);
         }
 
-        [Fact]
+        [Fact(Skip = "not implemented yet")]
         public void ConvertsAssertIsInstanceOfType()
         {
             var resource = ResourceHelper.GetTestInvocation("TestIsInstanceOfType");
@@ -98,9 +98,8 @@ namespace MsTestToXunitConverter.xUnit
 
             Assert.Equal(expected, actual);
         }
-
-        ////
-        [Fact]
+        
+        [Fact(Skip = "not implemented yet")]
         public void CovnertAssertIsNotInstanceOfType()
         {
             var resource = ResourceHelper.GetTestInvocation("TestIsNotInstanceOfType");

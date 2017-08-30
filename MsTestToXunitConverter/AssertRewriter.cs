@@ -11,13 +11,18 @@ namespace MsTestToXunitConverter
     /// </summary>
     internal static class AssertRewriter
     {
-        private static InvocationExpressionSyntax InvocationRewriter(this InvocationExpressionSyntax invocation, string from, string to)
+        private static InvocationExpressionSyntax InvocationRewriter(this InvocationExpressionSyntax invocation, string from, string to, IdentifierNameSyntax identifier = null)
         {
             if (invocation.Expression.Kind() == SyntaxKind.SimpleMemberAccessExpression &&
             invocation.Expression.ToString().Equals(from) &&
             invocation.Expression is MemberAccessExpressionSyntax mae)
             {
-                return invocation.ReplaceNode(mae, mae.WithName(IdentifierName(to)));
+                if (identifier != null)
+                {
+                    invocation = invocation.ReplaceNode(mae, mae.WithExpression(identifier));
+                }
+
+                invocation = invocation.ReplaceNode(mae, mae.WithName(IdentifierName(to)));
             }
 
             return invocation;
@@ -41,7 +46,7 @@ namespace MsTestToXunitConverter
 
         internal static InvocationExpressionSyntax RewriteContains(this InvocationExpressionSyntax invocation)
         {
-            return invocation.InvocationRewriter("StringAssert.Contains", "Assert.Contains");
+            return invocation.InvocationRewriter("StringAssert.Contains", "Assert.Contains", IdentifierName("Assert"));
         }
 
         internal static InvocationExpressionSyntax RewriteDoesNotContain(this InvocationExpressionSyntax invocation)
