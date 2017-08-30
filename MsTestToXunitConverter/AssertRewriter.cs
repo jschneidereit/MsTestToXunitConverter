@@ -66,8 +66,26 @@ namespace MsTestToXunitConverter
 
         internal static InvocationExpressionSyntax RewriteIsInstanceOfType(this InvocationExpressionSyntax invocation)
         {
-            throw new NotImplementedException("Requires a rewrite to <> type format");
-            return invocation.InvocationRewriter("", "");
+            if (invocation.Expression.Kind() == SyntaxKind.SimpleMemberAccessExpression &&
+                invocation.Expression.ToString().Equals("Assert.IsInstanceOfType") &&
+                invocation.Expression is MemberAccessExpressionSyntax mae)
+            {
+                var oldArgs = invocation.ArgumentList.Arguments;
+                var typeArg = oldArgs.Last();
+                var typeofExpr = (TypeOfExpressionSyntax) typeArg.Expression;
+
+                var genericName = GenericName(
+                    ParseToken("IsType"),
+                    TypeArgumentList(SingletonSeparatedList(typeofExpr.Type)));
+
+                var newArgs = invocation.ArgumentList.WithArguments(oldArgs.RemoveAt(oldArgs.Count - 1));
+
+                return invocation
+                    .WithExpression(mae.WithName(genericName))
+                    .WithArgumentList(newArgs);
+            }
+
+            return invocation;
         }
 
         internal static InvocationExpressionSyntax RewriteIsNotInstanceOfType(this InvocationExpressionSyntax invocation)
