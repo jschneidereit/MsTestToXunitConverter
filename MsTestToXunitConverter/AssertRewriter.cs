@@ -13,9 +13,17 @@ namespace MsTestToXunitConverter
     {
         private static InvocationExpressionSyntax InvocationRewriter(this InvocationExpressionSyntax invocation, string from, string to, IdentifierNameSyntax identifier = null)
         {
-            if (invocation.Expression.Kind() == SyntaxKind.SimpleMemberAccessExpression &&
-            invocation.Expression.ToString().Equals(from) &&
-            invocation.Expression is MemberAccessExpressionSyntax mae)
+            if (invocation.Expression.Kind() != SyntaxKind.SimpleAssignmentExpression)
+            {
+                return invocation;
+            }
+
+            if (!invocation.Expression.ToString().Equals(from))
+            {
+                return invocation;
+            }
+
+            if (invocation.Expression is MemberAccessExpressionSyntax mae)
             {
                 if (identifier != null)
                 {
