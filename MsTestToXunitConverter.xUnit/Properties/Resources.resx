@@ -124,6 +124,12 @@
   <data name="TestClasses_out" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\TestClasses.out.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
+  <data name="TestInvocations" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\TestInvocations.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="TestInvocations_out" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\TestInvocations.out.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
   <data name="TestMethods" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\TestMethods.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>

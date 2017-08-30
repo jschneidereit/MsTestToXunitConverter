@@ -139,6 +139,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AssertRewriter.cs" />
     <Compile Include="TestClassRewriter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="ProjectConverter.cs" />

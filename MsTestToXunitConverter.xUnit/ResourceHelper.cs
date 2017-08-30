@@ -28,6 +28,9 @@ namespace MsTestToXunitConverter.xUnit
             return classes.Single(m => m.Identifier.ToString().Equals(classname, System.StringComparison.OrdinalIgnoreCase));
         }
 
+        /// <summary>
+        /// (Actual, Expected)
+        /// </summary>
         internal static Tuple<CompilationUnitSyntax, CompilationUnitSyntax> GetTestCompilations(string file)
         {
             //Kinda lame... but for now it'll have to do
@@ -57,6 +60,20 @@ namespace MsTestToXunitConverter.xUnit
             var result = Properties.Resources.TestClasses_out;
 
             return Tuple.Create(GetClass(source, name), GetClass(result, name));
+        }
+
+        /// <summary>
+        /// (Actual, Expected)
+        /// </summary>
+        internal static Tuple<InvocationExpressionSyntax, InvocationExpressionSyntax> GetTestInvocation(string name)
+        {
+            var source = Properties.Resources.TestInvocations;
+            var result = Properties.Resources.TestInvocations_out;
+
+            var actual = GetMethod(source, name).DescendantNodes().OfType<InvocationExpressionSyntax>().First();
+            var expected = GetMethod(result, name).DescendantNodes().OfType<InvocationExpressionSyntax>().First();
+            
+            return Tuple.Create(actual, expected);
         }
     }
 }

@@ -66,19 +66,28 @@ namespace MsTestToXunitConverter.xUnit.Properties {
         ///using System.Linq;
         ///using System.Text;
         ///using System.Threading.Tasks;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
         ///
         ///namespace MsTestToXunitConverter.xUnit.Resources
         ///{
-        ///    class TestCleanup
+        ///    class TestInitializeA
         ///    {
         ///        [TestInitialize]
-        ///        public void TestInitializeA()
+        ///        public void TestInitialize()
         ///        {
         ///
         ///        }
         ///    }
-        ///}
-        ///.
+        ///
+        ///    class TestInitializeB
+        ///    {
+        ///        TestInitializeB()
+        ///        {
+        ///            var x = 1 + 2;
+        ///        }
+        ///
+        ///        [TestInitialize]
+        ///        publi [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string TestClasses {
             get {
@@ -92,27 +101,98 @@ namespace MsTestToXunitConverter.xUnit.Properties {
         ///using System.Linq;
         ///using System.Text;
         ///using System.Threading.Tasks;
+        ///using Xunit;
         ///
         ///namespace MsTestToXunitConverter.xUnit.Resources
         ///{
-        ///    class TestCleanup
+        ///    class TestInitializeA
         ///    {
-        ///        public TestCleanup()
+        ///        public void TestInitialize()
         ///        {
-        ///            TestInitializeA();
         ///        }
-        ///        
-        ///        public void TestInitializeA()
-        ///        {
         ///
+        ///        TestInitializeA()
+        ///        {
+        ///            TestInitialize();
         ///        }
         ///    }
-        ///}
-        ///.
+        ///
+        ///    class TestInitializeB
+        ///    {
+        ///        TestInitializeB()
+        ///        {
+        ///            var x = 1 + 2;
+        ///            TestInitialize();
+        ///       [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string TestClasses_out {
             get {
                 return ResourceManager.GetString("TestClasses_out", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System.Collections.Generic;
+        ///using System.Linq;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///
+        ///namespace MsTestToXunitConverter.xUnit.Resources
+        ///{
+        ///    class TestInvocations
+        ///    {
+        ///        public void TestAreEqual()
+        ///        {
+        ///            Assert.AreEqual(1, 1);
+        ///        }
+        ///
+        ///        public void TestAreNotEqual()
+        ///        {
+        ///            Assert.AreNotEqual(1, 2);
+        ///        }
+        ///
+        ///        public void TestAreSame()
+        ///        {
+        ///            var o = &quot;something&quot;;
+        ///            Assert.AreSame(o, o);
+        ///   [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string TestInvocations {
+            get {
+                return ResourceManager.GetString("TestInvocations", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System.Collections.Generic;
+        ///using System.Linq;
+        ///using Xunit;
+        ///
+        ///namespace MsTestToXunitConverter.xUnit.Resources
+        ///{
+        ///    class TestInvocations
+        ///    {
+        ///        public void TestAreEqual()
+        ///        {
+        ///            Assert.Equal(1, 1);
+        ///        }
+        ///
+        ///        public void TestAreNotEqual()
+        ///        {
+        ///            Assert.NotEqual(1, 2);
+        ///        }
+        ///
+        ///        public void TestAreSame()
+        ///        {
+        ///            var o = &quot;something&quot;;
+        ///            Assert.Same(o, o);
+        ///        }
+        ///
+        ///        public void TestContains()
+        ///  [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string TestInvocations_out {
+            get {
+                return ResourceManager.GetString("TestInvocations_out", resourceCulture);
             }
         }
         
@@ -122,6 +202,7 @@ namespace MsTestToXunitConverter.xUnit.Properties {
         ///using System.Linq;
         ///using System.Text;
         ///using System.Threading.Tasks;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
         ///
         ///namespace MsTestToXunitConverter.xUnit.Resources
         ///{
@@ -141,11 +222,7 @@ namespace MsTestToXunitConverter.xUnit.Properties {
         ///
         ///		[TestMethod][Description(&quot;Description&quot;)]
         ///		public void DescriptionB()
-        ///        {
-        ///
-        ///        }
-        ///
-        ///		[TestMethod, Description(&quot;Des [rest of string was truncated]&quot;;.
+        ///     [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string TestMethods {
             get {
@@ -159,6 +236,7 @@ namespace MsTestToXunitConverter.xUnit.Properties {
         ///using System.Linq;
         ///using System.Text;
         ///using System.Threading.Tasks;
+        ///using Xunit;
         ///
         ///namespace MsTestToXunitConverter.xUnit.Resources
         ///{
@@ -180,9 +258,7 @@ namespace MsTestToXunitConverter.xUnit.Properties {
         ///        public void DescriptionB()
         ///        {
         ///
-        ///        }
-        ///
-        ///        [Fa [rest of string was truncated]&quot;;.
+        ///        }        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string TestMethods_out {
             get {

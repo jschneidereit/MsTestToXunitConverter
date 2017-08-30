@@ -50,5 +50,10 @@ namespace MsTestToXunitConverter
 
             return base.VisitUsingDirective(node);
         }
+
+        public override SyntaxNode VisitInvocationExpression(InvocationExpressionSyntax node)
+        {
+            return base.VisitInvocationExpression(node);
+        }
     }
 }
