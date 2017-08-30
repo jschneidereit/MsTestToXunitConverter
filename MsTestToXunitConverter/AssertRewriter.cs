@@ -13,7 +13,7 @@ namespace MsTestToXunitConverter
     {
         private static InvocationExpressionSyntax InvocationRewriter(this InvocationExpressionSyntax invocation, string from, string to, IdentifierNameSyntax identifier = null)
         {
-            if (invocation.Expression.Kind() != SyntaxKind.SimpleAssignmentExpression)
+            if (invocation.Expression.Kind() != SyntaxKind.SimpleMemberAccessExpression)
             {
                 return invocation;
             }
@@ -72,18 +72,18 @@ namespace MsTestToXunitConverter
             return invocation.InvocationRewriter("Assert.IsFalse", "False");
         }
 
-        internal static InvocationExpressionSyntax RewriteIsInstanceOfType(this InvocationExpressionSyntax invocation)
+        private static InvocationExpressionSyntax RewriteOfType(this InvocationExpressionSyntax invocation, string from, string to)
         {
             if (invocation.Expression.Kind() == SyntaxKind.SimpleMemberAccessExpression &&
-                invocation.Expression.ToString().Equals("Assert.IsInstanceOfType") &&
+                invocation.Expression.ToString().Equals(from) &&
                 invocation.Expression is MemberAccessExpressionSyntax mae)
             {
                 var oldArgs = invocation.ArgumentList.Arguments;
                 var typeArg = oldArgs.Last();
-                var typeofExpr = (TypeOfExpressionSyntax) typeArg.Expression;
+                var typeofExpr = (TypeOfExpressionSyntax)typeArg.Expression;
 
                 var genericName = GenericName(
-                    ParseToken("IsType"),
+                    ParseToken(to),
                     TypeArgumentList(SingletonSeparatedList(typeofExpr.Type)));
 
                 var newArgs = invocation.ArgumentList.WithArguments(oldArgs.RemoveAt(oldArgs.Count - 1));
@@ -96,10 +96,14 @@ namespace MsTestToXunitConverter
             return invocation;
         }
 
+        internal static InvocationExpressionSyntax RewriteIsInstanceOfType(this InvocationExpressionSyntax invocation)
+        {
+            return invocation.RewriteOfType("Assert.IsInstanceOfType", "IsType");
+        }
+
         internal static InvocationExpressionSyntax RewriteIsNotInstanceOfType(this InvocationExpressionSyntax invocation)
         {
-            throw new NotImplementedException("Requires a rewrite to <> type format");
-            return invocation.InvocationRewriter("", "");
+            return invocation.RewriteOfType("Assert.IsNotInstanceOfType", "IsNotType");
         }
 
         internal static InvocationExpressionSyntax RewriteIsNotNull(this InvocationExpressionSyntax invocation)

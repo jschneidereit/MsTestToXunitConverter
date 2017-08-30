@@ -99,7 +99,7 @@ namespace MsTestToXunitConverter.xUnit
             Assert.Equal(expected, actual);
         }
         
-        [Fact(Skip = "not implemented yet")]
+        [Fact]
         public void CovnertAssertIsNotInstanceOfType()
         {
             var resource = ResourceHelper.GetTestInvocation("TestIsNotInstanceOfType");
