@@ -43,7 +43,6 @@ namespace MsTestToXunitConverter
 
         internal static InvocationExpressionSyntax RewriteAreNotEqual(this InvocationExpressionSyntax invocation)
         {
-
             return invocation.InvocationRewriter("Assert.AreNotEqual", "NotEqual");
         }
 
@@ -64,7 +63,7 @@ namespace MsTestToXunitConverter
 
         internal static InvocationExpressionSyntax RewriteInconclusive(this InvocationExpressionSyntax invocation)
         {
-            throw new NotImplementedException("This should comment out this line");
+            return invocation.WithLeadingTrivia(Comment("//Not supported by xunit"));
         }
 
         internal static InvocationExpressionSyntax RewriteIsFalse(this InvocationExpressionSyntax invocation)
@@ -74,9 +73,17 @@ namespace MsTestToXunitConverter
 
         private static InvocationExpressionSyntax RewriteOfType(this InvocationExpressionSyntax invocation, string from, string to)
         {
-            if (invocation.Expression.Kind() == SyntaxKind.SimpleMemberAccessExpression &&
-                invocation.Expression.ToString().Equals(from) &&
-                invocation.Expression is MemberAccessExpressionSyntax mae)
+            if (invocation.Expression.Kind() != SyntaxKind.SimpleMemberAccessExpression)
+            {
+                return invocation;
+            }
+
+            if (!invocation.Expression.ToString().Equals(from))
+            {
+                return invocation;
+            }
+
+            if (invocation.Expression is MemberAccessExpressionSyntax mae)
             {
                 var oldArgs = invocation.ArgumentList.Arguments;
                 var typeArg = oldArgs.Last();

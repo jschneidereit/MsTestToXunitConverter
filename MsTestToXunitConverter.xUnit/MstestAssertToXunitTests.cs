@@ -1,4 +1,5 @@
 ﻿using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
 using System.Collections.Generic;
@@ -6,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Xunit;
+using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
 namespace MsTestToXunitConverter.xUnit
 {
@@ -66,15 +68,14 @@ namespace MsTestToXunitConverter.xUnit
             //Assert.Equal(expected, actual);
         }
 
-        [Fact(Skip = "not implemented yet")]
+        [Fact]
         public void ConvertsAssertInconclusive()
         {
-            var resource = ResourceHelper.GetTestInvocation("TestInconculsive");
+            var actual = InvocationExpression(MemberAccessExpression(SyntaxKind.SimpleMemberAccessExpression, IdentifierName("Assert"), IdentifierName("Inconclusive")));
+            actual = actual.RewriteInconclusive();
 
-            var actual = resource.Item1.RewriteInconclusive().ToString();
-            var expected = resource.Item2.ToString();
-
-            Assert.Equal(expected, actual);
+            //This doesn't feel good, but I wanted to try it out anyway.
+            Assert.Equal("//Not supported by xunitAssert.Inconclusive()", actual.ToFullString());
         }
 
         [Fact]
