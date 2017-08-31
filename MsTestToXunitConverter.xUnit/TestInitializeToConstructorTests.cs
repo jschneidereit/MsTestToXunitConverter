@@ -16,7 +16,8 @@ namespace MsTestToXunitConverter.xUnit
             var tclass = ResourceHelper.GetTestClass("TestInitializeA");
 
             var actual = tclass.Item1.StripTestInitializerAttribute().ToFullString();
-            var expected = tclass.Item2.NormalizeWhitespace(elasticTrivia: true).ToFullString();
+            var expected = tclass.Item2.ToString(); //.NormalizeWhitespace(elasticTrivia: true).ToFullString();
+            var other = tclass.Item2.NormalizeWhitespace(elasticTrivia: true).ToFullString();
 
             Assert.Equal(expected, actual);
         }

@@ -29,13 +29,13 @@ namespace MsTestToXunitConverter
 
         private static MethodDeclarationSyntax Cleanup(this MethodDeclarationSyntax method)
         {
-            method = method.RemoveNodes(method.AttributeLists.Where(als => als.Attributes.Count == 0), SyntaxRemoveOptions.KeepNoTrivia);
+            method = method.RemoveNodes(method.AttributeLists.Where(als => als.Attributes.Count == 0), SyntaxRemoveOptions.KeepExteriorTrivia);
             return method;
         }
 
         internal static ClassDeclarationSyntax Cleanup(this ClassDeclarationSyntax type)
         {
-            type = type.RemoveNodes(type.AttributeLists.Where(als => als.Attributes.Count == 0), SyntaxRemoveOptions.KeepNoTrivia);
+            type = type.RemoveNodes(type.AttributeLists.Where(als => als.Attributes.Count == 0), SyntaxRemoveOptions.KeepExteriorTrivia);
             foreach (var m in type.Members.OfType<MethodDeclarationSyntax>())
             {
                 type = type.ReplaceNode(m, m.Cleanup());
@@ -71,7 +71,7 @@ namespace MsTestToXunitConverter
 
             //Refresh reference
             target = method.GetTargetAttribute("ExpectedException");
-            method = method.RemoveNode(target, SyntaxRemoveOptions.KeepNoTrivia);
+            method = method.RemoveNode(target, SyntaxRemoveOptions.KeepExteriorTrivia);
 
             return method.Cleanup();
         }
@@ -130,9 +130,9 @@ namespace MsTestToXunitConverter
 
             //Refresh reference
             target = type.Members.OfType<MethodDeclarationSyntax>().SingleOrDefault(m => m.GetTargetAttribute("TestInitialize") != null);
-            type = type.ReplaceNode(target, target.RemoveNode(target.GetTargetAttribute("TestInitialize"), SyntaxRemoveOptions.KeepNoTrivia));
+            type = type.ReplaceNode(target, target.RemoveNode(target.GetTargetAttribute("TestInitialize"), SyntaxRemoveOptions.KeepExteriorTrivia));
 
-            return type;
+            return type.Cleanup();
         }
 
         internal static ClassDeclarationSyntax StripTestCleanupAttribute(this ClassDeclarationSyntax type)
@@ -167,16 +167,14 @@ namespace MsTestToXunitConverter
                 replacementDisp = replacementDisp.WithModifiers(dispose.Modifiers);
             }
 
-
-
             type = dispose == null ? type.AddMembers(replacementDisp) : type.ReplaceNode(dispose, replacementDisp);
 
             target = type.Members.OfType<MethodDeclarationSyntax>().SingleOrDefault(m => m.GetTargetAttribute("TestCleanup") != null);
-            type = type.ReplaceNode(target, target.RemoveNode(target.GetTargetAttribute("TestCleanup"), SyntaxRemoveOptions.KeepNoTrivia));
+            type = type.ReplaceNode(target, target.RemoveNode(target.GetTargetAttribute("TestCleanup"), SyntaxRemoveOptions.KeepExteriorTrivia));
 
             type = type.WithBaseList(CreateBaseList("IDisposable", type.BaseList));
 
-            return type;
+            return type.Cleanup();
         }
 
         internal static UsingDirectiveSyntax ReplaceUsing(this UsingDirectiveSyntax node, string oldUsing, string newUsing)
