@@ -23,12 +23,13 @@ namespace MsTestToXunitConverter.xUnit.Resources
     {
         TestInitializeB()
         {
-            var x = 1 + 2;
+                var x = 1 + 2;
             TestInitialize();
         }
 
         public void TestInitialize()
-        {   
+        {
+
         }
     }
 

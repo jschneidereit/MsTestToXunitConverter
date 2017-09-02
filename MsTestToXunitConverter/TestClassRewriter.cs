@@ -4,6 +4,8 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 using System.Collections.Immutable;
 using System.Collections.Generic;
+using Microsoft.CodeAnalysis.Formatting;
+using System.Threading.Tasks;
 
 namespace MsTestToXunitConverter
 {
@@ -12,6 +14,22 @@ namespace MsTestToXunitConverter
     /// </summary>
     internal class TestClassRewriter : CSharpSyntaxRewriter
     {
+        private readonly Document document;
+        private readonly SyntaxAnnotation annotation = Formatter.Annotation;
+
+        internal TestClassRewriter(Document doc)
+        {
+            document = doc;
+        }
+
+        public async Task<SyntaxNode> VisitSyntaxRoot(SyntaxNode node)
+        {
+            node = Visit(node);
+
+            var formattedDocument = await Formatter.FormatAsync(document.WithSyntaxRoot(node), annotation: annotation);
+            return await formattedDocument.GetSyntaxRootAsync();
+        }
+
         private static ImmutableDictionary<string, AttributeSyntax> AttributeMapping = new Dictionary<string, AttributeSyntax>()
         {
             ["TestClass"] = null,
@@ -32,7 +50,7 @@ namespace MsTestToXunitConverter
         
         public override SyntaxNode VisitClassDeclaration(ClassDeclarationSyntax node)
         {
-            node = node.StripTestInitializerAttribute();
+            node = node.StripTestInitializerAttribute(annotation);
             node = node.StripTestCleanupAttribute();
 
             node = (ClassDeclarationSyntax) base.VisitClassDeclaration(node);

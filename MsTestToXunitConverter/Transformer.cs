@@ -115,16 +115,17 @@ namespace MsTestToXunitConverter
             return method.Cleanup();
         }
 
-        internal static ClassDeclarationSyntax StripTestInitializerAttribute(this ClassDeclarationSyntax type)
+        internal static ClassDeclarationSyntax StripTestInitializerAttribute(this ClassDeclarationSyntax type, SyntaxAnnotation annotation)
         {
             var target = type.Members.OfType<MethodDeclarationSyntax>().SingleOrDefault(m => m.GetTargetAttribute("TestInitialize") != null);
             if (target == null) { return type; }
 
             var ctor = type.Members.OfType<ConstructorDeclarationSyntax>().SingleOrDefault(c => c.ParameterList.Parameters.Count == 0);
+            
 
-            var initializeStatement = ParseStatement($"{target.Identifier}();");
+            var initializeStatement = ParseStatement($"{target.Identifier}();").WithAdditionalAnnotations(annotation);
             var replacementBody = ctor == null ? Block(initializeStatement) : Block(ctor.Body.Statements.Add(initializeStatement));
-            var replacementCtor = ConstructorDeclaration(type.Identifier).WithBody(replacementBody);
+            var replacementCtor = ConstructorDeclaration(type.Identifier.WithoutTrivia()).WithBody(replacementBody).WithAdditionalAnnotations(annotation);
 
             type = ctor == null ? type.AddMembers(replacementCtor) : type.ReplaceNode(ctor, replacementCtor);
 

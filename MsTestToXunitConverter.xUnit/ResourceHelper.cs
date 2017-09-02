@@ -2,15 +2,35 @@
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
+using System.Collections.Immutable;
 using System.Linq;
+using System.Resources;
 
 namespace MsTestToXunitConverter.xUnit
 {
-    public static class ResourceHelper
+    internal static class ResourceHelper
     {
+
+        private static readonly ImmutableArray<MetadataReference> _coreReferences = ImmutableArray.Create<MetadataReference>(
+            MetadataReference.CreateFromFile(typeof(object).Assembly.Location),
+            MetadataReference.CreateFromFile(typeof(Enumerable).Assembly.Location),
+            MetadataReference.CreateFromFile(typeof(CSharpCompilation).Assembly.Location),
+            MetadataReference.CreateFromFile(typeof(Compilation).Assembly.Location),
+            MetadataReference.CreateFromFile(typeof(Xunit.Assert).Assembly.Location),
+            MetadataReference.CreateFromFile(typeof(Microsoft.VisualStudio.TestTools.UnitTesting.Assert).Assembly.Location));
+
+        private static readonly Project _baseProject = new AdhocWorkspace()
+            .AddProject("Test", LanguageNames.CSharp)
+            .AddMetadataReferences(_coreReferences);
+
+        internal static Document GetTestClasses()
+        {
+            return _baseProject.AddDocument(name: "TestClasses.cs", text: Properties.Resources.TestClasses, filePath: "Resources/TestClasses.cs");
+        }
+
         private static CompilationUnitSyntax GetCompilationUnit(string text)
         {
-            var tree = CSharpSyntaxTree.ParseText(text, options: new CSharpParseOptions(kind: SourceCodeKind.Script));
+            var tree = CSharpSyntaxTree.ParseText(text, options: new CSharpParseOptions(kind: SourceCodeKind.Regular));
             return tree.GetRoot() as CompilationUnitSyntax;
         }
 
@@ -72,7 +92,7 @@ namespace MsTestToXunitConverter.xUnit
 
             var actual = GetMethod(source, name).DescendantNodes().OfType<InvocationExpressionSyntax>().First();
             var expected = GetMethod(result, name).DescendantNodes().OfType<InvocationExpressionSyntax>().First();
-            
+
             return Tuple.Create(actual, expected);
         }
     }
