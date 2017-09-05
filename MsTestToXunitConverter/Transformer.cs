@@ -49,7 +49,7 @@ namespace MsTestToXunitConverter
             return method.AttributeLists.SelectMany(al => al.Attributes).SingleOrDefault(a => a.Name.ToString() == target);
         }
 
-        internal static MethodDeclarationSyntax StripExpectedExceptionAttribute(this MethodDeclarationSyntax method)
+        internal static MethodDeclarationSyntax StripExpectedExceptionAttribute(this MethodDeclarationSyntax method, SyntaxAnnotation annotation)
         {
             var target = method.GetTargetAttribute("ExpectedException");
             if (target == null) { return method; }
@@ -67,7 +67,7 @@ namespace MsTestToXunitConverter
                 newbody += $"Assert.Equal(\"{target.ArgumentList.Arguments.ElementAt(1)}\", ex.Message);";
             }
 
-            method = method.ReplaceNode(method.Body, Block(ParseStatement(newbody)));
+            method = method.ReplaceNode(method.Body, Block(ParseStatement(newbody)).WithAdditionalAnnotations(annotation));
 
             //Refresh reference
             target = method.GetTargetAttribute("ExpectedException");
@@ -122,7 +122,6 @@ namespace MsTestToXunitConverter
 
             var ctor = type.Members.OfType<ConstructorDeclarationSyntax>().SingleOrDefault(c => c.ParameterList.Parameters.Count == 0);
             
-
             var initializeStatement = ParseStatement($"{target.Identifier}();").WithAdditionalAnnotations(annotation);
             var replacementBody = ctor == null ? Block(initializeStatement) : Block(ctor.Body.Statements.Add(initializeStatement));
             var replacementCtor = ConstructorDeclaration(type.Identifier.WithoutTrivia()).WithBody(replacementBody).WithAdditionalAnnotations(annotation);
@@ -136,7 +135,7 @@ namespace MsTestToXunitConverter
             return type.Cleanup();
         }
 
-        internal static ClassDeclarationSyntax StripTestCleanupAttribute(this ClassDeclarationSyntax type)
+        internal static ClassDeclarationSyntax StripTestCleanupAttribute(this ClassDeclarationSyntax type, SyntaxAnnotation annotation)
         {
             BaseListSyntax CreateBaseList(string name, BaseListSyntax other)
             {
@@ -157,11 +156,10 @@ namespace MsTestToXunitConverter
             if (target == null) { return type; }
 
             var dispose = type.Members.OfType<MethodDeclarationSyntax>().SingleOrDefault(m => m.Identifier.ToString() == "Dispose");
-
-
-            var cleanupStatement = ParseStatement($"{target.Identifier}();");
+            
+            var cleanupStatement = ParseStatement($"{target.Identifier}();").WithAdditionalAnnotations(annotation);
             var replacementBody = dispose == null ? Block(cleanupStatement) : Block(dispose.Body.Statements.Insert(0, cleanupStatement));
-            var replacementDisp = MethodDeclaration(PredefinedType(Token(SyntaxKind.VoidKeyword)), "Dispose").WithBody(replacementBody); //TODO: Inserting spaces for some reason
+            var replacementDisp = MethodDeclaration(PredefinedType(Token(SyntaxKind.VoidKeyword)), "Dispose").WithBody(replacementBody).WithAdditionalAnnotations(annotation);
 
             if (dispose != null && dispose.Modifiers.Count > 0)
             {

@@ -118,22 +118,184 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="TestClasses" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\TestClasses.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="ConstructorA" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Constructors\ConstructorA.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
-  <data name="TestClasses_out" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\TestClasses.out.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="ConstructorA_out" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Constructors\ConstructorA.out.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
-  <data name="TestInvocations" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\TestInvocations.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="ConstructorB" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Constructors\ConstructorB.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
-  <data name="TestInvocations_out" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\TestInvocations.out.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="ConstructorB_out" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Constructors\ConstructorB.out.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
-  <data name="TestMethods" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\TestMethods.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  <data name="DescriptionA" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\GeneralAttributes\DescriptionA.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
-  <data name="TestMethods_out" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\TestMethods.out.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="DescriptionA_out" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\GeneralAttributes\DescriptionA.out.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="DescriptionB" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\GeneralAttributes\DescriptionB.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="DescriptionB_out" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\GeneralAttributes\DescriptionB.out.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="DescriptionC" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\GeneralAttributes\DescriptionC.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="DescriptionC_out" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\GeneralAttributes\DescriptionC.out.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="DisposeA" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\IDispose\DisposeA.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="DisposeA_out" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\IDispose\DisposeA.out.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="DisposeB" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\IDispose\DisposeB.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="DisposeB_out" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\IDispose\DisposeB.out.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="DisposeC" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\IDispose\DisposeC.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="DisposeC_out" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\IDispose\DisposeC.out.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="DoSeveralThingsBad" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ExpectedException\DoSeveralThingsBad.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="DoSeveralThingsBad_out" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ExpectedException\DoSeveralThingsBad.out.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="DoSomethingBad" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ExpectedException\DoSomethingBad.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="DoSomethingBad_out" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ExpectedException\DoSomethingBad.out.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="IgnoreA" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\GeneralAttributes\IgnoreA.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="IgnoreA_out" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\GeneralAttributes\IgnoreA.out.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="IgnoreB" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\GeneralAttributes\IgnoreB.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="IgnoreB_out" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\GeneralAttributes\IgnoreB.out.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="IgnoreC" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\GeneralAttributes\IgnoreC.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="IgnoreC_out" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\GeneralAttributes\IgnoreC.out.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="IgnoreD" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\GeneralAttributes\IgnoreD.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="IgnoreD_out" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\GeneralAttributes\IgnoreD.out.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="TestAreEqual" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\AssertInvocations\TestAreEqual.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="TestAreEqual_out" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\AssertInvocations\TestAreEqual.out.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="TestAreNotEqual" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\AssertInvocations\TestAreNotEqual.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="TestAreNotEqual_out" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\AssertInvocations\TestAreNotEqual.out.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="TestAreSame" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\AssertInvocations\TestAreSame.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="TestAreSame_out" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\AssertInvocations\TestAreSame.out.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="TestContains" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\AssertInvocations\TestContains.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="TestContains_out" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\AssertInvocations\TestContains.out.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="TestDoesNotContain" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\AssertInvocations\TestDoesNotContain.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="TestDoesNotContain_out" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\AssertInvocations\TestDoesNotContain.out.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="TestInconculsive" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\AssertInvocations\TestInconculsive.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="TestInconculsive_out" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\AssertInvocations\TestInconculsive.out.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="TestIsFalse" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\AssertInvocations\TestIsFalse.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="TestIsFalse_out" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\AssertInvocations\TestIsFalse.out.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="TestIsInstanceOfType" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\AssertInvocations\TestIsInstanceOfType.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="TestIsInstanceOfType_out" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\AssertInvocations\TestIsInstanceOfType.out.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="TestIsNotInstanceOfType" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\AssertInvocations\TestIsNotInstanceOfType.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="TestIsNotInstanceOfType_out" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\AssertInvocations\TestIsNotInstanceOfType.out.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="TestIsNotNull" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\AssertInvocations\TestIsNotNull.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="TestIsNotNull_out" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\AssertInvocations\TestIsNotNull.out.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="TestIsNull" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\AssertInvocations\TestIsNull.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="TestIsNull_out" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\AssertInvocations\TestIsNull.out.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="TestIsTrue" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\AssertInvocations\TestIsTrue.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="TestIsTrue_out" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\AssertInvocations\TestIsTrue.out.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="TestMethodA" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\GeneralAttributes\TestMethodA.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="TestMethodA_out" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\GeneralAttributes\TestMethodA.out.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="TestMethodB" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\GeneralAttributes\TestMethodB.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="TestMethodB_out" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\GeneralAttributes\TestMethodB.out.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="TestMethodC" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\GeneralAttributes\TestMethodC.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="TestMethodC_out" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\GeneralAttributes\TestMethodC.out.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="TestMethodX" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\GeneralAttributes\TestMethodX.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="TestMethodX_out" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\GeneralAttributes\TestMethodX.out.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
 </root>

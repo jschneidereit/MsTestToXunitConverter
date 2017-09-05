@@ -67,10 +67,9 @@ namespace MsTestToXunitConverter.xUnit.Properties {
         ///using System.Text;
         ///using System.Threading.Tasks;
         ///using Microsoft.VisualStudio.TestTools.UnitTesting;
-        ///
-        ///namespace MsTestToXunitConverter.xUnit.Resources
+        ///namespace MsTestToXunitConverter.xUnit
         ///{
-        ///    class TestInitializeA
+        ///    class TestClass
         ///    {
         ///        [TestInitialize]
         ///        public void TestInitialize()
@@ -78,20 +77,11 @@ namespace MsTestToXunitConverter.xUnit.Properties {
         ///
         ///        }
         ///    }
-        ///
-        ///    class TestInitializeB
-        ///    {
-        ///        TestInitializeB()
-        ///        {
-        ///            var x = 1 + 2;
-        ///        }
-        ///
-        ///        [TestInitialize]
-        ///        publi [rest of string was truncated]&quot;;.
+        ///}.
         /// </summary>
-        internal static string TestClasses {
+        internal static string ConstructorA {
             get {
-                return ResourceManager.GetString("TestClasses", resourceCulture);
+                return ResourceManager.GetString("ConstructorA", resourceCulture);
             }
         }
         
@@ -102,13 +92,13 @@ namespace MsTestToXunitConverter.xUnit.Properties {
         ///using System.Text;
         ///using System.Threading.Tasks;
         ///using Xunit;
-        ///
-        ///namespace MsTestToXunitConverter.xUnit.Resources
+        ///namespace MsTestToXunitConverter.xUnit
         ///{
-        ///    class TestInitializeA
+        ///    class TestClass
         ///    {
         ///        public void TestInitialize()
         ///        {
+        ///
         ///        }
         ///
         ///        TestInitializeA()
@@ -116,83 +106,11 @@ namespace MsTestToXunitConverter.xUnit.Properties {
         ///            TestInitialize();
         ///        }
         ///    }
-        ///
-        ///    class TestInitializeB
-        ///    {
-        ///        TestInitializeB()
-        ///        {
-        ///            var x = 1 + 2;
-        ///            TestInitialize();
-        ///       [rest of string was truncated]&quot;;.
+        ///}.
         /// </summary>
-        internal static string TestClasses_out {
+        internal static string ConstructorA_out {
             get {
-                return ResourceManager.GetString("TestClasses_out", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to using System.Collections.Generic;
-        ///using System.Linq;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
-        ///
-        ///namespace MsTestToXunitConverter.xUnit.Resources
-        ///{
-        ///    class TestInvocations
-        ///    {
-        ///        public void TestAreEqual()
-        ///        {
-        ///            Assert.AreEqual(1, 1);
-        ///        }
-        ///
-        ///        public void TestAreNotEqual()
-        ///        {
-        ///            Assert.AreNotEqual(1, 2);
-        ///        }
-        ///
-        ///        public void TestAreSame()
-        ///        {
-        ///            var o = &quot;something&quot;;
-        ///            Assert.AreSame(o, o);
-        ///   [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string TestInvocations {
-            get {
-                return ResourceManager.GetString("TestInvocations", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to using System.Collections.Generic;
-        ///using System.Linq;
-        ///using Xunit;
-        ///
-        ///namespace MsTestToXunitConverter.xUnit.Resources
-        ///{
-        ///    class TestInvocations
-        ///    {
-        ///        public void TestAreEqual()
-        ///        {
-        ///            Assert.Equal(1, 1);
-        ///        }
-        ///
-        ///        public void TestAreNotEqual()
-        ///        {
-        ///            Assert.NotEqual(1, 2);
-        ///        }
-        ///
-        ///        public void TestAreSame()
-        ///        {
-        ///            var o = &quot;something&quot;;
-        ///            Assert.Same(o, o);
-        ///        }
-        ///
-        ///        public void TestContains()
-        ///  [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string TestInvocations_out {
-            get {
-                return ResourceManager.GetString("TestInvocations_out", resourceCulture);
+                return ResourceManager.GetString("ConstructorA_out", resourceCulture);
             }
         }
         
@@ -203,30 +121,1288 @@ namespace MsTestToXunitConverter.xUnit.Properties {
         ///using System.Text;
         ///using System.Threading.Tasks;
         ///using Microsoft.VisualStudio.TestTools.UnitTesting;
-        ///
-        ///namespace MsTestToXunitConverter.xUnit.Resources
+        ///namespace MsTestToXunitConverter.xUnit
         ///{
-        ///    public class FactTest
+        ///    class TestClass
+        ///    {
+        ///        TestInitializeB()
+        ///        {
+        ///            var x = 1 + 2;
+        ///        }
+        ///
+        ///        [TestInitialize]
+        ///        public void TestInitialize()
+        ///        {
+        ///
+        ///        }
+        ///    }
+        ///}.
+        /// </summary>
+        internal static string ConstructorB {
+            get {
+                return ResourceManager.GetString("ConstructorB", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using Xunit;
+        ///namespace MsTestToXunitConverter.xUnit
+        ///{
+        ///    class TestClass
+        ///    {
+        ///        TestInitializeB()
+        ///        {
+        ///            var x = 1 + 2;
+        ///            TestInitialize();
+        ///        }
+        ///
+        ///        public void TestInitialize()
+        ///        {
+        ///
+        ///        }
+        ///    }
+        ///}.
+        /// </summary>
+        internal static string ConstructorB_out {
+            get {
+                return ResourceManager.GetString("ConstructorB_out", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///namespace MsTestToXunitConverter.xUnit
+        ///{
+        ///    class TestClass
+        ///    {
+        ///        [Description(&quot;Description&quot;)]
+        ///        public void DescriptionA()
+        ///        {
+        ///
+        ///        }
+        ///    }
+        ///}.
+        /// </summary>
+        internal static string DescriptionA {
+            get {
+                return ResourceManager.GetString("DescriptionA", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using Xunit;
+        ///namespace MsTestToXunitConverter.xUnit
+        ///{
+        ///    class TestClass
+        ///    {
+        ///        [Fact(DisplayName = &quot;Description&quot;)]
+        ///        public void DescriptionA()
+        ///        {
+        ///
+        ///        }
+        ///    }
+        ///}.
+        /// </summary>
+        internal static string DescriptionA_out {
+            get {
+                return ResourceManager.GetString("DescriptionA_out", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///namespace MsTestToXunitConverter.xUnit
+        ///{
+        ///    class TestClass
+        ///    {
+        ///        [TestMethod]
+        ///        [Description(&quot;Description&quot;)]
+        ///        public void DescriptionB()
+        ///        {
+        ///
+        ///        }
+        ///    }
+        ///}.
+        /// </summary>
+        internal static string DescriptionB {
+            get {
+                return ResourceManager.GetString("DescriptionB", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using Xunit;
+        ///namespace MsTestToXunitConverter.xUnit
+        ///{
+        ///    class TestClass
+        ///    {
+        ///        [Fact(DisplayName = &quot;Description&quot;)]
+        ///        public void DescriptionB()
+        ///        {
+        ///
+        ///        }
+        ///    }
+        ///}.
+        /// </summary>
+        internal static string DescriptionB_out {
+            get {
+                return ResourceManager.GetString("DescriptionB_out", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///namespace MsTestToXunitConverter.xUnit
+        ///{
+        ///    class TestClass
+        ///    {
+        ///        [TestMethod, Description(&quot;Description&quot;)]
+        ///        public void DescriptionC()
+        ///        {
+        ///
+        ///        }
+        ///    }
+        ///}.
+        /// </summary>
+        internal static string DescriptionC {
+            get {
+                return ResourceManager.GetString("DescriptionC", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using Xunit;
+        ///namespace MsTestToXunitConverter.xUnit
+        ///{
+        ///    class TestClass
+        ///    {
+        ///        [Fact(DisplayName = &quot;Description&quot;)]
+        ///        public void DescriptionC()
+        ///        {
+        ///
+        ///        }
+        ///    }
+        ///}.
+        /// </summary>
+        internal static string DescriptionC_out {
+            get {
+                return ResourceManager.GetString("DescriptionC_out", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///namespace MsTestToXunitConverter.xUnit
+        ///{
+        ///    class TestClass : IDisposable
+        ///    {
+        ///        public void Cleanup()
+        ///        {
+        ///
+        ///        }
+        ///
+        ///        void Dispose()
+        ///        {
+        ///            Cleanup();
+        ///        }
+        ///    }
+        ///}.
+        /// </summary>
+        internal static string DisposeA {
+            get {
+                return ResourceManager.GetString("DisposeA", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using Xunit;
+        ///namespace MsTestToXunitConverter.xUnit
+        ///{
+        ///    class TestClass
+        ///    {
+        ///        public void Cleanup()
+        ///        {
+        ///
+        ///        }
+        ///    }
+        ///}.
+        /// </summary>
+        internal static string DisposeA_out {
+            get {
+                return ResourceManager.GetString("DisposeA_out", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///namespace MsTestToXunitConverter.xUnit
+        ///{
+        ///    class TestClass
+        ///    {
+        ///        [TestCleanup]
+        ///        public void Cleanup()
+        ///        {
+        ///
+        ///        }
+        ///
+        ///        public void Dispose()
+        ///        {
+        ///            var x = 1 + 2;
+        ///        }
+        ///    }
+        ///}.
+        /// </summary>
+        internal static string DisposeB {
+            get {
+                return ResourceManager.GetString("DisposeB", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using Xunit;
+        ///namespace MsTestToXunitConverter.xUnit
+        ///{
+        ///    class TestClass : IDisposable
+        ///    {
+        ///        public void Cleanup()
+        ///        {
+        ///
+        ///        }
+        ///
+        ///        public void Dispose()
+        ///        {
+        ///            Cleanup();
+        ///            var x = 1 + 2;
+        ///        }
+        ///    }
+        ///}.
+        /// </summary>
+        internal static string DisposeB_out {
+            get {
+                return ResourceManager.GetString("DisposeB_out", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///namespace MsTestToXunitConverter.xUnit
+        ///{
+        ///    class TestClass : ICloneable
+        ///    {
+        ///        [TestCleanup]
+        ///        public void Cleanup()
+        ///        {
+        ///
+        ///        }
+        ///    }
+        ///}.
+        /// </summary>
+        internal static string DisposeC {
+            get {
+                return ResourceManager.GetString("DisposeC", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using Xunit;
+        ///namespace MsTestToXunitConverter.xUnit
+        ///{
+        ///    class TestClass : ICloneable, IDisposable
+        ///    {
+        ///        public void Cleanup()
+        ///        {
+        ///
+        ///        }
+        ///
+        ///        void Dispose()
+        ///        {
+        ///            Cleanup();
+        ///        }
+        ///    }.
+        /// </summary>
+        internal static string DisposeC_out {
+            get {
+                return ResourceManager.GetString("DisposeC_out", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///namespace MsTestToXunitConverter.xUnit
+        ///{
+        ///    class TestClass
+        ///    {
+        ///        [ExpectedException(typeof(ArgumentNullException))]
+        ///        public void DoSeveralThingsBad()
+        ///        {
+        ///            Foo();
+        ///            Bar();
+        ///            Baz();
+        ///        }
+        ///    }
+        ///}.
+        /// </summary>
+        internal static string DoSeveralThingsBad {
+            get {
+                return ResourceManager.GetString("DoSeveralThingsBad", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using Xunit;
+        ///namespace MsTestToXunitConverter.xUnit
+        ///{
+        ///    class TestClass
+        ///    {
+        ///        public void DoSeveralThingsBad()
+        ///        {
+        ///            Assert.Throws&lt;ArgumentNullException&gt;(() =&gt;
+        ///            {
+        ///                Foo();
+        ///                Bar();
+        ///                Baz();
+        ///            });
+        ///        }
+        ///    }
+        ///}.
+        /// </summary>
+        internal static string DoSeveralThingsBad_out {
+            get {
+                return ResourceManager.GetString("DoSeveralThingsBad_out", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///namespace MsTestToXunitConverter.xUnit
+        ///{
+        ///    class TestClass
+        ///    {
+        ///        [ExpectedException(typeof(ArgumentNullException))]
+        ///        public void DoSomethingBad()
+        ///        {
+        ///            Foo();
+        ///        }
+        ///    }
+        ///}.
+        /// </summary>
+        internal static string DoSomethingBad {
+            get {
+                return ResourceManager.GetString("DoSomethingBad", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using Xunit;
+        ///namespace MsTestToXunitConverter.xUnit
+        ///{
+        ///    class TestClass
+        ///    {
+        ///        public void DoSomethingBad()
+        ///        {
+        ///            Assert.Throws&lt;ArgumentNullException&gt;(() =&gt; { Foo(); });
+        ///        }
+        ///    }
+        ///}.
+        /// </summary>
+        internal static string DoSomethingBad_out {
+            get {
+                return ResourceManager.GetString("DoSomethingBad_out", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///namespace MsTestToXunitConverter.xUnit
+        ///{
+        ///    class TestClass
+        ///    {
+        ///        [Ignore(&quot;Reason&quot;)]
+        ///        public void IgnoreA()
+        ///        {
+        ///
+        ///        }
+        ///    }
+        ///}.
+        /// </summary>
+        internal static string IgnoreA {
+            get {
+                return ResourceManager.GetString("IgnoreA", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using Xunit;
+        ///namespace MsTestToXunitConverter.xUnit
+        ///{
+        ///    class TestClass
+        ///    {
+        ///        [Fact(Skip = &quot;Reason&quot;)]
+        ///        public void IgnoreA()
+        ///        {
+        ///
+        ///        }
+        ///    }
+        ///}.
+        /// </summary>
+        internal static string IgnoreA_out {
+            get {
+                return ResourceManager.GetString("IgnoreA_out", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///namespace MsTestToXunitConverter.xUnit
+        ///{
+        ///    class TestClass
+        ///    {
+        ///        [TestMethod]
+        ///        [Ignore(&quot;Reason&quot;)]
+        ///        public void IgnoreB()
+        ///        {
+        ///
+        ///        }
+        ///    }
+        ///}.
+        /// </summary>
+        internal static string IgnoreB {
+            get {
+                return ResourceManager.GetString("IgnoreB", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using Xunit;
+        ///namespace MsTestToXunitConverter.xUnit
+        ///{
+        ///    class TestClass
+        ///    {
+        ///        [Fact(Skip = &quot;Reason&quot;)]
+        ///        public void IgnoreB()
+        ///        {
+        ///
+        ///        }
+        ///    }
+        ///}.
+        /// </summary>
+        internal static string IgnoreB_out {
+            get {
+                return ResourceManager.GetString("IgnoreB_out", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///namespace MsTestToXunitConverter.xUnit
+        ///{
+        ///    class TestClass
+        ///    {
+        ///        [TestMethod, Ignore(&quot;Reason&quot;)]
+        ///        public void IgnoreC()
+        ///        {
+        ///
+        ///        }
+        ///    }
+        ///}.
+        /// </summary>
+        internal static string IgnoreC {
+            get {
+                return ResourceManager.GetString("IgnoreC", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using Xunit;
+        ///namespace MsTestToXunitConverter.xUnit
+        ///{
+        ///    class TestClass
+        ///    {
+        ///        [Fact(Skip = &quot;Reason&quot;)]
+        ///        public void IgnoreC()
+        ///        {
+        ///
+        ///        }
+        ///    }
+        ///}.
+        /// </summary>
+        internal static string IgnoreC_out {
+            get {
+                return ResourceManager.GetString("IgnoreC_out", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///namespace MsTestToXunitConverter.xUnit
+        ///{
+        ///    class TestClass
+        ///    {
+        ///        [Ignore]
+        ///        public void IgnoreD()
+        ///        {
+        ///
+        ///        }
+        ///    }
+        ///}.
+        /// </summary>
+        internal static string IgnoreD {
+            get {
+                return ResourceManager.GetString("IgnoreD", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using Xunit;
+        ///namespace MsTestToXunitConverter.xUnit
+        ///{
+        ///    class TestClass
+        ///    {
+        ///        [Fact(Skip = &quot;&quot;)]
+        ///        public void IgnoreD()
+        ///        {
+        ///
+        ///        }
+        ///    }
+        ///}.
+        /// </summary>
+        internal static string IgnoreD_out {
+            get {
+                return ResourceManager.GetString("IgnoreD_out", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///namespace MsTestToXunitConverter.xUnit
+        ///{
+        ///    class TestClass
+        ///    {
+        ///        public void TestAreEqual()
+        ///        {
+        ///            Assert.AreEqual(1, 1);
+        ///        }
+        ///    }
+        ///}.
+        /// </summary>
+        internal static string TestAreEqual {
+            get {
+                return ResourceManager.GetString("TestAreEqual", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using Xunit;
+        ///namespace MsTestToXunitConverter.xUnit
+        ///{
+        ///    class TestClass
+        ///    {
+        ///        public void TestAreEqual()
+        ///        {
+        ///            Assert.Equal(1, 1);
+        ///        }
+        ///    }
+        ///}.
+        /// </summary>
+        internal static string TestAreEqual_out {
+            get {
+                return ResourceManager.GetString("TestAreEqual_out", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///namespace MsTestToXunitConverter.xUnit
+        ///{
+        ///    class TestClass
+        ///    {
+        ///        public void TestAreNotEqual()
+        ///        {
+        ///            Assert.AreNotEqual(1, 2);
+        ///        }
+        ///    }
+        ///}.
+        /// </summary>
+        internal static string TestAreNotEqual {
+            get {
+                return ResourceManager.GetString("TestAreNotEqual", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using Xunit;
+        ///namespace MsTestToXunitConverter.xUnit
+        ///{
+        ///    class TestClass
+        ///    {
+        ///        public void TestAreNotEqual()
+        ///        {
+        ///            Assert.NotEqual(1, 2);
+        ///        }
+        ///    }
+        ///}.
+        /// </summary>
+        internal static string TestAreNotEqual_out {
+            get {
+                return ResourceManager.GetString("TestAreNotEqual_out", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///namespace MsTestToXunitConverter.xUnit
+        ///{
+        ///    class TestClass
+        ///    {
+        ///        public void TestAreSame()
+        ///        {
+        ///            var o = &quot;something&quot;;
+        ///            Assert.AreSame(o, o);
+        ///        }
+        ///    }
+        ///}.
+        /// </summary>
+        internal static string TestAreSame {
+            get {
+                return ResourceManager.GetString("TestAreSame", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using Xunit;
+        ///namespace MsTestToXunitConverter.xUnit
+        ///{
+        ///    class TestClass
+        ///    {
+        ///        public void TestAreSame()
+        ///        {
+        ///            var o = &quot;something&quot;;
+        ///            Assert.Same(o, o);
+        ///        }
+        ///    }
+        ///}.
+        /// </summary>
+        internal static string TestAreSame_out {
+            get {
+                return ResourceManager.GetString("TestAreSame_out", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///namespace MsTestToXunitConverter.xUnit
+        ///{
+        ///    class TestClass
+        ///    {
+        ///        public void TestContains()
+        ///        {
+        ///            StringAssert.Contains(&quot;ayyy&quot;, &quot;ay&quot;);
+        ///        }
+        ///    }
+        ///}.
+        /// </summary>
+        internal static string TestContains {
+            get {
+                return ResourceManager.GetString("TestContains", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using Xunit;
+        ///namespace MsTestToXunitConverter.xUnit
+        ///{
+        ///    class TestClass
+        ///    {
+        ///        public void TestContains()
+        ///        {
+        ///            Assert.Contains(&quot;ayyy&quot;, &quot;ay&quot;);
+        ///        }
+        ///    }
+        ///}.
+        /// </summary>
+        internal static string TestContains_out {
+            get {
+                return ResourceManager.GetString("TestContains_out", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///namespace MsTestToXunitConverter.xUnit
+        ///{
+        ///    class TestClass
+        ///    {
+        ///        public void TestDoesNotContain()
+        ///        {
+        ///            //No idea what xunit is talking about
+        ///        }
+        ///    }
+        ///}.
+        /// </summary>
+        internal static string TestDoesNotContain {
+            get {
+                return ResourceManager.GetString("TestDoesNotContain", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using Xunit;
+        ///namespace MsTestToXunitConverter.xUnit
+        ///{
+        ///    class TestClass
+        ///    {
+        ///        public void TestDoesNotContain()
+        ///        {
+        ///            //No idea what xunit is talking about
+        ///        }
+        ///    }
+        ///}.
+        /// </summary>
+        internal static string TestDoesNotContain_out {
+            get {
+                return ResourceManager.GetString("TestDoesNotContain_out", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///namespace MsTestToXunitConverter.xUnit
+        ///{
+        ///    class TestClass
+        ///    {
+        ///        public void TestInconculsive()
+        ///        {
+        ///            Assert.Inconclusive(&quot;This should get commented out&quot;);
+        ///        }
+        ///    }
+        ///}.
+        /// </summary>
+        internal static string TestInconculsive {
+            get {
+                return ResourceManager.GetString("TestInconculsive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using Xunit;
+        ///namespace MsTestToXunitConverter.xUnit
+        ///{
+        ///    class TestClass
+        ///    {
+        ///        public void TestInconculsive()
+        ///        {
+        ///            //Assert.Inconclusive(&quot;This should get commented out&quot;);
+        ///        }
+        ///    }
+        ///}.
+        /// </summary>
+        internal static string TestInconculsive_out {
+            get {
+                return ResourceManager.GetString("TestInconculsive_out", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///namespace MsTestToXunitConverter.xUnit
+        ///{
+        ///    class TestClass
+        ///    {
+        ///        public void TestIsFalse()
+        ///        {
+        ///            Assert.IsFalse(false);
+        ///        }
+        ///    }
+        ///}.
+        /// </summary>
+        internal static string TestIsFalse {
+            get {
+                return ResourceManager.GetString("TestIsFalse", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using Xunit;
+        ///namespace MsTestToXunitConverter.xUnit
+        ///{
+        ///    class TestClass
+        ///    {
+        ///        public void TestIsFalse()
+        ///        {
+        ///            Assert.False(false);
+        ///        }
+        ///    }
+        ///}.
+        /// </summary>
+        internal static string TestIsFalse_out {
+            get {
+                return ResourceManager.GetString("TestIsFalse_out", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///namespace MsTestToXunitConverter.xUnit
+        ///{
+        ///    class TestClass
+        ///    {
+        ///        public void TestIsInstanceOfType()
+        ///        {
+        ///            List&lt;int&gt; x = new List&lt;int&gt;();
+        ///            Assert.IsInstanceOfType(x, typeof(List&lt;int&gt;));
+        ///        }
+        ///    }
+        ///}.
+        /// </summary>
+        internal static string TestIsInstanceOfType {
+            get {
+                return ResourceManager.GetString("TestIsInstanceOfType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using Xunit;
+        ///namespace MsTestToXunitConverter.xUnit
+        ///{
+        ///    class TestClass
+        ///    {
+        ///        public void TestIsInstanceOfType()
+        ///        {
+        ///            List&lt;int&gt; x = new List&lt;int&gt;();
+        ///            Assert.IsType&lt;List&lt;int&gt;&gt;(x);
+        ///        }
+        ///    }
+        ///}.
+        /// </summary>
+        internal static string TestIsInstanceOfType_out {
+            get {
+                return ResourceManager.GetString("TestIsInstanceOfType_out", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///namespace MsTestToXunitConverter.xUnit
+        ///{
+        ///    class TestClass
+        ///    {
+        ///        public void TestIsNotInstanceOfType()
+        ///        {
+        ///            Assert.IsNotInstanceOfType(null, typeof(List&lt;int&gt;));
+        ///        }
+        ///    }
+        ///}.
+        /// </summary>
+        internal static string TestIsNotInstanceOfType {
+            get {
+                return ResourceManager.GetString("TestIsNotInstanceOfType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using Xunit;
+        ///namespace MsTestToXunitConverter.xUnit
+        ///{
+        ///    class TestClass
+        ///    {
+        ///        public void TestIsNotInstanceOfType()
+        ///        {
+        ///            Assert.IsNotType&lt;List&lt;int&gt;&gt;(null);
+        ///        }
+        ///    }
+        ///}.
+        /// </summary>
+        internal static string TestIsNotInstanceOfType_out {
+            get {
+                return ResourceManager.GetString("TestIsNotInstanceOfType_out", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///namespace MsTestToXunitConverter.xUnit
+        ///{
+        ///    class TestClass
+        ///    {
+        ///        public void TestIsNotNull()
+        ///        {
+        ///            int? x = 1;
+        ///            Assert.IsNotNull(x);
+        ///        }
+        ///    }
+        ///}.
+        /// </summary>
+        internal static string TestIsNotNull {
+            get {
+                return ResourceManager.GetString("TestIsNotNull", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using Xunit;
+        ///namespace MsTestToXunitConverter.xUnit
+        ///{
+        ///    class TestClass
+        ///    {
+        ///        public void TestIsNotNull()
+        ///        {
+        ///            int? x = 1;
+        ///            Assert.NotNull(x);
+        ///        }
+        ///    }
+        ///}.
+        /// </summary>
+        internal static string TestIsNotNull_out {
+            get {
+                return ResourceManager.GetString("TestIsNotNull_out", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///namespace MsTestToXunitConverter.xUnit
+        ///{
+        ///    class TestClass
+        ///    {
+        ///        public void TestIsNull()
+        ///        {
+        ///            int? x = null;
+        ///            Assert.IsNull(x);
+        ///        }
+        ///    }
+        ///}.
+        /// </summary>
+        internal static string TestIsNull {
+            get {
+                return ResourceManager.GetString("TestIsNull", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using Xunit;
+        ///namespace MsTestToXunitConverter.xUnit
+        ///{
+        ///    class TestClass
+        ///    {
+        ///        public void TestIsNull()
+        ///        {
+        ///            int? x = null;
+        ///            Assert.Null(x);
+        ///        }
+        ///    }
+        ///}.
+        /// </summary>
+        internal static string TestIsNull_out {
+            get {
+                return ResourceManager.GetString("TestIsNull_out", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///namespace MsTestToXunitConverter.xUnit
+        ///{
+        ///    class TestClass
+        ///    {
+        ///        public void TestIsTrue()
+        ///        {
+        ///            Assert.IsTrue(true);
+        ///        }
+        ///    }
+        ///}.
+        /// </summary>
+        internal static string TestIsTrue {
+            get {
+                return ResourceManager.GetString("TestIsTrue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using Xunit;
+        ///namespace MsTestToXunitConverter.xUnit
+        ///{
+        ///    class TestClass
+        ///    {
+        ///        public void TestIsTrue()
+        ///        {
+        ///            Assert.True(true);
+        ///        }
+        ///    }
+        ///}.
+        /// </summary>
+        internal static string TestIsTrue_out {
+            get {
+                return ResourceManager.GetString("TestIsTrue_out", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///namespace MsTestToXunitConverter.xUnit
+        ///{
+        ///    class TestClass
         ///    {
         ///        [TestMethod]
         ///        public void TestMethodA()
         ///        {
         ///
         ///        }
-        ///
-        ///		[Description(&quot;Description&quot;)]
-        ///		public void DescriptionA()
-        ///        {
-        ///
-        ///        }
-        ///
-        ///		[TestMethod][Description(&quot;Description&quot;)]
-        ///		public void DescriptionB()
-        ///     [rest of string was truncated]&quot;;.
+        ///    }
+        ///}.
         /// </summary>
-        internal static string TestMethods {
+        internal static string TestMethodA {
             get {
-                return ResourceManager.GetString("TestMethods", resourceCulture);
+                return ResourceManager.GetString("TestMethodA", resourceCulture);
             }
         }
         
@@ -237,32 +1413,173 @@ namespace MsTestToXunitConverter.xUnit.Properties {
         ///using System.Text;
         ///using System.Threading.Tasks;
         ///using Xunit;
-        ///
-        ///namespace MsTestToXunitConverter.xUnit.Resources
+        ///namespace MsTestToXunitConverter.xUnit
         ///{
-        ///    public class FactTest
+        ///    class TestClass
         ///    {
         ///        [Fact]
         ///        public void TestMethodA()
         ///        {
         ///
         ///        }
-        ///
-        ///        [Fact(DisplayName = &quot;Description&quot;)]
-        ///        public void DescriptionA()
+        ///    }
+        ///}.
+        /// </summary>
+        internal static string TestMethodA_out {
+            get {
+                return ResourceManager.GetString("TestMethodA_out", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///namespace MsTestToXunitConverter.xUnit
+        ///{
+        ///    class TestClass
+        ///    {
+        ///        [TestMethod]
+        ///        [Description(&quot;Description&quot;)]
+        ///        [Ignore(&quot;Reason&quot;)]
+        ///        public void TestMethodB()
         ///        {
         ///
         ///        }
-        ///
-        ///        [Fact(DisplayName = &quot;Description&quot;)]
-        ///        public void DescriptionB()
+        ///    }
+        ///}.
+        /// </summary>
+        internal static string TestMethodB {
+            get {
+                return ResourceManager.GetString("TestMethodB", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using Xunit;
+        ///namespace MsTestToXunitConverter.xUnit
+        ///{
+        ///    class TestClass
+        ///    {
+        ///        [Fact(DisplayName = &quot;Description&quot;, Skip = &quot;Reason&quot;)]
+        ///        public void TestMethodB()
         ///        {
         ///
-        ///        }        /// [rest of string was truncated]&quot;;.
+        ///        }
+        ///    }
+        ///}.
         /// </summary>
-        internal static string TestMethods_out {
+        internal static string TestMethodB_out {
             get {
-                return ResourceManager.GetString("TestMethods_out", resourceCulture);
+                return ResourceManager.GetString("TestMethodB_out", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///namespace MsTestToXunitConverter.xUnit
+        ///{
+        ///    class TestClass
+        ///    {
+        ///        [TestMethod, Description(&quot;Description&quot;), Ignore(&quot;Reason&quot;)]
+        ///        public void TestMethodC()
+        ///        {
+        ///
+        ///        }
+        ///    }
+        ///}.
+        /// </summary>
+        internal static string TestMethodC {
+            get {
+                return ResourceManager.GetString("TestMethodC", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using Xunit;
+        ///namespace MsTestToXunitConverter.xUnit
+        ///{
+        ///    class TestClass
+        ///    {
+        ///        [Fact(DisplayName = &quot;Description&quot;, Skip = &quot;Reason&quot;)]
+        ///        public void TestMethodC()
+        ///        {
+        ///
+        ///        }
+        ///    }
+        ///}.
+        /// </summary>
+        internal static string TestMethodC_out {
+            get {
+                return ResourceManager.GetString("TestMethodC_out", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///namespace MsTestToXunitConverter.xUnit
+        ///{
+        ///    class TestClass
+        ///    {
+        ///        [ayyyyy]
+        ///        public void TestMethodX()
+        ///        {
+        ///
+        ///        }
+        ///    }
+        ///}.
+        /// </summary>
+        internal static string TestMethodX {
+            get {
+                return ResourceManager.GetString("TestMethodX", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using Xunit;
+        ///namespace MsTestToXunitConverter.xUnit
+        ///{
+        ///    class TestClass
+        ///    {
+        ///        [ayyyyy]
+        ///        public void TestMethodX()
+        ///        {
+        ///
+        ///        }
+        ///    }
+        ///}.
+        /// </summary>
+        internal static string TestMethodX_out {
+            get {
+                return ResourceManager.GetString("TestMethodX_out", resourceCulture);
             }
         }
     }

@@ -51,7 +51,7 @@ namespace MsTestToXunitConverter
         public override SyntaxNode VisitClassDeclaration(ClassDeclarationSyntax node)
         {
             node = node.StripTestInitializerAttribute(annotation);
-            node = node.StripTestCleanupAttribute();
+            node = node.StripTestCleanupAttribute(annotation);
 
             node = (ClassDeclarationSyntax) base.VisitClassDeclaration(node);
             return node.Cleanup();
@@ -60,7 +60,7 @@ namespace MsTestToXunitConverter
         public override SyntaxNode VisitMethodDeclaration(MethodDeclarationSyntax method)
         {
             method = method.StripSurjectiveFactAttributes();
-            method = method.StripExpectedExceptionAttribute();
+            method = method.StripExpectedExceptionAttribute(annotation);
 
             return base.VisitMethodDeclaration(method);
         }

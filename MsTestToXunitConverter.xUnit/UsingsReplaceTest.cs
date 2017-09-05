@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,12 +14,25 @@ namespace MsTestToXunitConverter.xUnit
         [Fact]
         public void SimpleUsingsReplaceTest()
         {
-            var compilations = ResourceHelper.GetTestCompilations(null);
+            foreach (var pod in ResourceHelper.GetTestPods())
+            {
+                var actual_comp = pod.ActualRoot as CompilationUnitSyntax;
+                var expected_comp = pod.ExpectedRoot as CompilationUnitSyntax;
 
-            var actual = compilations.Item1.Usings.Select(u => u.ReplaceUsing(Transformer.MSTEST_USING, Transformer.XUNIT_USING).ToString()).ToList();
-            var expected = compilations.Item2.Usings.Select(u => u.ToString()).ToList();
+                var actual = actual_comp.Usings.Select(u => u.ReplaceUsing(Transformer.MSTEST_USING, Transformer.XUNIT_USING).ToString()).ToList();
+                var expected = expected_comp.Usings.Select(u => u.ToString()).ToList();
 
-            Assert.Equal(expected, actual);
+                try
+                {
+                    Assert.Equal(expected, actual);
+
+                }
+                catch (Exception)
+                {
+
+                    throw;
+                }
+            }
         }
     }
 }
