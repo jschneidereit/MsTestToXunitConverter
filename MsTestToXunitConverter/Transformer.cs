@@ -83,7 +83,7 @@ namespace MsTestToXunitConverter
         /// </summary>
         /// <param name="method"></param>
         /// <returns></returns>
-        internal static MethodDeclarationSyntax StripSurjectiveFactAttributes(this MethodDeclarationSyntax method)
+        internal static MethodDeclarationSyntax StripSurjectiveFactAttributes(this MethodDeclarationSyntax method, SyntaxAnnotation annotation)
         {
             var attr = method.GetTargetAttribute("TestMethod");
             if (attr == null)
@@ -96,19 +96,19 @@ namespace MsTestToXunitConverter
             var description = method.GetTargetAttribute("Description");
             if (description != null)
             {
-                factAttribute = factAttribute.WithArgumentList(CreateArgumentList("DisplayName", description, factAttribute.ArgumentList));
+                factAttribute = factAttribute.WithArgumentList(CreateArgumentList("DisplayName", description, factAttribute.ArgumentList).WithAdditionalAnnotations(annotation));
                 method = method.RemoveNode(method.GetTargetAttribute("Description"), SyntaxRemoveOptions.KeepExteriorTrivia);
             }
 
             var ignore = method.GetTargetAttribute("Ignore");
             if (ignore != null)
             {
-                factAttribute = factAttribute.WithArgumentList(CreateArgumentList("Skip", ignore, factAttribute.ArgumentList));
+                factAttribute = factAttribute.WithArgumentList(CreateArgumentList("Skip", ignore, factAttribute.ArgumentList).WithAdditionalAnnotations(annotation));
                 method = method.RemoveNode(method.GetTargetAttribute("Ignore"), SyntaxRemoveOptions.KeepExteriorTrivia);
             }
 
             attr = method.GetTargetAttribute("TestMethod");
-            method = method.ReplaceNode(attr, factAttribute);
+            method = method.ReplaceNode(attr, factAttribute).WithAdditionalAnnotations(annotation);
 
             return method.Cleanup();
         }

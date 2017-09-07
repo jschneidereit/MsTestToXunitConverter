@@ -59,7 +59,7 @@ namespace MsTestToXunitConverter
 
         public override SyntaxNode VisitMethodDeclaration(MethodDeclarationSyntax method)
         {
-            method = method.StripSurjectiveFactAttributes();
+            method = method.StripSurjectiveFactAttributes(annotation);
             method = method.StripExpectedExceptionAttribute(annotation);
 
             return base.VisitMethodDeclaration(method);

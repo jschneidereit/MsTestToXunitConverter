@@ -8,7 +8,7 @@ namespace MsTestToXunitConverter.xUnit
 {
     class TestClass
     {
-        [Description("Description")]
+        [TestMethod, Description("Description")]
         public void DescriptionA()
         {
 

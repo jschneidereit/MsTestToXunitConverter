@@ -22,9 +22,13 @@ namespace MsTestToXunitConverter.xUnit
             var new_root = pod.ActualRoot.ReplaceNode(target, sut(target, Annotation));
 
             var document = pod.ActualDocument.WithSyntaxRoot(new_root);
-            var result = await Formatter.FormatAsync(document, annotation: Annotation);
+            document = await Formatter.FormatAsync(document, annotation: Annotation);
+            var expected = await Formatter.FormatAsync(pod.ExpectedDocument, annotation: Annotation);
+            
+            var result_string = document.GetSyntaxRootAsync().Result.GetClass(name).ToString();
+            var expect_string = expected.GetSyntaxRootAsync().Result.GetClass(name).ToString();
 
-            Assert.Equal(result.ToString(), pod.ExpectedDocument.ToString());
+            Assert.Equal(result_string, expect_string);
         }
 
         [Fact(DisplayName = "TestInitialize - converts to call to method from ctor")]

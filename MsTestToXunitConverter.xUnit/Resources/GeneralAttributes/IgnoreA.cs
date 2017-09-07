@@ -8,7 +8,7 @@ namespace MsTestToXunitConverter.xUnit
 {
     class TestClass
     {
-        [Ignore("Reason")]
+        [TestMethod, Ignore("Reason")]
         public void IgnoreA()
         {
 

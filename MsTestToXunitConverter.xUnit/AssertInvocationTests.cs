@@ -21,9 +21,13 @@ namespace MsTestToXunitConverter.xUnit
             var new_root = pod.ActualRoot.ReplaceNode(target, sut(target));
 
             var document = pod.ActualDocument.WithSyntaxRoot(new_root);
-            var result = await Formatter.FormatAsync(document, annotation: annotation);
+            document = await Formatter.FormatAsync(document, annotation: annotation);
+            var expected = await Formatter.FormatAsync(pod.ExpectedDocument, annotation: annotation);
 
-            Assert.Equal(result.ToString(), pod.ExpectedDocument.ToString());
+            var result_string = document.GetSyntaxRootAsync().Result.GetInvocation().ToString();
+            var expect_string = expected.GetSyntaxRootAsync().Result.GetInvocation().ToString();
+
+            Assert.Equal(result_string, expect_string);
         }
 
         [Fact]

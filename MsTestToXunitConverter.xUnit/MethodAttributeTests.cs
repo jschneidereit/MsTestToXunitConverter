@@ -7,72 +7,64 @@ using Xunit;
 
 namespace MsTestToXunitConverter.xUnit
 {
-    public static class FuncExtensions
-    {
-
-    }
-
     public class MethodAttributeTests
     {
         private SyntaxAnnotation Annotation { get; } = Formatter.Annotation;
 
-        private Func<MethodDeclarationSyntax, MethodDeclarationSyntax> AddAnnotation(
-            Func<MethodDeclarationSyntax, SyntaxAnnotation, MethodDeclarationSyntax> sut,
-            SyntaxAnnotation annotation) => sut.Apply(annotation);
-
-        private async Task ExecuteAsyncMethodTest(string name, Func<MethodDeclarationSyntax, MethodDeclarationSyntax> sut)
+        private async Task ExecuteAsyncMethodTest(string name, Func<MethodDeclarationSyntax, SyntaxAnnotation, MethodDeclarationSyntax> sut, SyntaxAnnotation annotation)
         {
             var pod = ResourceHelper.GetTestPod(name);
             var target = pod.ActualRoot.GetMethod(name);
 
-            var new_root = pod.ActualRoot.ReplaceNode(target, sut(target));
-
+            var new_root = pod.ActualRoot.ReplaceNode(target, sut(target, annotation));
+            
             var document = pod.ActualDocument.WithSyntaxRoot(new_root);
-            var result = await Formatter.FormatAsync(document, annotation: Annotation);
+            document = await Formatter.FormatAsync(document, annotation: annotation);
+            var expected = await Formatter.FormatAsync(pod.ExpectedDocument, annotation: Annotation);            
 
-            var result_string = result.GetSyntaxRootAsync().Result.GetMethod(name).ToString();
-            var expect_string = pod.ExpectedRoot.GetMethod(name).ToString();
+            var result_string = document.GetSyntaxRootAsync().Result.GetMethod(name).ToString();
+            var expect_string = expected.GetSyntaxRootAsync().Result.GetMethod(name).ToString();
 
             Assert.Equal(result_string, expect_string);
         }
 
         [Fact(DisplayName = "ExpectedException - Gets converted to simple lambda")]
-        public async Task ConvertSimpleExpectedException() => await ExecuteAsyncMethodTest("DoSomethingBad", AddAnnotation(Transformer.StripExpectedExceptionAttribute, Annotation));
+        public async Task ConvertSimpleExpectedException() => await ExecuteAsyncMethodTest("DoSomethingBad", Transformer.StripExpectedExceptionAttribute, Annotation);
 
         [Fact(DisplayName = "ExpectedException - Converted to a lambda with a multiline body")]
-        public async Task ConvertComplexExpectedException() => await ExecuteAsyncMethodTest("DoSeveralThingsBad", AddAnnotation(Transformer.StripExpectedExceptionAttribute, Annotation));
+        public async Task ConvertComplexExpectedException() => await ExecuteAsyncMethodTest("DoSeveralThingsBad", Transformer.StripExpectedExceptionAttribute, Annotation);
 
         [Fact(DisplayName = "Converts TestMethod to fact")]
-        public async Task ConvertTestMethod() => await ExecuteAsyncMethodTest("TestMethodA", Transformer.StripSurjectiveFactAttributes);
+        public async Task ConvertTestMethod() => await ExecuteAsyncMethodTest("TestMethodA", Transformer.StripSurjectiveFactAttributes, Annotation);
 
-        [Fact(DisplayName = "Converts ignore to Skip")]
-        public async Task ConvertTestMethodIgnoreA() => await ExecuteAsyncMethodTest("IgnoreA", Transformer.StripSurjectiveFactAttributes);
+        [Fact(DisplayName = "Converts ignore to Skip A")]
+        public async Task ConvertTestMethodIgnoreA() => await ExecuteAsyncMethodTest("IgnoreA", Transformer.StripSurjectiveFactAttributes, Annotation);
 
-        [Fact(DisplayName = "Converts ignore to Skip")]
-        public async Task ConvertTestMethodIgnoreB() => await ExecuteAsyncMethodTest("IgnoreB", Transformer.StripSurjectiveFactAttributes);
+        [Fact(DisplayName = "Converts ignore to Skip B")]
+        public async Task ConvertTestMethodIgnoreB() => await ExecuteAsyncMethodTest("IgnoreB", Transformer.StripSurjectiveFactAttributes, Annotation);
 
-        [Fact(DisplayName = "Converts ignore to Skip")]
-        public async Task ConvertTestMethodIgnoreC() => await ExecuteAsyncMethodTest("IgnoreC", Transformer.StripSurjectiveFactAttributes);
+        [Fact(DisplayName = "Converts ignore to Skip C")]
+        public async Task ConvertTestMethodIgnoreC() => await ExecuteAsyncMethodTest("IgnoreC", Transformer.StripSurjectiveFactAttributes, Annotation);
 
-        [Fact(DisplayName = "Converts ignore to Skip")]
-        public async Task ConvertTestMethodIgnoreD() => await ExecuteAsyncMethodTest("IgnoreD", Transformer.StripSurjectiveFactAttributes);
+        [Fact(DisplayName = "Converts ignore to Skip D")]
+        public async Task ConvertTestMethodIgnoreD() => await ExecuteAsyncMethodTest("IgnoreD", Transformer.StripSurjectiveFactAttributes, Annotation);
 
-        [Fact(DisplayName = "Converts description to DisplayName")]
-        public async Task ConvertTestMethodDescriptionA() => await ExecuteAsyncMethodTest("DescriptionA", Transformer.StripSurjectiveFactAttributes);
+        [Fact(DisplayName = "Converts description to DisplayName A")]
+        public async Task ConvertTestMethodDescriptionA() => await ExecuteAsyncMethodTest("DescriptionA", Transformer.StripSurjectiveFactAttributes, Annotation);
 
-        [Fact(DisplayName = "Converts description to DisplayName")]
-        public async Task ConvertTestMethodDescriptionB() => await ExecuteAsyncMethodTest("DescriptionB", Transformer.StripSurjectiveFactAttributes);
+        [Fact(DisplayName = "Converts description to DisplayName B")]
+        public async Task ConvertTestMethodDescriptionB() => await ExecuteAsyncMethodTest("DescriptionB", Transformer.StripSurjectiveFactAttributes, Annotation);
 
-        [Fact(DisplayName = "Converts description to DisplayName")]
-        public async Task ConvertTestMethodDescriptionC() => await ExecuteAsyncMethodTest("DescriptionC", Transformer.StripSurjectiveFactAttributes);
+        [Fact(DisplayName = "Converts description to DisplayName C")]
+        public async Task ConvertTestMethodDescriptionC() => await ExecuteAsyncMethodTest("DescriptionC", Transformer.StripSurjectiveFactAttributes, Annotation);
 
-        [Fact(DisplayName = "Converts all three attributes to one")]
-        public async Task ConvertTestMethodIgnoreAndDescriptionB() => await ExecuteAsyncMethodTest("TestMethodB", Transformer.StripSurjectiveFactAttributes);
+        [Fact(DisplayName = "Converts all three attributes to one B")]
+        public async Task ConvertTestMethodIgnoreAndDescriptionB() => await ExecuteAsyncMethodTest("TestMethodB", Transformer.StripSurjectiveFactAttributes, Annotation);
 
-        [Fact(DisplayName = "Converts all three attributes to one")]
-        public async Task ConvertTestMethodIgnoreAndDescriptionC() => await ExecuteAsyncMethodTest("TestMethodB", Transformer.StripSurjectiveFactAttributes);
+        [Fact(DisplayName = "Converts all three attributes to one C")]
+        public async Task ConvertTestMethodIgnoreAndDescriptionC() => await ExecuteAsyncMethodTest("TestMethodC", Transformer.StripSurjectiveFactAttributes, Annotation);
 
         [Fact(DisplayName = "Ignores methods without target attributes")]
-        public async Task ConvertPassesOverNormalMethods() => await ExecuteAsyncMethodTest("TestMethodX", Transformer.StripSurjectiveFactAttributes);
+        public async Task ConvertPassesOverNormalMethods() => await ExecuteAsyncMethodTest("TestMethodX", Transformer.StripSurjectiveFactAttributes, Annotation);
     }
 }
