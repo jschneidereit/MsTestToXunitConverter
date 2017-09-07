@@ -107,10 +107,8 @@ namespace MsTestToXunitConverter
                 method = method.RemoveNode(method.GetTargetAttribute("Ignore"), SyntaxRemoveOptions.KeepExteriorTrivia);
             }
 
-            var attributeList = ((AttributeListSyntax)attr.Parent).ReplaceNode(attr, factAttribute);
-            var syntaxList = method.AttributeLists.Add(attributeList);
-
-            method = method.WithAttributeLists(syntaxList);
+            attr = method.GetTargetAttribute("TestMethod");
+            method = method.ReplaceNode(attr, factAttribute);
 
             return method.Cleanup();
         }

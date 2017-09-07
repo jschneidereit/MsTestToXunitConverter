@@ -30,7 +30,10 @@ namespace MsTestToXunitConverter.xUnit
             var document = pod.ActualDocument.WithSyntaxRoot(new_root);
             var result = await Formatter.FormatAsync(document, annotation: Annotation);
 
-            Assert.Equal(result.ToString(), pod.ExpectedDocument.ToString());
+            var result_string = result.GetSyntaxRootAsync().Result.GetMethod(name).ToString();
+            var expect_string = pod.ExpectedRoot.GetMethod(name).ToString();
+
+            Assert.Equal(result_string, expect_string);
         }
 
         [Fact(DisplayName = "ExpectedException - Gets converted to simple lambda")]
@@ -44,7 +47,7 @@ namespace MsTestToXunitConverter.xUnit
 
         [Fact(DisplayName = "Converts ignore to Skip")]
         public async Task ConvertTestMethodIgnoreA() => await ExecuteAsyncMethodTest("IgnoreA", Transformer.StripSurjectiveFactAttributes);
-        
+
         [Fact(DisplayName = "Converts ignore to Skip")]
         public async Task ConvertTestMethodIgnoreB() => await ExecuteAsyncMethodTest("IgnoreB", Transformer.StripSurjectiveFactAttributes);
 
@@ -53,7 +56,7 @@ namespace MsTestToXunitConverter.xUnit
 
         [Fact(DisplayName = "Converts ignore to Skip")]
         public async Task ConvertTestMethodIgnoreD() => await ExecuteAsyncMethodTest("IgnoreD", Transformer.StripSurjectiveFactAttributes);
-        
+
         [Fact(DisplayName = "Converts description to DisplayName")]
         public async Task ConvertTestMethodDescriptionA() => await ExecuteAsyncMethodTest("DescriptionA", Transformer.StripSurjectiveFactAttributes);
 
@@ -62,7 +65,7 @@ namespace MsTestToXunitConverter.xUnit
 
         [Fact(DisplayName = "Converts description to DisplayName")]
         public async Task ConvertTestMethodDescriptionC() => await ExecuteAsyncMethodTest("DescriptionC", Transformer.StripSurjectiveFactAttributes);
-        
+
         [Fact(DisplayName = "Converts all three attributes to one")]
         public async Task ConvertTestMethodIgnoreAndDescriptionB() => await ExecuteAsyncMethodTest("TestMethodB", Transformer.StripSurjectiveFactAttributes);
 
