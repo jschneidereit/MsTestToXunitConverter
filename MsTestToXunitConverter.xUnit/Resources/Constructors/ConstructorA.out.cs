@@ -8,11 +8,11 @@ namespace MsTestToXunitConverter.xUnit
 {
     class ConstructorA
     {
+        
         public void SomeInitMethod()
         {
 
         }
-
         ConstructorA()
         {
             SomeInitMethod();

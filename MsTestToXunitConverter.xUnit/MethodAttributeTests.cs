@@ -18,14 +18,14 @@ namespace MsTestToXunitConverter.xUnit
 
             var new_root = pod.ActualRoot.ReplaceNode(target, sut(target, annotation));
             
-            var document = pod.ActualDocument.WithSyntaxRoot(new_root);
-            document = await Formatter.FormatAsync(document, annotation: annotation);
-            var expected = await Formatter.FormatAsync(pod.ExpectedDocument, annotation: Annotation);            
+            var actual = pod.ActualDocument.WithSyntaxRoot(new_root);
+            actual = await Formatter.FormatAsync(actual, annotation: annotation);
+            var expected = pod.ExpectedDocument;
 
-            var result_string = document.GetSyntaxRootAsync().Result.GetMethod(name).ToString();
+            var actual_string = actual.GetSyntaxRootAsync().Result.GetMethod(name).ToString();
             var expect_string = expected.GetSyntaxRootAsync().Result.GetMethod(name).ToString();
 
-            Assert.Equal(result_string, expect_string);
+            Assert.Equal(expected: expect_string, actual: actual_string);
         }
 
         [Fact(DisplayName = "ExpectedException - Gets converted to simple lambda")]

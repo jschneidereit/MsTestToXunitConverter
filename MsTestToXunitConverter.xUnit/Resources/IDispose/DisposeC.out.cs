@@ -8,6 +8,7 @@ namespace MsTestToXunitConverter.xUnit
 {
     class DisposeC : ICloneable, IDisposable
     {
+
         public void Cleanup()
         {
 
