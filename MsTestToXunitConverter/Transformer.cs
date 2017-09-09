@@ -29,14 +29,33 @@ namespace MsTestToXunitConverter
 
         private static MethodDeclarationSyntax Cleanup(this MethodDeclarationSyntax method)
         {
+            AttributeListSyntax al;
+            while ((al = method.AttributeLists.FirstOrDefault(l => l.Attributes.Count == 0)) != null)
+            {
+                var option = al.GetTrailingTrivia().All(t => t.IsKind(SyntaxKind.WhitespaceTrivia) || t.IsKind(SyntaxKind.EndOfLineTrivia))
+                    ? SyntaxRemoveOptions.KeepLeadingTrivia
+                    : SyntaxRemoveOptions.KeepExteriorTrivia;
 
-            method = method.RemoveNodes(method.AttributeLists.Where(als => als.Attributes.Count == 0), SyntaxRemoveOptions.KeepExteriorTrivia);
+                method = method.RemoveNode(al, option);
+            }
+            
             return method;
         }
 
         internal static ClassDeclarationSyntax Cleanup(this ClassDeclarationSyntax type)
         {
-            type = type.RemoveNodes(type.AttributeLists.Where(als => als.Attributes.Count == 0), SyntaxRemoveOptions.KeepExteriorTrivia);
+            foreach (var l in type.AttributeLists)
+            {
+                if (l.Attributes.Count == 0)
+                {
+                    var option = l.GetTrailingTrivia().All(t => t.IsKind(SyntaxKind.WhitespaceTrivia) || t.IsKind(SyntaxKind.EndOfLineTrivia))
+                        ? SyntaxRemoveOptions.KeepLeadingTrivia
+                        : SyntaxRemoveOptions.KeepExteriorTrivia;
+
+                    type = type.RemoveNode(l, SyntaxRemoveOptions.KeepExteriorTrivia);
+                }
+            }
+            
             foreach (var m in type.Members.OfType<MethodDeclarationSyntax>())
             {
                 type = type.ReplaceNode(m, m.Cleanup());
@@ -107,10 +126,10 @@ namespace MsTestToXunitConverter
                 factAttribute = factAttribute.WithArgumentList(CreateArgumentList("Skip", ignore, factAttribute.ArgumentList).WithAdditionalAnnotations(annotation));
                 method = method.RemoveNode(method.GetTargetAttribute("Ignore"), SyntaxRemoveOptions.KeepExteriorTrivia);
             }
-            
+
             attr = method.GetTargetAttribute("TestMethod");
             method = method.ReplaceNode(attr, factAttribute).WithAdditionalAnnotations(annotation);
-            
+
             return method.Cleanup();
         }
 
@@ -129,8 +148,11 @@ namespace MsTestToXunitConverter
 
             //Refresh reference
             target = type.Members.OfType<MethodDeclarationSyntax>().SingleOrDefault(m => m.GetTargetAttribute("TestInitialize") != null);
-            type = type.ReplaceNode(target, target.RemoveNode(target.GetTargetAttribute("TestInitialize"), SyntaxRemoveOptions.KeepExteriorTrivia));
+            var cleanedTarget = target.RemoveNode(target.GetTargetAttribute("TestInitialize"), SyntaxRemoveOptions.KeepExteriorTrivia)
+                                      .WithAdditionalAnnotations(annotation);
 
+            type = type.ReplaceNode(target, cleanedTarget);
+            
             return type.Cleanup();
         }
 
@@ -169,7 +191,7 @@ namespace MsTestToXunitConverter
 
             target = type.Members.OfType<MethodDeclarationSyntax>().SingleOrDefault(m => m.GetTargetAttribute("TestCleanup") != null);
             type = type.ReplaceNode(target, target.RemoveNode(target.GetTargetAttribute("TestCleanup"), SyntaxRemoveOptions.KeepExteriorTrivia));
-            
+
             type = type.ReplaceToken(type.Identifier, type.Identifier.WithTrailingTrivia(type.Identifier.TrailingTrivia.Where(t => !t.IsKind(SyntaxKind.EndOfLineTrivia))));
             type = type.WithBaseList(CreateBaseList("IDisposable", type.BaseList)).WithAdditionalAnnotations(annotation);
 

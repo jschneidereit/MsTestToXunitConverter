@@ -10,7 +10,10 @@ namespace MsTestToXunitConverter.xUnit
     {
         public void DoSomethingBad()
         {
-            Assert.Throws<ArgumentNullException>(() => { Foo(); });
+            Assert.Throws<ArgumentNullException>(() =>
+            {
+                Foo();
+            });
         }
     }
 }
