@@ -155,8 +155,8 @@ namespace MsTestToXunitConverter
 
             var dispose = type.Members.OfType<MethodDeclarationSyntax>().SingleOrDefault(m => m.Identifier.ToString() == "Dispose");
             
-            var cleanupStatement = ParseStatement($"{target.Identifier}();").WithAdditionalAnnotations(annotation);
-            var replacementBody = dispose == null ? Block(cleanupStatement) : Block(dispose.Body.Statements.Insert(0, cleanupStatement.WithTrailingTrivia(Whitespace(Environment.NewLine)))); //BUG: why is this not getting inserted with whitespace?
+            var cleanupStatement = ParseStatement($"{target.Identifier}();{Environment.NewLine}").WithAdditionalAnnotations(annotation);
+            var replacementBody = dispose == null ? Block(cleanupStatement) : Block(dispose.Body.Statements.Insert(0, cleanupStatement)); //BUG: why is this not getting inserted with whitespace?
             var replacementDisp = MethodDeclaration(PredefinedType(Token(SyntaxKind.VoidKeyword)), "Dispose").WithBody(replacementBody).WithAdditionalAnnotations(annotation);
 
             if (dispose != null && dispose.Modifiers.Count > 0)
@@ -169,7 +169,18 @@ namespace MsTestToXunitConverter
             target = type.Members.OfType<MethodDeclarationSyntax>().SingleOrDefault(m => m.GetTargetAttribute("TestCleanup") != null);
             type = type.ReplaceNode(target, target.RemoveNode(target.GetTargetAttribute("TestCleanup"), SyntaxRemoveOptions.KeepExteriorTrivia));
 
-            type = type.WithBaseList(CreateBaseList("IDisposable", type.BaseList)).WithAdditionalAnnotations(annotation);
+
+var trailing = type.Identifier.TrailingTrivia;
+if (string.IsNullOrWhiteSpace(trailing.ToString()))
+{
+    var space = SyntaxTrivia(SyntaxKind.WhitespaceTrivia, " ");
+    type = type.ReplaceNode(type.Identifier.TrailingTrivia., Space);
+    var identifier = type.Identifier.ReplaceTrivia(type.Identifier.TrailingTrivia.First(), Space);
+    type = type.ReplaceNode(type.Identifier, identifier);
+}
+
+
+            type = type.WithBaseList(CreateBaseList("IDisposable", type.BaseList).WithoutLeadingTrivia()).WithAdditionalAnnotations(annotation);
 
             return type.Cleanup();
         }
