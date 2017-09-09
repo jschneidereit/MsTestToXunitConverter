@@ -29,6 +29,7 @@ namespace MsTestToXunitConverter
 
         private static MethodDeclarationSyntax Cleanup(this MethodDeclarationSyntax method)
         {
+
             method = method.RemoveNodes(method.AttributeLists.Where(als => als.Attributes.Count == 0), SyntaxRemoveOptions.KeepExteriorTrivia);
             return method;
         }
@@ -90,9 +91,9 @@ namespace MsTestToXunitConverter
             {
                 return method;
             }
-            
+
             var factAttribute = attr.WithName(IdentifierName("Fact"));
-            
+
             var description = method.GetTargetAttribute("Description");
             if (description != null)
             {
@@ -106,10 +107,10 @@ namespace MsTestToXunitConverter
                 factAttribute = factAttribute.WithArgumentList(CreateArgumentList("Skip", ignore, factAttribute.ArgumentList).WithAdditionalAnnotations(annotation));
                 method = method.RemoveNode(method.GetTargetAttribute("Ignore"), SyntaxRemoveOptions.KeepExteriorTrivia);
             }
-
+            
             attr = method.GetTargetAttribute("TestMethod");
             method = method.ReplaceNode(attr, factAttribute).WithAdditionalAnnotations(annotation);
-
+            
             return method.Cleanup();
         }
 
@@ -119,7 +120,7 @@ namespace MsTestToXunitConverter
             if (target == null) { return type; }
 
             var ctor = type.Members.OfType<ConstructorDeclarationSyntax>().SingleOrDefault(c => c.ParameterList.Parameters.Count == 0);
-            
+
             var initializeStatement = ParseStatement($"{target.Identifier}();").WithAdditionalAnnotations(annotation);
             var replacementBody = ctor == null ? Block(initializeStatement) : Block(ctor.Body.Statements.Add(initializeStatement));
             var replacementCtor = ConstructorDeclaration(type.Identifier.WithoutTrivia()).WithBody(replacementBody).WithAdditionalAnnotations(annotation);
@@ -154,7 +155,7 @@ namespace MsTestToXunitConverter
             if (target == null) { return type; }
 
             var dispose = type.Members.OfType<MethodDeclarationSyntax>().SingleOrDefault(m => m.Identifier.ToString() == "Dispose");
-            
+
             var cleanupStatement = ParseStatement($"{target.Identifier}();{Environment.NewLine}").WithAdditionalAnnotations(annotation);
             var replacementBody = dispose == null ? Block(cleanupStatement) : Block(dispose.Body.Statements.Insert(0, cleanupStatement)); //BUG: why is this not getting inserted with whitespace?
             var replacementDisp = MethodDeclaration(PredefinedType(Token(SyntaxKind.VoidKeyword)), "Dispose").WithBody(replacementBody).WithAdditionalAnnotations(annotation);
@@ -168,19 +169,9 @@ namespace MsTestToXunitConverter
 
             target = type.Members.OfType<MethodDeclarationSyntax>().SingleOrDefault(m => m.GetTargetAttribute("TestCleanup") != null);
             type = type.ReplaceNode(target, target.RemoveNode(target.GetTargetAttribute("TestCleanup"), SyntaxRemoveOptions.KeepExteriorTrivia));
-
-
-var trailing = type.Identifier.TrailingTrivia;
-if (string.IsNullOrWhiteSpace(trailing.ToString()))
-{
-    var space = SyntaxTrivia(SyntaxKind.WhitespaceTrivia, " ");
-    type = type.ReplaceNode(type.Identifier.TrailingTrivia., Space);
-    var identifier = type.Identifier.ReplaceTrivia(type.Identifier.TrailingTrivia.First(), Space);
-    type = type.ReplaceNode(type.Identifier, identifier);
-}
-
-
-            type = type.WithBaseList(CreateBaseList("IDisposable", type.BaseList).WithoutLeadingTrivia()).WithAdditionalAnnotations(annotation);
+            
+            type = type.ReplaceToken(type.Identifier, type.Identifier.WithTrailingTrivia(type.Identifier.TrailingTrivia.Where(t => !t.IsKind(SyntaxKind.EndOfLineTrivia))));
+            type = type.WithBaseList(CreateBaseList("IDisposable", type.BaseList)).WithAdditionalAnnotations(annotation);
 
             return type.Cleanup();
         }
