@@ -84,7 +84,7 @@ namespace MsTestToXunitConverter
             {
                 newbody = $"var ex = {newbody}";
                 newbody += Environment.NewLine;
-                newbody += $"Assert.Equal(\"{target.ArgumentList.Arguments.ElementAt(1)}\", ex.Message);";
+                newbody += $"Assert.Equal({target.ArgumentList.Arguments.ElementAt(1)}, ex.Message);{Environment.NewLine}";
             }
 
             method = method.ReplaceNode(method.Body, Block(ParseStatement(newbody)).WithAdditionalAnnotations(annotation));
@@ -92,6 +92,7 @@ namespace MsTestToXunitConverter
             //Refresh reference
             target = method.GetTargetAttribute("ExpectedException");
             method = method.RemoveNode(target, SyntaxRemoveOptions.KeepExteriorTrivia);
+            method = method.WithAdditionalAnnotations(annotation);
 
             return method.Cleanup();
         }
