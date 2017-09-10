@@ -203,6 +203,12 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="ResourceHelper.cs" />
+    <None Include="Resources\ExpectedException\DoSomethingBadWithMessage.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\ExpectedException\DoSomethingBadWithMessage.out.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <Compile Include="UsingsReplaceTest.cs" />
     <None Include="Resources\IDispose\DisposeA.out.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

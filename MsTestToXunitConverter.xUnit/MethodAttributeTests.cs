@@ -34,6 +34,9 @@ namespace MsTestToXunitConverter.xUnit
         [Fact(DisplayName = "ExpectedException - Converted to a lambda with a multiline body")]
         public async Task ConvertComplexExpectedException() => await ExecuteAsyncMethodTest("DoSeveralThingsBad", Transformer.StripExpectedExceptionAttribute, Annotation);
 
+        [Fact(DisplayName = "ExpectedException - Gets converted to simple lambda with message assertion")]
+        public async Task ConvertComplexExpectedExceptionWithMessage() => await ExecuteAsyncMethodTest("DoSomethingBadWithMessage", Transformer.StripExpectedExceptionAttribute, Annotation);
+
         [Fact(DisplayName = "Converts TestMethod to fact")]
         public async Task ConvertTestMethod() => await ExecuteAsyncMethodTest("TestMethodA", Transformer.StripSurjectiveFactAttributes, Annotation);
 

@@ -69,10 +69,10 @@ namespace MsTestToXunitConverter.xUnit.Properties {
         ///using Microsoft.VisualStudio.TestTools.UnitTesting;
         ///namespace MsTestToXunitConverter.xUnit
         ///{
-        ///    class TestClass
+        ///    class ConstructorA
         ///    {
         ///        [TestInitialize]
-        ///        public void TestInitialize()
+        ///        public void SomeInitMethod()
         ///        {
         ///
         ///        }
@@ -94,16 +94,15 @@ namespace MsTestToXunitConverter.xUnit.Properties {
         ///using Xunit;
         ///namespace MsTestToXunitConverter.xUnit
         ///{
-        ///    class TestClass
+        ///    class ConstructorA
         ///    {
-        ///        public void TestInitialize()
+        ///        public void SomeInitMethod()
         ///        {
         ///
         ///        }
-        ///
-        ///        TestInitializeA()
+        ///        ConstructorA()
         ///        {
-        ///            TestInitialize();
+        ///            SomeInitMethod();
         ///        }
         ///    }
         ///}.
@@ -123,15 +122,15 @@ namespace MsTestToXunitConverter.xUnit.Properties {
         ///using Microsoft.VisualStudio.TestTools.UnitTesting;
         ///namespace MsTestToXunitConverter.xUnit
         ///{
-        ///    class TestClass
+        ///    class ConstructorB
         ///    {
-        ///        TestInitializeB()
+        ///        ConstructorB()
         ///        {
         ///            var x = 1 + 2;
         ///        }
         ///
         ///        [TestInitialize]
-        ///        public void TestInitialize()
+        ///        public void SomeInitMethod()
         ///        {
         ///
         ///        }
@@ -153,15 +152,15 @@ namespace MsTestToXunitConverter.xUnit.Properties {
         ///using Xunit;
         ///namespace MsTestToXunitConverter.xUnit
         ///{
-        ///    class TestClass
+        ///    class ConstructorB
         ///    {
-        ///        TestInitializeB()
+        ///        ConstructorB()
         ///        {
         ///            var x = 1 + 2;
-        ///            TestInitialize();
+        ///            SomeInitMethod();
         ///        }
         ///
-        ///        public void TestInitialize()
+        ///        public void SomeInitMethod()
         ///        {
         ///
         ///        }
@@ -185,7 +184,7 @@ namespace MsTestToXunitConverter.xUnit.Properties {
         ///{
         ///    class TestClass
         ///    {
-        ///        [Description(&quot;Description&quot;)]
+        ///        [TestMethod, Description(&quot;Description&quot;)]
         ///        public void DescriptionA()
         ///        {
         ///
@@ -334,16 +333,12 @@ namespace MsTestToXunitConverter.xUnit.Properties {
         ///using Microsoft.VisualStudio.TestTools.UnitTesting;
         ///namespace MsTestToXunitConverter.xUnit
         ///{
-        ///    class TestClass : IDisposable
+        ///    class DisposeA
         ///    {
+        ///        [TestCleanup]
         ///        public void Cleanup()
         ///        {
         ///
-        ///        }
-        ///
-        ///        void Dispose()
-        ///        {
-        ///            Cleanup();
         ///        }
         ///    }
         ///}.
@@ -363,11 +358,16 @@ namespace MsTestToXunitConverter.xUnit.Properties {
         ///using Xunit;
         ///namespace MsTestToXunitConverter.xUnit
         ///{
-        ///    class TestClass
+        ///    class DisposeA : IDisposable
         ///    {
         ///        public void Cleanup()
         ///        {
         ///
+        ///        }
+        ///
+        ///        void Dispose()
+        ///        {
+        ///            Cleanup();
         ///        }
         ///    }
         ///}.
@@ -387,7 +387,7 @@ namespace MsTestToXunitConverter.xUnit.Properties {
         ///using Microsoft.VisualStudio.TestTools.UnitTesting;
         ///namespace MsTestToXunitConverter.xUnit
         ///{
-        ///    class TestClass
+        ///    class DisposeB : IDisposable
         ///    {
         ///        [TestCleanup]
         ///        public void Cleanup()
@@ -417,7 +417,7 @@ namespace MsTestToXunitConverter.xUnit.Properties {
         ///using Xunit;
         ///namespace MsTestToXunitConverter.xUnit
         ///{
-        ///    class TestClass : IDisposable
+        ///    class DisposeB : IDisposable
         ///    {
         ///        public void Cleanup()
         ///        {
@@ -447,7 +447,7 @@ namespace MsTestToXunitConverter.xUnit.Properties {
         ///using Microsoft.VisualStudio.TestTools.UnitTesting;
         ///namespace MsTestToXunitConverter.xUnit
         ///{
-        ///    class TestClass : ICloneable
+        ///    class DisposeC : ICloneable
         ///    {
         ///        [TestCleanup]
         ///        public void Cleanup()
@@ -472,7 +472,7 @@ namespace MsTestToXunitConverter.xUnit.Properties {
         ///using Xunit;
         ///namespace MsTestToXunitConverter.xUnit
         ///{
-        ///    class TestClass : ICloneable, IDisposable
+        ///    class DisposeC : ICloneable, IDisposable
         ///    {
         ///        public void Cleanup()
         ///        {
@@ -585,7 +585,10 @@ namespace MsTestToXunitConverter.xUnit.Properties {
         ///    {
         ///        public void DoSomethingBad()
         ///        {
-        ///            Assert.Throws&lt;ArgumentNullException&gt;(() =&gt; { Foo(); });
+        ///            Assert.Throws&lt;ArgumentNullException&gt;(() =&gt;
+        ///            {
+        ///                Foo();
+        ///            });
         ///        }
         ///    }
         ///}.
@@ -607,7 +610,60 @@ namespace MsTestToXunitConverter.xUnit.Properties {
         ///{
         ///    class TestClass
         ///    {
-        ///        [Ignore(&quot;Reason&quot;)]
+        ///        [ExpectedException(typeof(ArgumentNullException), &quot;Bad thing happened&quot;)]
+        ///        public void DoSomethingBad()
+        ///        {
+        ///            Foo();
+        ///        }
+        ///    }
+        ///}.
+        /// </summary>
+        internal static string DoSomethingBadWithMessage {
+            get {
+                return ResourceManager.GetString("DoSomethingBadWithMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using Xunit;
+        ///namespace MsTestToXunitConverter.xUnit
+        ///{
+        ///    class TestClass
+        ///    {
+        ///        public void DoSomethingBad()
+        ///        {
+        ///            var ex = Assert.Throws&lt;ArgumentNullException&gt;(() =&gt;
+        ///            {
+        ///                Foo();
+        ///            });
+        ///            Assert.Equal(&quot;Bad thing happened&quot;, ex.Message);
+        ///        }
+        ///    }
+        ///}.
+        /// </summary>
+        internal static string DoSomethingBadWithMessage_out {
+            get {
+                return ResourceManager.GetString("DoSomethingBadWithMessage_out", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///namespace MsTestToXunitConverter.xUnit
+        ///{
+        ///    class TestClass
+        ///    {
+        ///        [TestMethod, Ignore(&quot;Reason&quot;)]
         ///        public void IgnoreA()
         ///        {
         ///
@@ -758,7 +814,7 @@ namespace MsTestToXunitConverter.xUnit.Properties {
         ///{
         ///    class TestClass
         ///    {
-        ///        [Ignore]
+        ///        [TestMethod, Ignore]
         ///        public void IgnoreD()
         ///        {
         ///

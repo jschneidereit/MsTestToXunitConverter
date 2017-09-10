@@ -5,6 +5,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.CSharp;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 using Microsoft.CodeAnalysis.Formatting;
+using System.Collections.Generic;
 
 namespace MsTestToXunitConverter
 {
@@ -80,18 +81,26 @@ namespace MsTestToXunitConverter
             if (exceptionIdentifierName == null) { return method; } //TODO: Throw exception? not valid MSTest if we get here
 
             var newbody = $"Assert.Throws<{exceptionIdentifierName}>({ParenthesizedLambdaExpression(method.Body)});";
+
+            var statements = new List<StatementSyntax>();
+
             if (target.ArgumentList.Arguments.Count > 1)
             {
-                newbody = $"var ex = {newbody}";
-                newbody += Environment.NewLine;
-                newbody += $"Assert.Equal(\"{target.ArgumentList.Arguments.ElementAt(1)}\", ex.Message);";
+                statements.Add(ParseStatement($"var ex = {newbody}{Environment.NewLine}"));
+                statements.Add(ParseStatement($"Assert.Equal({target.ArgumentList.Arguments.ElementAt(1)}, ex.Message);"));
+            }
+            else
+            {
+                statements.Add(ParseStatement(newbody));
             }
 
-            method = method.ReplaceNode(method.Body, Block(ParseStatement(newbody)).WithAdditionalAnnotations(annotation));
+            statements = statements.Select(s => s.WithAdditionalAnnotations(annotation)).ToList();
+            method = method.ReplaceNode(method.Body, Block(statements)).WithAdditionalAnnotations(annotation);
 
             //Refresh reference
             target = method.GetTargetAttribute("ExpectedException");
             method = method.RemoveNode(target, SyntaxRemoveOptions.KeepExteriorTrivia);
+            method = method.WithAdditionalAnnotations(annotation);
 
             return method.Cleanup();
         }
