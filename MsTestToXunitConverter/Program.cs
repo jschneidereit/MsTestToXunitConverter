@@ -14,7 +14,15 @@ namespace MsTestToXunitConverter
                 return 1;
             }
 
-            ProjectConverter.ConvertProject(args[0]).Wait();
+            if (args.Length > 1 && bool.TryParse(args[1], out var dryrun))
+            {
+                ProjectConverter.ConvertProject(args[0], dryrun).Wait();
+            }
+            else
+            {
+                ProjectConverter.ConvertProject(args[0]).Wait();
+            }
+
 
             return 0;
         }

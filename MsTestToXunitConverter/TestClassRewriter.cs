@@ -21,10 +21,10 @@ namespace MsTestToXunitConverter
         {
             document = doc;
         }
-
+        
         public async Task<SyntaxNode> VisitSyntaxRoot(SyntaxNode node)
         {
-            node = Visit(node);
+            node = ParseCompilationUnit(Visit(node).ToFullString()).WithAdditionalAnnotations(annotation);
 
             var formattedDocument = await Formatter.FormatAsync(document.WithSyntaxRoot(node), annotation: annotation);
             return await formattedDocument.GetSyntaxRootAsync();

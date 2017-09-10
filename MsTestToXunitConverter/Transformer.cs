@@ -45,16 +45,14 @@ namespace MsTestToXunitConverter
 
         internal static ClassDeclarationSyntax Cleanup(this ClassDeclarationSyntax type)
         {
-            foreach (var l in type.AttributeLists)
+            AttributeListSyntax al;
+            while ((al = type.AttributeLists.FirstOrDefault(l => l.Attributes.Count == 0)) != null)
             {
-                if (l.Attributes.Count == 0)
-                {
-                    var option = l.GetTrailingTrivia().All(t => t.IsKind(SyntaxKind.WhitespaceTrivia) || t.IsKind(SyntaxKind.EndOfLineTrivia))
-                        ? SyntaxRemoveOptions.KeepLeadingTrivia
-                        : SyntaxRemoveOptions.KeepExteriorTrivia;
+                var option = al.GetTrailingTrivia().All(t => t.IsKind(SyntaxKind.WhitespaceTrivia) || t.IsKind(SyntaxKind.EndOfLineTrivia))
+                    ? SyntaxRemoveOptions.KeepLeadingTrivia
+                    : SyntaxRemoveOptions.KeepExteriorTrivia;
 
-                    type = type.RemoveNode(l, SyntaxRemoveOptions.KeepExteriorTrivia);
-                }
+                type = type.RemoveNode(al, option);
             }
             
             foreach (var m in type.Members.OfType<MethodDeclarationSyntax>())
@@ -188,15 +186,15 @@ namespace MsTestToXunitConverter
             var dispose = type.Members.OfType<MethodDeclarationSyntax>().SingleOrDefault(m => m.Identifier.ToString() == "Dispose");
 
             var cleanupStatement = ParseStatement($"{target.Identifier}();{Environment.NewLine}").WithAdditionalAnnotations(annotation);
-            var replacementBody = dispose == null ? Block(cleanupStatement) : Block(dispose.Body.Statements.Insert(0, cleanupStatement)); //BUG: why is this not getting inserted with whitespace?
-            var replacementDisp = MethodDeclaration(PredefinedType(Token(SyntaxKind.VoidKeyword)), "Dispose").WithBody(replacementBody).WithAdditionalAnnotations(annotation);
+            var replacementBody = dispose == null ? Block(cleanupStatement) : Block(dispose.Body.Statements.Insert(0, cleanupStatement)).WithAdditionalAnnotations(annotation); //BUG: why is this not getting inserted with whitespace?
+            var replacementDisp = MethodDeclaration(PredefinedType(Token(SyntaxKind.VoidKeyword).WithAdditionalAnnotations(annotation)), ParseToken(" Dispose").WithAdditionalAnnotations(annotation)).WithBody(replacementBody).WithAdditionalAnnotations(annotation);
 
             if (dispose != null && dispose.Modifiers.Count > 0)
             {
-                replacementDisp = replacementDisp.WithModifiers(dispose.Modifiers);
+                replacementDisp = replacementDisp.WithModifiers(dispose.Modifiers).WithAdditionalAnnotations(annotation);
             }
 
-            type = dispose == null ? type.AddMembers(replacementDisp) : type.ReplaceNode(dispose, replacementDisp);
+            type = dispose == null ? type.AddMembers(replacementDisp).WithAdditionalAnnotations(annotation) : type.ReplaceNode(dispose, replacementDisp).WithAdditionalAnnotations(annotation);
 
             target = type.Members.OfType<MethodDeclarationSyntax>().SingleOrDefault(m => m.GetTargetAttribute("TestCleanup") != null);
             type = type.ReplaceNode(target, target.RemoveNode(target.GetTargetAttribute("TestCleanup"), SyntaxRemoveOptions.KeepExteriorTrivia));
