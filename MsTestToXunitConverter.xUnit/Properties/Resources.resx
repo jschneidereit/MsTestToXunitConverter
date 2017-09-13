@@ -238,6 +238,18 @@
   <data name="TestDoesNotContain_out" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\AssertInvocations\TestDoesNotContain.out.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
+  <data name="TestFail" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\AssertInvocations\TestFail.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="TestFailMessage" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\AssertInvocations\TestFailMessage.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="TestFailMessage_out" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\AssertInvocations\TestFailMessage.out.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="TestFail_out" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\AssertInvocations\TestFail.out.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
   <data name="TestInconculsive" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\AssertInvocations\TestInconculsive.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>

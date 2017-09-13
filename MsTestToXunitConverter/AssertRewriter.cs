@@ -103,6 +103,11 @@ namespace MsTestToXunitConverter
             return invocation;
         }
 
+        internal static InvocationExpressionSyntax RewriteFail(this InvocationExpressionSyntax invocation)
+        {
+            throw new NotImplementedException();
+        }
+
         internal static InvocationExpressionSyntax RewriteIsInstanceOfType(this InvocationExpressionSyntax invocation)
         {
             return invocation.RewriteOfType("Assert.IsInstanceOfType", "IsType");

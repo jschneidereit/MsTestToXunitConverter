@@ -31,6 +31,12 @@ namespace MsTestToXunitConverter.xUnit
         }
 
         [Fact]
+        public async Task ConvertsAssertFail() => await ExecuteAsyncInvocationTest("TestFail", AssertRewriter.RewriteFail);
+
+        [Fact]
+        public async Task ConvertsAssertFailMessage() => await ExecuteAsyncInvocationTest("TestFailMessage", AssertRewriter.RewriteFail);
+
+        [Fact]
         public async Task ConvertsAssertAreEqual() => await ExecuteAsyncInvocationTest("TestAreEqual", AssertRewriter.RewriteAreEqual);
 
         [Fact]
