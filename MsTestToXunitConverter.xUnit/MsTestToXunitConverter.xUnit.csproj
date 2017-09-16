@@ -221,6 +221,12 @@
     <None Include="Resources\AssertInvocations\TestFail.out.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="Resources\AssertInvocations\TestMessage.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\AssertInvocations\TestMessage.out.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <Compile Include="UsingsReplaceTest.cs" />
     <None Include="Resources\IDispose\DisposeA.out.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

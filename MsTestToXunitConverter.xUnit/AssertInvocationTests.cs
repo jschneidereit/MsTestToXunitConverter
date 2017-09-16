@@ -12,7 +12,7 @@ namespace MsTestToXunitConverter.xUnit
     public class AssertInvocationTests
     {
         private SyntaxAnnotation annotation { get; } = Formatter.Annotation;
-
+        
         private async Task ExecuteAsyncInvocationTest(string name, Func<InvocationExpressionSyntax, InvocationExpressionSyntax> sut)
         {
             var pod = ResourceHelper.GetTestPod(name);
@@ -34,7 +34,7 @@ namespace MsTestToXunitConverter.xUnit
         public async Task ConvertsAssertFail() => await ExecuteAsyncInvocationTest("TestFail", AssertRewriter.RewriteFail);
 
         [Fact]
-        public async Task ConvertsAssertFailMessage() => await ExecuteAsyncInvocationTest("TestFailMessage", AssertRewriter.RewriteFail);
+        public async Task ConvertsAssertMessage() => await ExecuteAsyncInvocationTest("TestMessage", AssertRewriter.RewriteMessage);
 
         [Fact]
         public async Task ConvertsAssertAreEqual() => await ExecuteAsyncInvocationTest("TestAreEqual", AssertRewriter.RewriteAreEqual);

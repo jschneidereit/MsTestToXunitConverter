@@ -56,6 +56,11 @@ namespace MsTestToXunitConverter
             return invocation.WithAdditionalAnnotations(Formatter.Annotation);
         }
 
+        internal static InvocationExpressionSyntax RewriteMessage(InvocationExpressionSyntax invocation)
+        {
+            throw new NotImplementedException();
+        }
+
         internal static InvocationExpressionSyntax RewriteInconclusive(this InvocationExpressionSyntax invocation)
         {
             return invocation.InvocationRewriter("Assert.Inconclusive", "Fail").RewriteFail();
