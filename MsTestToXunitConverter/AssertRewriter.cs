@@ -56,6 +56,11 @@ namespace MsTestToXunitConverter
             return invocation.WithAdditionalAnnotations(Formatter.Annotation);
         }
 
+        internal static InvocationExpressionSyntax RewriteInconclusive(this InvocationExpressionSyntax invocation)
+        {
+            return invocation.InvocationRewriter("Assert.Inconclusive", "Fail").RewriteFail();
+        }
+
         internal static InvocationExpressionSyntax RewriteAreEqual(this InvocationExpressionSyntax invocation)
         {
             return invocation.InvocationRewriter("Assert.AreEqual", "Equal");
@@ -81,11 +86,6 @@ namespace MsTestToXunitConverter
             return invocation; //Nothing special to do
         }
 
-        internal static InvocationExpressionSyntax RewriteInconclusive(this InvocationExpressionSyntax invocation)
-        {
-            return invocation.WithLeadingTrivia(Comment("//Not supported by xunit"));
-        }
-
         internal static InvocationExpressionSyntax RewriteIsFalse(this InvocationExpressionSyntax invocation)
         {
             return invocation.InvocationRewriter("Assert.IsFalse", "False");
@@ -93,34 +93,29 @@ namespace MsTestToXunitConverter
 
         private static InvocationExpressionSyntax RewriteOfType(this InvocationExpressionSyntax invocation, string from, string to)
         {
-            if (invocation.Expression.Kind() != SyntaxKind.SimpleMemberAccessExpression)
+            Func<InvocationExpressionSyntax, InvocationExpressionSyntax> func = (i) =>
             {
-                return invocation;
-            }
+                if (i.Expression is MemberAccessExpressionSyntax mae)
+                {
+                    var oldArgs = i.ArgumentList.Arguments;
+                    var typeArg = oldArgs.Last();
+                    var typeofExpr = (TypeOfExpressionSyntax)typeArg.Expression;
 
-            if (!invocation.Expression.ToString().Equals(from))
-            {
-                return invocation;
-            }
+                    var genericName = GenericName(
+                        ParseToken(to),
+                        TypeArgumentList(SingletonSeparatedList(typeofExpr.Type)));
 
-            if (invocation.Expression is MemberAccessExpressionSyntax mae)
-            {
-                var oldArgs = invocation.ArgumentList.Arguments;
-                var typeArg = oldArgs.Last();
-                var typeofExpr = (TypeOfExpressionSyntax)typeArg.Expression;
+                    var newArgs = i.ArgumentList.WithArguments(oldArgs.RemoveAt(oldArgs.Count - 1));
 
-                var genericName = GenericName(
-                    ParseToken(to),
-                    TypeArgumentList(SingletonSeparatedList(typeofExpr.Type)));
+                    return i
+                        .WithExpression(mae.WithName(genericName))
+                        .WithArgumentList(newArgs);
+                }
 
-                var newArgs = invocation.ArgumentList.WithArguments(oldArgs.RemoveAt(oldArgs.Count - 1));
+                return i;
+            };
 
-                return invocation
-                    .WithExpression(mae.WithName(genericName))
-                    .WithArgumentList(newArgs);
-            }
-
-            return invocation;
+            return invocation.InvocationRewriter(from, to, func: func);
         }
 
         internal static InvocationExpressionSyntax RewriteIsInstanceOfType(this InvocationExpressionSyntax invocation)

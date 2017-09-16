@@ -66,16 +66,10 @@ namespace MsTestToXunitConverter.xUnit
         [Fact]
         public async Task ConvertsAssertIsTrue() => await ExecuteAsyncInvocationTest("TestIsTrue", AssertRewriter.RewriteIsTrue);
 
+        [Fact]
+        public async Task ConvertsAssertInconclusive() => await ExecuteAsyncInvocationTest("TestInconculsive", AssertRewriter.RewriteInconclusive);
+
         [Fact(Skip = "https://xunit.github.io/docs/comparisons.html specifies this, but I don't see it and since they're the same, don't care.")]
         public void ConvertsAssertDoesNotContain() => Assert.True(false, "Method should be skipped");
-
-        [Fact]
-        public void ConvertsAssertInconclusive()
-        {
-            var actual = InvocationExpression(MemberAccessExpression(SyntaxKind.SimpleMemberAccessExpression, IdentifierName("Assert"), IdentifierName("Inconclusive")));
-            actual = actual.RewriteInconclusive();
-
-            Assert.Equal("//Not supported by xunitAssert.Inconclusive()", actual.ToFullString()); //This doesn't feel good, but I wanted to try it out anyway.
-        }
     }
 }

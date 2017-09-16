@@ -10,7 +10,7 @@ namespace MsTestToXunitConverter.xUnit
     {
         public void TestInconculsive()
         {
-            //Assert.Inconclusive("This should get commented out");
+            Assert.True(false, "This used to be inconclusive. We set as failure so the user can run tests immediately.");
         }
     }
 }
