@@ -10,7 +10,7 @@ namespace MsTestToXunitConverter.xUnit
     {
         public void TestFail()
         {
-            Assert.False(true);
+            Assert.True(false);
         }
     }
 }

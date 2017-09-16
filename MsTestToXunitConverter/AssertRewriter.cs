@@ -1,6 +1,7 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.CodeAnalysis.Formatting;
 using System;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
@@ -11,7 +12,7 @@ namespace MsTestToXunitConverter
     /// </summary>
     internal static class AssertRewriter
     {
-        private static InvocationExpressionSyntax InvocationRewriter(this InvocationExpressionSyntax invocation, string from, string to, IdentifierNameSyntax identifier = null)
+        private static InvocationExpressionSyntax InvocationRewriter(this InvocationExpressionSyntax invocation, string from, string to, IdentifierNameSyntax identifier = null, Func<InvocationExpressionSyntax, InvocationExpressionSyntax> func = null)
         {
             if (invocation.Expression.Kind() != SyntaxKind.SimpleMemberAccessExpression)
             {
@@ -33,7 +34,26 @@ namespace MsTestToXunitConverter
                 invocation = invocation.ReplaceNode(mae, mae.WithName(IdentifierName(to)));
             }
 
+            if (func != null)
+            {
+                invocation = func(invocation);
+            }
+
             return invocation;
+        }
+
+        internal static InvocationExpressionSyntax RewriteFail(this InvocationExpressionSyntax invocation)
+        {
+            Func<InvocationExpressionSyntax, InvocationExpressionSyntax> func = (i) =>
+            {
+                var args = i.ArgumentList.Arguments.Insert(0, Argument(ParseExpression("false")));
+                return i.WithArgumentList(i.ArgumentList.WithArguments(args));
+            };
+
+            invocation = invocation.InvocationRewriter("Assert.Fail", "True", func: func);
+
+            //TODO: Using the Formatter.Annotation like this seems like a smell, I'd rather make it a parameter to this function.
+            return invocation.WithAdditionalAnnotations(Formatter.Annotation);
         }
 
         internal static InvocationExpressionSyntax RewriteAreEqual(this InvocationExpressionSyntax invocation)
@@ -101,11 +121,6 @@ namespace MsTestToXunitConverter
             }
 
             return invocation;
-        }
-
-        internal static InvocationExpressionSyntax RewriteFail(this InvocationExpressionSyntax invocation)
-        {
-            throw new NotImplementedException();
         }
 
         internal static InvocationExpressionSyntax RewriteIsInstanceOfType(this InvocationExpressionSyntax invocation)
