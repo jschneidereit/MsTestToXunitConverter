@@ -1,5 +1,6 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using MsTestToXunitConverter.xUnit.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,8 +20,8 @@ namespace MsTestToXunitConverter.xUnit
                 var actual_comp = pod.ActualRoot as CompilationUnitSyntax;
                 var expected_comp = pod.ExpectedRoot as CompilationUnitSyntax;
 
-                var actual = actual_comp.Usings.Select(u => u.ReplaceUsing(Transformer.MSTEST_USING, Transformer.XUNIT_USING).ToString()).ToList();
-                var expected = expected_comp.Usings.Select(u => u.ToString()).ToList();
+                var actual = actual_comp.Usings.Select(u => u.ReplaceUsing(Transformer.MSTEST_USING, Transformer.XUNIT_USING).ToEnvNewlineString()).ToList();
+                var expected = expected_comp.Usings.Select(u => u.ToEnvNewlineString()).ToList();
 
                 try
                 {

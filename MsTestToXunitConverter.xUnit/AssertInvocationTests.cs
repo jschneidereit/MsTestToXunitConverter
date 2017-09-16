@@ -2,6 +2,7 @@
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Formatting;
+using MsTestToXunitConverter.xUnit.Extensions;
 using System;
 using System.Threading.Tasks;
 using Xunit;
@@ -24,8 +25,8 @@ namespace MsTestToXunitConverter.xUnit
             actual = await Formatter.FormatAsync(actual, annotation: annotation);
             var expected = pod.ExpectedDocument;
 
-            var actual_string = actual.GetSyntaxRootAsync().Result.GetInvocation().ToString();
-            var expect_string = expected.GetSyntaxRootAsync().Result.GetInvocation().ToString();
+            var actual_string = actual.GetSyntaxRootAsync().Result.GetInvocation().ToEnvNewlineString();
+            var expect_string = expected.GetSyntaxRootAsync().Result.GetInvocation().ToEnvNewlineString();
 
             Assert.Equal(expected: expect_string, actual: actual_string);
         }

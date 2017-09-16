@@ -18,3 +18,4 @@ namespace MsTestToXunitConverter.xUnit
             Cleanup();
         }
     }
+}

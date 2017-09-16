@@ -28,6 +28,7 @@ namespace MsTestToXunitConverter
             {
                 if (identifier != null)
                 {
+                    identifier = identifier.WithLeadingTrivia(mae.Expression.GetLeadingTrivia());
                     invocation = invocation.ReplaceNode(mae, mae.WithExpression(identifier));
                 }
 
