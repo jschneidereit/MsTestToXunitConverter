@@ -209,6 +209,18 @@
     <None Include="Resources\ExpectedException\DoSomethingBadWithMessage.out.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="Resources\AssertInvocations\TestFailMessage.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\AssertInvocations\TestFail.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\AssertInvocations\TestFailMessage.out.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\AssertInvocations\TestFail.out.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <Compile Include="UsingsReplaceTest.cs" />
     <None Include="Resources\IDispose\DisposeA.out.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

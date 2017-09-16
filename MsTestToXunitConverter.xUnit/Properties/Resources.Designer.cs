@@ -611,7 +611,7 @@ namespace MsTestToXunitConverter.xUnit.Properties {
         ///    class TestClass
         ///    {
         ///        [ExpectedException(typeof(ArgumentNullException), &quot;Bad thing happened&quot;)]
-        ///        public void DoSomethingBad()
+        ///        public void DoSomethingBadWithMessage()
         ///        {
         ///            Foo();
         ///        }
@@ -635,7 +635,7 @@ namespace MsTestToXunitConverter.xUnit.Properties {
         ///{
         ///    class TestClass
         ///    {
-        ///        public void DoSomethingBad()
+        ///        public void DoSomethingBadWithMessage()
         ///        {
         ///            var ex = Assert.Throws&lt;ArgumentNullException&gt;(() =&gt;
         ///            {
@@ -1092,6 +1092,102 @@ namespace MsTestToXunitConverter.xUnit.Properties {
         internal static string TestDoesNotContain_out {
             get {
                 return ResourceManager.GetString("TestDoesNotContain_out", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///namespace MsTestToXunitConverter.xUnit
+        ///{
+        ///    class TestClass
+        ///    {
+        ///        public void TestFail()
+        ///        {
+        ///            Assert.Fail();
+        ///        }
+        ///    }
+        ///}.
+        /// </summary>
+        internal static string TestFail {
+            get {
+                return ResourceManager.GetString("TestFail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using Xunit;
+        ///namespace MsTestToXunitConverter.xUnit
+        ///{
+        ///    class TestClass
+        ///    {
+        ///        public void TestFail()
+        ///        {
+        ///            Assert.False(true);
+        ///        }
+        ///    }
+        ///}.
+        /// </summary>
+        internal static string TestFail_out {
+            get {
+                return ResourceManager.GetString("TestFail_out", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///namespace MsTestToXunitConverter.xUnit
+        ///{
+        ///    class TestClass
+        ///    {
+        ///        public void TestFailMessage()
+        ///        {
+        ///            Assert.Fail(&quot;message&quot;);
+        ///        }
+        ///    }
+        ///}.
+        /// </summary>
+        internal static string TestFailMessage {
+            get {
+                return ResourceManager.GetString("TestFailMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using Xunit;
+        ///namespace MsTestToXunitConverter.xUnit
+        ///{
+        ///    class TestClass
+        ///    {
+        ///        public void TestFailMessage()
+        ///        {
+        ///            Assert.False(true, &quot;message&quot;);
+        ///        }
+        ///    }
+        ///}.
+        /// </summary>
+        internal static string TestFailMessage_out {
+            get {
+                return ResourceManager.GetString("TestFailMessage_out", resourceCulture);
             }
         }
         
