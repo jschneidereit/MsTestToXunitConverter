@@ -1,0 +1,12 @@
+language: csharp
+before_install:
+  - mono --version
+  - mkdir -p .nuget
+  - wget -O .nuget/nuget.exe https://dist.nuget.org/win-x86-commandline/latest/nuget.exe
+  - mono .nuget/nuget.exe | head -1 # Output NuGet's version number
+install:
+  - mono .nuget/nuget.exe restore MsTestToXunitConverter.sln -Verbosity detailed
+  - mono .nuget/nuget.exe install xunit.runner.console -Version 2.2.0 -OutputDirectory ./testrunner
+script:
+  - xbuild /p:Configuration=Release MsTestToXunitConverter.sln
+  - mono ./testrunner/xunit.runner.console.2.2.0/tools/xunit.console.x86.exe ./MsTestToXunitConverter.xUnit/bin/Release/MsTestToXunitConverter.xUnit.dll
