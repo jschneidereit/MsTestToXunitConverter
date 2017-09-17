@@ -33,15 +33,17 @@ namespace MsTestToXunitConverter.xUnit
 
         internal static TestPod GetTestPod(string name)
         {
-            var actual_src = GetTestFile(name);
-            var actual = _baseProject.AddDocument(name: $"{name}.cs", text: actual_src, filePath: $"{name}.cs");
-            var actual_root = actual.GetSyntaxRootAsync().Result;
+            var actualSrc = GetTestFile(name);
+            var actualDoc = _baseProject.AddDocument(name: $"{name}.cs", text: actualSrc, filePath: $"{name}.cs");
+            var actualRoot = actualDoc.GetSyntaxRootAsync().Result;
 
-            var expect_src = GetTestFile($"{name}_out");
-            var expect = _baseProject.AddDocument(name: $"{name}.out.cs", text: expect_src, filePath: $"{name}.out.cs");
-            var expect_root = expect.GetSyntaxRootAsync().Result;
+            var semanticModel = actualDoc.GetSemanticModelAsync().Result;
 
-            return new TestPod(actualDocument: actual, actualRoot: actual_root, expectedDocument: expect, expectedRoot: expect_root);
+            var expectedSrc = GetTestFile($"{name}_out");
+            var expectedDoc = _baseProject.AddDocument(name: $"{name}.out.cs", text: expectedSrc, filePath: $"{name}.out.cs");
+            var expectedRoot = expectedDoc.GetSyntaxRootAsync().Result;
+
+            return new TestPod(actualDocument: actualDoc, actualRoot: actualRoot, semanticModel: semanticModel, expectedDocument: expectedDoc, expectedRoot: expectedRoot);
         }
 
         internal static List<TestPod> GetTestPods() => Resources.Where(r => !r.Key.Contains("_out")).Select(r => GetTestPod(r.Key)).ToList();

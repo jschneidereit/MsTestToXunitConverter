@@ -16,10 +16,12 @@ namespace MsTestToXunitConverter
     {
         private readonly Document document;
         private readonly SyntaxAnnotation annotation = Formatter.Annotation;
+        private readonly SemanticModel model;
 
         internal TestClassRewriter(Document doc)
         {
             document = doc;
+            model = doc.GetSemanticModelAsync().Result;
         }
 
         public async Task<SyntaxNode> VisitSyntaxRoot(SyntaxNode node)
@@ -71,20 +73,20 @@ namespace MsTestToXunitConverter
 
             return base.VisitUsingDirective(node);
         }
-
+        
         public override SyntaxNode VisitInvocationExpression(InvocationExpressionSyntax node)
         {
-            node = node.RewriteAreEqual();
-            node = node.RewriteAreNotEqual();
-            node = node.RewriteAreSame();
+            node = node.RewriteAreEqual(model);
+            node = node.RewriteAreNotEqual(model);
+            node = node.RewriteAreSame(model);
             node = node.RewriteContains();
             node = node.RewriteDoesNotContain();
             //node = node.RewriteInconclusive();
-            node = node.RewriteIsFalse();
+            node = node.RewriteIsFalse(model);
             //node = node.RewriteIsInstanceOfType();
             //node = node.RewriteIsNotInstanceOfType();
-            node = node.RewriteIsNotNull();
-            node = node.RewriteIsNull();
+            node = node.RewriteIsNotNull(model);
+            node = node.RewriteIsNull(model);
             node = node.RewriteIsTrue();
 
             return base.VisitInvocationExpression(node);

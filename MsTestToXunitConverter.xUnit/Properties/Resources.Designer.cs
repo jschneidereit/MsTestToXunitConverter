@@ -912,6 +912,54 @@ namespace MsTestToXunitConverter.xUnit.Properties {
         ///{
         ///    class TestClass
         ///    {
+        ///        public void TestAreEqualMessage()
+        ///        {
+        ///            Assert.AreEqual(1, 2, &quot;message&quot;);
+        ///        }
+        ///    }
+        ///}.
+        /// </summary>
+        internal static string TestAreEqualMessage {
+            get {
+                return ResourceManager.GetString("TestAreEqualMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using Xunit;
+        ///namespace MsTestToXunitConverter.xUnit
+        ///{
+        ///    class TestClass
+        ///    {
+        ///        public void TestAreEqualMessage()
+        ///        {
+        ///            Assert.Equal(1, 2); //message
+        ///        }
+        ///    }
+        ///}.
+        /// </summary>
+        internal static string TestAreEqualMessage_out {
+            get {
+                return ResourceManager.GetString("TestAreEqualMessage_out", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///namespace MsTestToXunitConverter.xUnit
+        ///{
+        ///    class TestClass
+        ///    {
         ///        public void TestAreNotEqual()
         ///        {
         ///            Assert.AreNotEqual(1, 2);
@@ -946,6 +994,102 @@ namespace MsTestToXunitConverter.xUnit.Properties {
         internal static string TestAreNotEqual_out {
             get {
                 return ResourceManager.GetString("TestAreNotEqual_out", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///namespace MsTestToXunitConverter.xUnit
+        ///{
+        ///    class TestClass
+        ///    {
+        ///        public void TestAreNotEqualMessage()
+        ///        {
+        ///            Assert.AreNotEqual(1, 2, &quot;message&quot;);
+        ///        }
+        ///    }
+        ///}.
+        /// </summary>
+        internal static string TestAreNotEqualMessage {
+            get {
+                return ResourceManager.GetString("TestAreNotEqualMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using Xunit;
+        ///namespace MsTestToXunitConverter.xUnit
+        ///{
+        ///    class TestClass
+        ///    {
+        ///        public void TestAreNotEqualMessage()
+        ///        {
+        ///            Assert.NotEqual(1, 2); //message
+        ///        }
+        ///    }
+        ///}.
+        /// </summary>
+        internal static string TestAreNotEqualMessage_out {
+            get {
+                return ResourceManager.GetString("TestAreNotEqualMessage_out", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///namespace MsTestToXunitConverter.xUnit
+        ///{
+        ///    class TestClass
+        ///    {
+        ///        public void TestAreNotSameMessage()
+        ///        {
+        ///            Assert.AreNotSame(1, 1, &quot;message&quot;);
+        ///        }
+        ///    }
+        ///}.
+        /// </summary>
+        internal static string TestAreNotSameMessage {
+            get {
+                return ResourceManager.GetString("TestAreNotSameMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using Xunit;
+        ///namespace MsTestToXunitConverter.xUnit
+        ///{
+        ///    class TestClass
+        ///    {
+        ///        public void TestMessage()
+        ///        {
+        ///            Assert.NotSame(1, 1); //message
+        ///        }
+        ///    }
+        ///}.
+        /// </summary>
+        internal static string TestAreNotSameMessage_out {
+            get {
+                return ResourceManager.GetString("TestAreNotSameMessage_out", resourceCulture);
             }
         }
         
@@ -996,6 +1140,54 @@ namespace MsTestToXunitConverter.xUnit.Properties {
         internal static string TestAreSame_out {
             get {
                 return ResourceManager.GetString("TestAreSame_out", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///namespace MsTestToXunitConverter.xUnit
+        ///{
+        ///    class TestClass
+        ///    {
+        ///        public void TestAreSameMessage()
+        ///        {
+        ///            Assert.AreSame(1, 1, &quot;message&quot;);
+        ///        }
+        ///    }
+        ///}.
+        /// </summary>
+        internal static string TestAreSameMessage {
+            get {
+                return ResourceManager.GetString("TestAreSameMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using Xunit;
+        ///namespace MsTestToXunitConverter.xUnit
+        ///{
+        ///    class TestClass
+        ///    {
+        ///        public void TestAreSameMessage()
+        ///        {
+        ///            Assert.Same(1, 1); //message
+        ///        }
+        ///    }
+        ///}.
+        /// </summary>
+        internal static string TestAreSameMessage_out {
+            get {
+                return ResourceManager.GetString("TestAreSameMessage_out", resourceCulture);
             }
         }
         
@@ -1132,7 +1324,7 @@ namespace MsTestToXunitConverter.xUnit.Properties {
         ///    {
         ///        public void TestFail()
         ///        {
-        ///            Assert.False(true);
+        ///            Assert.True(false);
         ///        }
         ///    }
         ///}.
@@ -1180,7 +1372,7 @@ namespace MsTestToXunitConverter.xUnit.Properties {
         ///    {
         ///        public void TestFailMessage()
         ///        {
-        ///            Assert.False(true, &quot;message&quot;);
+        ///            Assert.True(false, &quot;message&quot;);
         ///        }
         ///    }
         ///}.
@@ -1204,7 +1396,7 @@ namespace MsTestToXunitConverter.xUnit.Properties {
         ///    {
         ///        public void TestInconculsive()
         ///        {
-        ///            Assert.Inconclusive(&quot;This should get commented out&quot;);
+        ///            Assert.Inconclusive(&quot;This used to be inconclusive. We set as failure so the user can run tests immediately.&quot;);
         ///        }
         ///    }
         ///}.
@@ -1228,7 +1420,7 @@ namespace MsTestToXunitConverter.xUnit.Properties {
         ///    {
         ///        public void TestInconculsive()
         ///        {
-        ///            //Assert.Inconclusive(&quot;This should get commented out&quot;);
+        ///            Assert.True(false, &quot;This used to be inconclusive. We set as failure so the user can run tests immediately.&quot;);
         ///        }
         ///    }
         ///}.
@@ -1284,6 +1476,54 @@ namespace MsTestToXunitConverter.xUnit.Properties {
         internal static string TestIsFalse_out {
             get {
                 return ResourceManager.GetString("TestIsFalse_out", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///namespace MsTestToXunitConverter.xUnit
+        ///{
+        ///    class TestClass
+        ///    {
+        ///        public void TestIsFalseMessage()
+        ///        {
+        ///            Assert.IsFalse(true, &quot;message&quot;);
+        ///        }
+        ///    }
+        ///}.
+        /// </summary>
+        internal static string TestIsFalseMessage {
+            get {
+                return ResourceManager.GetString("TestIsFalseMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using Xunit;
+        ///namespace MsTestToXunitConverter.xUnit
+        ///{
+        ///    class TestClass
+        ///    {
+        ///        public void TestMessage()
+        ///        {
+        ///            Assert.False(true, &quot;message&quot;);
+        ///        }
+        ///    }
+        ///}.
+        /// </summary>
+        internal static string TestIsFalseMessage_out {
+            get {
+                return ResourceManager.GetString("TestIsFalseMessage_out", resourceCulture);
             }
         }
         
@@ -1396,6 +1636,54 @@ namespace MsTestToXunitConverter.xUnit.Properties {
         ///{
         ///    class TestClass
         ///    {
+        ///        public void TestIsNotInstanceOfTypeMessage()
+        ///        {
+        ///            Assert.IsNotInstanceOfType(1, typeof(Int32), &quot;message&quot;);
+        ///        }
+        ///    }
+        ///}.
+        /// </summary>
+        internal static string TestIsNotInstanceOfTypeMessage {
+            get {
+                return ResourceManager.GetString("TestIsNotInstanceOfTypeMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using Xunit;
+        ///namespace MsTestToXunitConverter.xUnit
+        ///{
+        ///    class TestClass
+        ///    {
+        ///        public void TestIsNotInstanceOfTypeMessage()
+        ///        {
+        ///            Assert.IsNotType&lt;Int32&gt;(1); //message
+        ///        }
+        ///    }
+        ///}.
+        /// </summary>
+        internal static string TestIsNotInstanceOfTypeMessage_out {
+            get {
+                return ResourceManager.GetString("TestIsNotInstanceOfTypeMessage_out", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///namespace MsTestToXunitConverter.xUnit
+        ///{
+        ///    class TestClass
+        ///    {
         ///        public void TestIsNotNull()
         ///        {
         ///            int? x = 1;
@@ -1432,6 +1720,59 @@ namespace MsTestToXunitConverter.xUnit.Properties {
         internal static string TestIsNotNull_out {
             get {
                 return ResourceManager.GetString("TestIsNotNull_out", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///namespace MsTestToXunitConverter.xUnit
+        ///{
+        ///    class TestClass
+        ///    {
+        ///        public void TestIsNotNullMessage()
+        ///        {
+        ///            Assert.IsNotNull(1, &quot;message&quot;);
+        ///        }
+        ///    }
+        ///}.
+        /// </summary>
+        internal static string TestIsNotNullMessage {
+            get {
+                return ResourceManager.GetString("TestIsNotNullMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using Xunit;
+        ///namespace MsTestToXunitConverter.xUnit
+        ///{
+        ///    class TestClass
+        ///    {
+        ///        public void TestMessage()
+        ///        {
+        ///            Assert.Equal(1, 2); //message
+        ///            
+        ///            Assert.NotEqual(1, 2); //message
+        ///            
+        ///            Assert.NotSame(1, 1); //message
+        ///            
+        ///            Assert.Same(1, 1); //message
+        ///            
+        ///            Assert.IsNotType [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string TestIsNotNullMessage_out {
+            get {
+                return ResourceManager.GetString("TestIsNotNullMessage_out", resourceCulture);
             }
         }
         

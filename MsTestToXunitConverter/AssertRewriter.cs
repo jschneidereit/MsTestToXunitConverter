@@ -3,6 +3,7 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Formatting;
 using System;
+using System.Linq;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
 namespace MsTestToXunitConverter
@@ -56,9 +57,25 @@ namespace MsTestToXunitConverter
             return invocation.WithAdditionalAnnotations(Formatter.Annotation);
         }
 
-        internal static InvocationExpressionSyntax RewriteMessage(InvocationExpressionSyntax invocation)
+        private static InvocationExpressionSyntax RewriteMessage(this InvocationExpressionSyntax invocation, SemanticModel model)
         {
-            throw new NotImplementedException();
+            var method = model?.GetSymbolInfo(invocation).Symbol as IMethodSymbol;
+            if (method == null)
+            {
+                return invocation;
+            }
+
+            var message = method.Parameters.FirstOrDefault(p => p.Name.Equals("message", StringComparison.OrdinalIgnoreCase));
+            if (message == null)
+            {
+                return invocation;
+            }
+
+            var parameter = invocation.ArgumentList.Arguments.ElementAt(message.Ordinal);
+            var comment = Comment(parameter.Expression.ToString());
+            
+            invocation = invocation.WithTrailingTrivia(comment);
+            return invocation.WithArgumentList(invocation.ArgumentList.WithArguments(invocation.ArgumentList.Arguments.RemoveAt(message.Ordinal)));
         }
 
         internal static InvocationExpressionSyntax RewriteInconclusive(this InvocationExpressionSyntax invocation)
@@ -66,19 +83,24 @@ namespace MsTestToXunitConverter
             return invocation.InvocationRewriter("Assert.Inconclusive", "Fail").RewriteFail();
         }
 
-        internal static InvocationExpressionSyntax RewriteAreEqual(this InvocationExpressionSyntax invocation)
+        internal static InvocationExpressionSyntax RewriteAreEqual(this InvocationExpressionSyntax invocation, SemanticModel model)
         {
-            return invocation.InvocationRewriter("Assert.AreEqual", "Equal");
+            return invocation.RewriteMessage(model).InvocationRewriter("Assert.AreEqual", "Equal");
         }
 
-        internal static InvocationExpressionSyntax RewriteAreNotEqual(this InvocationExpressionSyntax invocation)
+        internal static InvocationExpressionSyntax RewriteAreNotEqual(this InvocationExpressionSyntax invocation, SemanticModel model)
         {
-            return invocation.InvocationRewriter("Assert.AreNotEqual", "NotEqual");
+            return invocation.RewriteMessage(model).InvocationRewriter("Assert.AreNotEqual", "NotEqual");
         }
 
-        internal static InvocationExpressionSyntax RewriteAreSame(this InvocationExpressionSyntax invocation)
+        internal static InvocationExpressionSyntax RewriteAreNotSame(this InvocationExpressionSyntax invocation, SemanticModel model)
         {
-            return invocation.InvocationRewriter("Assert.AreSame", "Same");
+            return invocation.RewriteMessage(model).InvocationRewriter("Assert.AreNotSame", "NotSame");
+        }
+
+        internal static InvocationExpressionSyntax RewriteAreSame(this InvocationExpressionSyntax invocation, SemanticModel model)
+        {
+            return invocation.RewriteMessage(model).InvocationRewriter("Assert.AreSame", "Same");
         }
 
         internal static InvocationExpressionSyntax RewriteContains(this InvocationExpressionSyntax invocation)
@@ -91,9 +113,9 @@ namespace MsTestToXunitConverter
             return invocation; //Nothing special to do
         }
 
-        internal static InvocationExpressionSyntax RewriteIsFalse(this InvocationExpressionSyntax invocation)
+        internal static InvocationExpressionSyntax RewriteIsFalse(this InvocationExpressionSyntax invocation, SemanticModel model)
         {
-            return invocation.InvocationRewriter("Assert.IsFalse", "False");
+            return invocation.RewriteMessage(model).InvocationRewriter("Assert.IsFalse", "False");
         }
 
         private static InvocationExpressionSyntax RewriteOfType(this InvocationExpressionSyntax invocation, string from, string to)
@@ -123,24 +145,24 @@ namespace MsTestToXunitConverter
             return invocation.InvocationRewriter(from, to, func: func);
         }
 
-        internal static InvocationExpressionSyntax RewriteIsInstanceOfType(this InvocationExpressionSyntax invocation)
+        internal static InvocationExpressionSyntax RewriteIsInstanceOfType(this InvocationExpressionSyntax invocation, SemanticModel model)
         {
-            return invocation.RewriteOfType("Assert.IsInstanceOfType", "IsType");
+            return invocation.RewriteMessage(model).RewriteOfType("Assert.IsInstanceOfType", "IsType");
         }
 
-        internal static InvocationExpressionSyntax RewriteIsNotInstanceOfType(this InvocationExpressionSyntax invocation)
+        internal static InvocationExpressionSyntax RewriteIsNotInstanceOfType(this InvocationExpressionSyntax invocation, SemanticModel model)
         {
-            return invocation.RewriteOfType("Assert.IsNotInstanceOfType", "IsNotType");
+            return invocation.RewriteMessage(model).RewriteOfType("Assert.IsNotInstanceOfType", "IsNotType");
         }
 
-        internal static InvocationExpressionSyntax RewriteIsNotNull(this InvocationExpressionSyntax invocation)
+        internal static InvocationExpressionSyntax RewriteIsNotNull(this InvocationExpressionSyntax invocation, SemanticModel model)
         {
-            return invocation.InvocationRewriter("Assert.IsNotNull", "NotNull");
+            return invocation.RewriteMessage(model).InvocationRewriter("Assert.IsNotNull", "NotNull");
         }
 
-        internal static InvocationExpressionSyntax RewriteIsNull(this InvocationExpressionSyntax invocation)
+        internal static InvocationExpressionSyntax RewriteIsNull(this InvocationExpressionSyntax invocation, SemanticModel model)
         {
-            return invocation.InvocationRewriter("Assert.IsNull", "Null");
+            return invocation.RewriteMessage(model).InvocationRewriter("Assert.IsNull", "Null");
         }
 
         internal static InvocationExpressionSyntax RewriteIsTrue(this InvocationExpressionSyntax invocation)

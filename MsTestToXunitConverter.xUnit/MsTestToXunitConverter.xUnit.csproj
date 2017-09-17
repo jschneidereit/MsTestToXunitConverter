@@ -221,10 +221,46 @@
     <None Include="Resources\AssertInvocations\TestFail.out.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Resources\AssertInvocations\TestMessage.cs">
+    <None Include="Resources\AssertInvocations\TestIsFalseMessage.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Resources\AssertInvocations\TestMessage.out.cs">
+    <None Include="Resources\AssertInvocations\TestIsFalseMessage.out.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\AssertInvocations\TestAreEqualMessage.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\AssertInvocations\TestAreEqualMessage.out.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\AssertInvocations\TestAreNotEqualMessage.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\AssertInvocations\TestAreNotEqualMessage.out.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\AssertInvocations\TestAreNotSameMessage.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\AssertInvocations\TestAreNotSameMessage.out.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\AssertInvocations\TestAreSameMessage.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\AssertInvocations\TestAreSameMessage.out.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\AssertInvocations\TestIsNotInstanceOfTypeMessage.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\AssertInvocations\TestIsNotInstanceOfTypeMessage.out.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\AssertInvocations\TestIsNotNullMessage.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\AssertInvocations\TestIsNotNullMessage.out.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <Compile Include="UsingsReplaceTest.cs" />

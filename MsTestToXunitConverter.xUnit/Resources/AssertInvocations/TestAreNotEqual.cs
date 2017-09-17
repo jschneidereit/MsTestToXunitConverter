@@ -8,6 +8,7 @@ namespace MsTestToXunitConverter.xUnit
 {
     class TestClass
     {
+        [Testmethod]
         public void TestAreNotEqual()
         {
             Assert.AreNotEqual(1, 2);
