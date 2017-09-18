@@ -72,10 +72,20 @@ namespace MsTestToXunitConverter
                 return invocation;
             }
 
+            var semicolon = invocation.Parent.DescendantNodesAndTokensAndSelf().ToList().Where(n => n.ToString() == ";").LastOrDefault().AsToken();
             var parameter = invocation.ArgumentList.Arguments.ElementAt(message.Ordinal);
-            var comment = Comment(parameter.Expression.ToString());
+            var comment = Comment($"/*{parameter.Expression.ToFullString()}*/");
             
-            invocation = invocation.WithTrailingTrivia(comment);
+            if (semicolon != null)
+            {
+                //I have a feeling this is incredibly wrong...just want to get something in git at this point
+                invocation = invocation.InsertTriviaAfter(semicolon.TrailingTrivia.Last(), new[] { comment });
+            }
+            else
+            {
+                invocation = invocation.WithTrailingTrivia(invocation.GetTrailingTrivia().Add(comment));
+            }
+
             return invocation.WithArgumentList(invocation.ArgumentList.WithArguments(invocation.ArgumentList.Arguments.RemoveAt(message.Ordinal)));
         }
 
