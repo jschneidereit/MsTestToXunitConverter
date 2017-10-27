@@ -20,6 +20,7 @@ namespace MsTestToXunitConverter.xUnit
         private static string GetTestFile(string name) => Resources.First(t => t.Key.Equals(name, StringComparison.OrdinalIgnoreCase)).Value;
 
         private static readonly ImmutableArray<MetadataReference> _coreReferences = ImmutableArray.Create<MetadataReference>(
+            MetadataReference.CreateFromFile(typeof(Type).Assembly.Location),
             MetadataReference.CreateFromFile(typeof(object).Assembly.Location),
             MetadataReference.CreateFromFile(typeof(Enumerable).Assembly.Location),
             MetadataReference.CreateFromFile(typeof(CSharpCompilation).Assembly.Location),
@@ -29,7 +30,8 @@ namespace MsTestToXunitConverter.xUnit
 
         private static readonly Project _baseProject = new AdhocWorkspace()
             .AddProject("Test", LanguageNames.CSharp)
-            .AddMetadataReferences(_coreReferences);
+            .AddMetadataReferences(_coreReferences)
+            .WithCompilationOptions(new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
 
         internal static TestPod GetTestPod(string name)
         {
@@ -39,6 +41,7 @@ namespace MsTestToXunitConverter.xUnit
 
             var semanticModel = actualDoc.GetSemanticModelAsync().Result;
 
+            var diagnostics = semanticModel.Compilation.GetDiagnostics();
             var expectedSrc = GetTestFile($"{name}_out");
             var expectedDoc = _baseProject.AddDocument(name: $"{name}.out.cs", text: expectedSrc, filePath: $"{name}.out.cs");
             var expectedRoot = expectedDoc.GetSyntaxRootAsync().Result;

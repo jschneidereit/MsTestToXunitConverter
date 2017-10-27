@@ -47,8 +47,8 @@ namespace MsTestToXunitConverter.xUnit
             actual = await Formatter.FormatAsync(actual, annotation: annotation);
             var expected = pod.ExpectedDocument;
 
-            var actual_string = (await actual.GetSyntaxRootAsync())?.GetInvocation().ToString(); //.ToEnvNewlineString();
-            var expect_string = (await expected.GetSyntaxRootAsync())?.GetInvocation().ToString(); //.ToEnvNewlineString();
+            var actual_string = (await actual.GetSyntaxRootAsync())?.GetInvocation().ToEnvNewlineString();
+            var expect_string = (await expected.GetSyntaxRootAsync())?.GetInvocation().ToEnvNewlineString();
 
             Assert.Equal(expected: expect_string, actual: actual_string);
         }

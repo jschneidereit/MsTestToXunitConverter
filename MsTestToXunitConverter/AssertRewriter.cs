@@ -60,6 +60,9 @@ namespace MsTestToXunitConverter
 
         private static InvocationExpressionSyntax RewriteMessage(this InvocationExpressionSyntax invocation, SemanticModel model)
         {
+            //Getting OverloadResolutionFailure here :(
+
+            var x = model?.GetSymbolInfo(invocation);
             var method = model?.GetSymbolInfo(invocation).Symbol as IMethodSymbol;
             if (method == null)
             {
@@ -75,7 +78,7 @@ namespace MsTestToXunitConverter
             var semicolon = invocation.Parent.DescendantNodesAndTokensAndSelf().ToList().Where(n => n.ToString() == ";").LastOrDefault().AsToken();
             var parameter = invocation.ArgumentList.Arguments.ElementAt(message.Ordinal);
             var comment = Comment($"/*{parameter.Expression.ToFullString()}*/");
-            
+
             if (semicolon != null)
             {
                 //I have a feeling this is incredibly wrong...just want to get something in git at this point
@@ -135,19 +138,20 @@ namespace MsTestToXunitConverter
             {
                 if (i.Expression is MemberAccessExpressionSyntax mae)
                 {
-                    var oldArgs = i.ArgumentList.Arguments;
-                    var typeArg = oldArgs.Last();
-                    var typeofExpr = (TypeOfExpressionSyntax)typeArg.Expression;
+                    //TypeOfExpression()
+                    var oldArguments = i.ArgumentList.Arguments;
+
+                    //I promise oldArgs.OfType<TypeOfExpressionSyntax>() does not work... but not sure why. TODO: be more elegant
+                    var argument = oldArguments.First(t => t.ToString().StartsWith("typeof"));
+                    var typeofExpr = argument?.Expression as TypeOfExpressionSyntax;
+                    if (typeofExpr == null) { return i; }
 
                     var genericName = GenericName(
                         ParseToken(to),
                         TypeArgumentList(SingletonSeparatedList(typeofExpr.Type)));
 
-                    var newArgs = i.ArgumentList.WithArguments(oldArgs.RemoveAt(oldArgs.Count - 1));
-
-                    return i
-                        .WithExpression(mae.WithName(genericName))
-                        .WithArgumentList(newArgs);
+                    var newArgs = i.ArgumentList.WithArguments(oldArguments.Remove(argument));
+                    return i.WithExpression(mae.WithName(genericName)).WithArgumentList(newArgs);
                 }
 
                 return i;
