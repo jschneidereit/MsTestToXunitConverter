@@ -79,17 +79,30 @@ namespace MsTestToXunitConverter
             var parameter = invocation.ArgumentList.Arguments.ElementAt(message.Ordinal);
             var comment = Comment($"/*{parameter.Expression.ToFullString()}*/");
 
+            //invocation = invocation.WithArgumentList(invocation.ArgumentList.WithArguments(invocation.ArgumentList.Arguments.RemoveAt(message.Ordinal)));
+
             if (semicolon != null)
             {
                 //I have a feeling this is incredibly wrong...just want to get something in git at this point
-                invocation = invocation.InsertTriviaAfter(semicolon.TrailingTrivia.Last(), new[] { comment });
+                invocation = invocation.ReplaceToken(semicolon, Token(
+            TriviaList(),
+            SyntaxKind.CloseParenToken,
+            TriviaList(
+                new[]{
+                    Trivia(
+                        SkippedTokensTrivia()
+                        .WithTokens(
+                            TokenList(
+                                Token(SyntaxKind.SemicolonToken)))),
+                    Comment("/* please work */")})));
+                
             }
             else
             {
-                invocation = invocation.WithTrailingTrivia(invocation.GetTrailingTrivia().Add(comment));
+                invocation.WithTrailingTrivia(comment);
             }
 
-            return invocation.WithArgumentList(invocation.ArgumentList.WithArguments(invocation.ArgumentList.Arguments.RemoveAt(message.Ordinal)));
+            return invocation;
         }
 
         internal static InvocationExpressionSyntax RewriteInconclusive(this InvocationExpressionSyntax invocation)

@@ -20,6 +20,7 @@ namespace MsTestToXunitConverter.xUnit
         private static string GetTestFile(string name) => Resources.First(t => t.Key.Equals(name, StringComparison.OrdinalIgnoreCase)).Value;
 
         private static readonly ImmutableArray<MetadataReference> _coreReferences = ImmutableArray.Create<MetadataReference>(
+            MetadataReference.CreateFromFile(@"C:\\Program Files (x86)\\Reference Assemblies\\Microsoft\\Framework\\.NETFramework\v4.6.1\\Facades\\System.Runtime.dll"),
             MetadataReference.CreateFromFile(typeof(Type).Assembly.Location),
             MetadataReference.CreateFromFile(typeof(object).Assembly.Location),
             MetadataReference.CreateFromFile(typeof(Enumerable).Assembly.Location),
@@ -41,7 +42,16 @@ namespace MsTestToXunitConverter.xUnit
 
             var semanticModel = actualDoc.GetSemanticModelAsync().Result;
 
-            var diagnostics = semanticModel.Compilation.GetDiagnostics();
+            var diagnosticErrors = semanticModel.Compilation.GetDiagnostics().Where(d => d.Severity == DiagnosticSeverity.Error);
+            if (diagnosticErrors.Any())
+            {
+                throw new InvalidProgramException($"Got {diagnosticErrors.Count()} Errors on Adhoc compilation");
+            }            
+
+            //TODO: semanticModel.Compilation.GetDiagnostics()
+            //[0]: TestIsNotInstanceOfTypeMessage.cs(13,20): error CS0012: The type 'Object' is defined in an assembly that is not referenced.You must add a reference to assembly 'System.Runtime, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a'.
+            //[1]: TestIsNotInstanceOfTypeMessage.cs(13,13): error CS0012: The type 'Type' is defined in an assembly that is not referenced.You must add a reference to assembly 'System.Runtime, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a'.
+
             var expectedSrc = GetTestFile($"{name}_out");
             var expectedDoc = _baseProject.AddDocument(name: $"{name}.out.cs", text: expectedSrc, filePath: $"{name}.out.cs");
             var expectedRoot = expectedDoc.GetSyntaxRootAsync().Result;
