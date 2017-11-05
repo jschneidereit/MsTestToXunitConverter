@@ -3,6 +3,7 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Formatting;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
@@ -13,6 +14,21 @@ namespace MsTestToXunitConverter
     /// </summary>
     internal static class AssertRewriter
     {
+        private static Dictionary<string, string> AssertMappingDictionary = new Dictionary<string, string>
+        {
+            ["Assert.Fail"] = "True",
+            ["Assert.Inconclusive"] = "Fail",
+            ["Assert.AreEqual"] = "Equal",
+            ["Assert.AreNotEqual"] = "NotEqual",
+            ["Assert.AreNotSame"] = "NotSame",
+            ["Assert.AreSame"] = "Same",
+            ["Assert.IsFalse"] = "False",
+            ["Assert."] = "",
+            ["Assert."] = "",
+            ["Assert."] = "",
+            ["StringAssert.Contains"] = "",
+        }
+
         private static InvocationExpressionSyntax InvocationRewriter(this InvocationExpressionSyntax invocation, string from, string to, IdentifierNameSyntax identifier = null, Func<InvocationExpressionSyntax, InvocationExpressionSyntax> func = null)
         {
             if (invocation.Expression.Kind() != SyntaxKind.SimpleMemberAccessExpression)
@@ -58,58 +74,30 @@ namespace MsTestToXunitConverter
             return invocation.WithAdditionalAnnotations(Formatter.Annotation);
         }
 
-        private static InvocationExpressionSyntax RewriteMessage(this InvocationExpressionSyntax invocation, SemanticModel model)
+        private static ExpressionStatementSyntax RewriteAssert(this ExpressionStatementSyntax expression, SemanticModel model, string from, string to)
         {
-            //Getting OverloadResolutionFailure here :(
+            var invocation = expression.Expression as InvocationExpressionSyntax;
 
-            var x = model?.GetSymbolInfo(invocation);
             var method = model?.GetSymbolInfo(invocation).Symbol as IMethodSymbol;
-            if (method == null)
-            {
-                return invocation;
-            }
+            if (method == null) { return expression; }
 
             var message = method.Parameters.FirstOrDefault(p => p.Name.Equals("message", StringComparison.OrdinalIgnoreCase));
-            if (message == null)
-            {
-                return invocation;
-            }
+            if (message == null) { return expression; }
 
-            var semicolon = invocation.Parent.DescendantNodesAndTokensAndSelf().ToList().Where(n => n.ToString() == ";").LastOrDefault().AsToken();
             var parameter = invocation.ArgumentList.Arguments.ElementAt(message.Ordinal);
             var comment = Comment($"/*{parameter.Expression.ToFullString()}*/");
 
-            //invocation = invocation.WithArgumentList(invocation.ArgumentList.WithArguments(invocation.ArgumentList.Arguments.RemoveAt(message.Ordinal)));
+            expression = expression.InsertTriviaAfter(expression.SemicolonToken.TrailingTrivia.Last(), new[] { comment });
+            expression = expression.ReplaceNode(invocation, invocation.WithArgumentList(invocation.ArgumentList.WithArguments(invocation.ArgumentList.Arguments.RemoveAt(message.Ordinal))));
 
-            if (semicolon != null)
-            {
-                //I have a feeling this is incredibly wrong...just want to get something in git at this point
-                invocation = invocation.ReplaceToken(semicolon, Token(
-            TriviaList(),
-            SyntaxKind.CloseParenToken,
-            TriviaList(
-                new[]{
-                    Trivia(
-                        SkippedTokensTrivia()
-                        .WithTokens(
-                            TokenList(
-                                Token(SyntaxKind.SemicolonToken)))),
-                    Comment("/* please work */")})));
-                
-            }
-            else
-            {
-                invocation.WithTrailingTrivia(comment);
-            }
-
-            return invocation;
+            return expression;
         }
 
         internal static InvocationExpressionSyntax RewriteInconclusive(this InvocationExpressionSyntax invocation)
         {
             return invocation.InvocationRewriter("Assert.Inconclusive", "Fail").RewriteFail();
         }
-
+        
         internal static InvocationExpressionSyntax RewriteAreEqual(this InvocationExpressionSyntax invocation, SemanticModel model)
         {
             return invocation.RewriteMessage(model).InvocationRewriter("Assert.AreEqual", "Equal");
@@ -130,6 +118,27 @@ namespace MsTestToXunitConverter
             return invocation.RewriteMessage(model).InvocationRewriter("Assert.AreSame", "Same");
         }
 
+        internal static InvocationExpressionSyntax RewriteIsFalse(this InvocationExpressionSyntax invocation, SemanticModel model)
+        {
+            return invocation.RewriteMessage(model).InvocationRewriter("Assert.IsFalse", "False");
+        }
+
+        internal static InvocationExpressionSyntax RewriteIsNotNull(this InvocationExpressionSyntax invocation, SemanticModel model)
+        {
+            return invocation.RewriteMessage(model).InvocationRewriter("Assert.IsNotNull", "NotNull");
+        }
+
+        internal static InvocationExpressionSyntax RewriteIsNull(this InvocationExpressionSyntax invocation, SemanticModel model)
+        {
+            return invocation.RewriteMessage(model).InvocationRewriter("Assert.IsNull", "Null");
+        }
+
+        internal static InvocationExpressionSyntax RewriteIsTrue(this InvocationExpressionSyntax invocation)
+        {
+            return invocation.InvocationRewriter("Assert.IsTrue", "True");
+        }
+
+        #region Special Case Asserts
         internal static InvocationExpressionSyntax RewriteContains(this InvocationExpressionSyntax invocation)
         {
             return invocation.InvocationRewriter("StringAssert.Contains", "Assert.Contains", IdentifierName("Assert"));
@@ -138,13 +147,8 @@ namespace MsTestToXunitConverter
         internal static InvocationExpressionSyntax RewriteDoesNotContain(this InvocationExpressionSyntax invocation)
         {
             return invocation; //Nothing special to do
-        }
-
-        internal static InvocationExpressionSyntax RewriteIsFalse(this InvocationExpressionSyntax invocation, SemanticModel model)
-        {
-            return invocation.RewriteMessage(model).InvocationRewriter("Assert.IsFalse", "False");
-        }
-
+        }        
+        
         private static InvocationExpressionSyntax RewriteOfType(this InvocationExpressionSyntax invocation, string from, string to)
         {
             Func<InvocationExpressionSyntax, InvocationExpressionSyntax> func = (i) =>
@@ -182,20 +186,9 @@ namespace MsTestToXunitConverter
         {
             return invocation.RewriteMessage(model).RewriteOfType("Assert.IsNotInstanceOfType", "IsNotType");
         }
+        #endregion
 
-        internal static InvocationExpressionSyntax RewriteIsNotNull(this InvocationExpressionSyntax invocation, SemanticModel model)
-        {
-            return invocation.RewriteMessage(model).InvocationRewriter("Assert.IsNotNull", "NotNull");
-        }
 
-        internal static InvocationExpressionSyntax RewriteIsNull(this InvocationExpressionSyntax invocation, SemanticModel model)
-        {
-            return invocation.RewriteMessage(model).InvocationRewriter("Assert.IsNull", "Null");
-        }
 
-        internal static InvocationExpressionSyntax RewriteIsTrue(this InvocationExpressionSyntax invocation)
-        {
-            return invocation.InvocationRewriter("Assert.IsTrue", "True");
-        }
     }
 }
