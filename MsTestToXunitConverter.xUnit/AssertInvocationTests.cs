@@ -15,82 +15,84 @@ namespace MsTestToXunitConverter.xUnit
     {
         private SyntaxAnnotation annotation { get; } = Formatter.Annotation;
 
-        private async Task ExecuteAsyncInvocationTest(string name, Func<InvocationExpressionSyntax, InvocationExpressionSyntax> sut)
+        private async Task ExecuteAsyncInvocationTest(string name, Func<ExpressionStatementSyntax, ExpressionStatementSyntax> sut)
         {
             var pod = ResourceHelper.GetTestPod(name);
-            var target = pod.ActualRoot.GetInvocation();
+            var target = pod.ActualRoot.GetExpressionStatementSyntax();
 
-            var new_root = pod.ActualRoot.ReplaceNode(target, sut(target));
+            var newRoot = pod.ActualRoot.ReplaceNode(target, sut(target));
             
-            var actual = pod.ActualDocument.WithSyntaxRoot(new_root);
+            var actual = pod.ActualDocument.WithSyntaxRoot(newRoot);
             actual = await Formatter.FormatAsync(actual, annotation: annotation);
             var expected = pod.ExpectedDocument;
 
-            var actual_string = (await actual.GetSyntaxRootAsync())?.GetInvocation().ToEnvNewlineString();
-            var expect_string = (await expected.GetSyntaxRootAsync())?.GetInvocation().ToEnvNewlineString();
+            var actualString = (await actual.GetSyntaxRootAsync())?.GetExpressionStatementSyntax().ToEnvNewlineString();
+            var expectString = (await expected.GetSyntaxRootAsync())?.GetExpressionStatementSyntax().ToEnvNewlineString();
 
-            Assert.Equal(expected: expect_string, actual: actual_string);
+            Assert.Equal(expected: expectString, actual: actualString);
         }
 
         //TODO: if only Rikki would let me Curry in C# :P
-        private async Task ExecuteAsyncInvocationTest(string name, Func<InvocationExpressionSyntax, SemanticModel, InvocationExpressionSyntax> sut)
+        private async Task ExecuteAsyncInvocationTest(string name, Func<ExpressionStatementSyntax, SemanticModel, ExpressionStatementSyntax> sut)
         {
             var pod = ResourceHelper.GetTestPod(name);
-            var target = pod.ActualRoot.GetInvocation();
+            var target = pod.ActualRoot.GetExpressionStatementSyntax();
+            var newRoot = pod.ActualRoot.ReplaceNode(target, sut(target, pod.ActualModel));
 
-            var new_root = pod.ActualRoot.ReplaceNode(target, sut(target, pod.ActualModel));
-
-            target = pod.ActualRoot.GetInvocation();
-            new_root = pod.ActualRoot.ReplaceNode(target, sut(target, pod.ActualModel));
-
-            var actual = pod.ActualDocument.WithSyntaxRoot(new_root);
+            var actual = pod.ActualDocument.WithSyntaxRoot(newRoot);
             actual = await Formatter.FormatAsync(actual, annotation: annotation);
             var expected = pod.ExpectedDocument;
 
-            var actual_string = (await actual.GetSyntaxRootAsync())?.GetInvocation().ToEnvNewlineString();
-            var expect_string = (await expected.GetSyntaxRootAsync())?.GetInvocation().ToEnvNewlineString();
+            var actualString = (await actual.GetSyntaxRootAsync())?.GetExpressionStatementSyntax().ToEnvNewlineString();
+            var expectString = (await expected.GetSyntaxRootAsync())?.GetExpressionStatementSyntax().ToEnvNewlineString();
 
-            Assert.Equal(expected: expect_string, actual: actual_string);
+            Assert.Equal(expected: expectString, actual: actualString);
         }
 
         [Fact]
-        public async Task ConvertsAssertFail() => await ExecuteAsyncInvocationTest("TestFail", AssertRewriter.RewriteFail);
+        public async Task ConvertsAssertFail() => await ExecuteAsyncInvocationTest("TestFail", AssertRewriter.RewriteMappedExpression);
 
         [Fact]
-        public async Task ConvertsAreEqualMessage() => await ExecuteAsyncInvocationTest("TestAreEqualMessage", AssertRewriter.RewriteAreEqual);
+        public async Task ConvertsAreEqualMessage() => await ExecuteAsyncInvocationTest("TestAreEqualMessage", AssertRewriter.RewriteMappedExpression);
 
         [Fact]
-        public async Task ConvertsAreNotEqualMessage() => await ExecuteAsyncInvocationTest("TestAreNotEqualMessage", AssertRewriter.RewriteAreNotEqual);
+        public async Task ConvertsAreNotEqualMessage() => await ExecuteAsyncInvocationTest("TestAreNotEqualMessage", AssertRewriter.RewriteMappedExpression);
         
         [Fact]
-        public async Task ConvertsAreSameMessage() => await ExecuteAsyncInvocationTest("TestAreSameMessage", AssertRewriter.RewriteAreSame);
+        public async Task ConvertsAreSameMessage() => await ExecuteAsyncInvocationTest("TestAreSameMessage", AssertRewriter.RewriteMappedExpression);
 
         [Fact]
-        public async Task ConvertsAreNotSameMessage() => await ExecuteAsyncInvocationTest("TestAreNotSameMessage", AssertRewriter.RewriteAreNotSame);
+        public async Task ConvertsAreNotSameMessage() => await ExecuteAsyncInvocationTest("TestAreNotSameMessage", AssertRewriter.RewriteMappedExpression);
 
         [Fact]
-        public async Task ConvertsIsFalseMessage() => await ExecuteAsyncInvocationTest("TestIsFalseMessage", AssertRewriter.RewriteIsFalse);
+        public async Task ConvertsIsFalseMessage() => await ExecuteAsyncInvocationTest("TestIsFalseMessage", AssertRewriter.RewriteMappedExpression);
 
         [Fact]
         public async Task ConvertsIsNotInstanceOfTypeMessage() => await ExecuteAsyncInvocationTest("TestIsNotInstanceOfTypeMessage", AssertRewriter.RewriteIsNotInstanceOfType);
 
         [Fact]
-        public async Task ConvertsIsNotNullMessage() => await ExecuteAsyncInvocationTest("TestIsNotNullMessage", AssertRewriter.RewriteIsNotNull);
+        public async Task ConvertsIsNotNullMessage() => await ExecuteAsyncInvocationTest("TestIsNotNullMessage", AssertRewriter.RewriteMappedExpression);
         
         [Fact]
-        public async Task ConvertsAssertAreEqual() => await ExecuteAsyncInvocationTest("TestAreEqual", AssertRewriter.RewriteAreEqual);
+        public async Task ConvertsAssertAreEqual() => await ExecuteAsyncInvocationTest("TestAreEqual", AssertRewriter.RewriteMappedExpression);
 
         [Fact]
-        public async Task ConvertsAssertAreNotEqual() => await ExecuteAsyncInvocationTest("TestAreNotEqual", AssertRewriter.RewriteAreNotEqual);
+        public async Task ConvertsAssertAreNotEqual() => await ExecuteAsyncInvocationTest("TestAreNotEqual", AssertRewriter.RewriteMappedExpression);
 
         [Fact]
-        public async Task ConvertAssertAreSame() => await ExecuteAsyncInvocationTest("TestAreSame", AssertRewriter.RewriteAreSame);
+        public async Task ConvertAssertAreSame() => await ExecuteAsyncInvocationTest("TestAreSame", AssertRewriter.RewriteMappedExpression);
 
         [Fact]
-        public async Task ConvertsAssertContains() => await ExecuteAsyncInvocationTest("TestContains", AssertRewriter.RewriteContains);
+        public async Task ConvertsAssertIsFalse() => await ExecuteAsyncInvocationTest("TestIsFalse", AssertRewriter.RewriteMappedExpression);
+        
+        [Fact]
+        public async Task ConvertsAssertIsNotNull() => await ExecuteAsyncInvocationTest("TestIsNotNull", AssertRewriter.RewriteMappedExpression);
 
         [Fact]
-        public async Task ConvertsAssertIsFalse() => await ExecuteAsyncInvocationTest("TestIsFalse", AssertRewriter.RewriteIsFalse);
+        public async Task ConvertsAssertIsNull() => await ExecuteAsyncInvocationTest("TestIsNull", AssertRewriter.RewriteMappedExpression);
+
+        [Fact]
+        public async Task ConvertsAssertIsTrue() => await ExecuteAsyncInvocationTest("TestIsTrue", AssertRewriter.RewriteMappedExpression);
 
         [Fact]
         public async Task ConvertsAssertIsInstanceOfType() => await ExecuteAsyncInvocationTest("TestIsInstanceOfType", AssertRewriter.RewriteIsInstanceOfType);
@@ -99,14 +101,8 @@ namespace MsTestToXunitConverter.xUnit
         public async Task CovnertAssertIsNotInstanceOfType() => await ExecuteAsyncInvocationTest("TestIsNotInstanceOfType", AssertRewriter.RewriteIsNotInstanceOfType);
 
         [Fact]
-        public async Task ConvertsAssertIsNotNull() => await ExecuteAsyncInvocationTest("TestIsNotNull", AssertRewriter.RewriteIsNotNull);
-
-        [Fact]
-        public async Task ConvertsAssertIsNull() => await ExecuteAsyncInvocationTest("TestIsNull", AssertRewriter.RewriteIsNull);
-
-        [Fact]
-        public async Task ConvertsAssertIsTrue() => await ExecuteAsyncInvocationTest("TestIsTrue", AssertRewriter.RewriteIsTrue);
-
+        public async Task ConvertsAssertContains() => await ExecuteAsyncInvocationTest("TestContains", AssertRewriter.RewriteContains);
+        
         [Fact]
         public async Task ConvertsAssertInconclusive() => await ExecuteAsyncInvocationTest("TestInconculsive", AssertRewriter.RewriteInconclusive);
 

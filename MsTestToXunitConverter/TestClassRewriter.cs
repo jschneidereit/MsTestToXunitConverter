@@ -41,13 +41,8 @@ namespace MsTestToXunitConverter
 
         public override SyntaxNode VisitAttribute(AttributeSyntax node)
         {
-            if (AttributeMapping.TryGetValue(node.Name.ToString(), out var result))
-            {
-                return result;
-            }
-
             //return the node instead of the base.VisitAttribute(node) cause we have nothing left to do
-            return node;
+            return AttributeMapping.TryGetValue(node.Name.ToString(), out var result) ? result : node;
         }
         
         public override SyntaxNode VisitClassDeclaration(ClassDeclarationSyntax node)
@@ -73,23 +68,13 @@ namespace MsTestToXunitConverter
 
             return base.VisitUsingDirective(node);
         }
-        
-        public override SyntaxNode VisitInvocationExpression(InvocationExpressionSyntax node)
+
+        public override SyntaxNode VisitExpressionStatement(ExpressionStatementSyntax node)
         {
-            node = node.RewriteAreEqual(model);
-            node = node.RewriteAreNotEqual(model);
-            node = node.RewriteAreSame(model);
             node = node.RewriteContains();
             node = node.RewriteDoesNotContain();
-            //node = node.RewriteInconclusive();
-            node = node.RewriteIsFalse(model);
-            //node = node.RewriteIsInstanceOfType();
-            //node = node.RewriteIsNotInstanceOfType();
-            node = node.RewriteIsNotNull(model);
-            node = node.RewriteIsNull(model);
-            node = node.RewriteIsTrue();
-
-            return base.VisitInvocationExpression(node);
+            
+            return base.VisitExpressionStatement(node);
         }
     }
 }

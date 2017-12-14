@@ -5,17 +5,22 @@ using Microsoft.CodeAnalysis.Formatting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
 namespace MsTestToXunitConverter
 {
     /// <summary>
     /// Implements the transformations described here: https://xunit.github.io/docs/comparisons.html
+    /// 
+    /// TODO rewrite to use:
+    /// <see cref="Microsoft.CodeAnalysis.CSharp.SyntaxNodeExtensions">
+    /// <![CDATA[public static TRoot ReplaceNodes<TRoot, TNode>(this TRoot root, IEnumerable<TNode> nodes, Func<TNode, TNode, SyntaxNode> computeReplacementNode)>]]>
+    /// </see> 
     /// </summary>
     internal static class AssertRewriter
     {
-        private static Dictionary<string, string> _assertMappingDictionary = new Dictionary<string, string>
+        //TODO: rewrite to use SyntaxNodeExtensions. <se
+        private static readonly Dictionary<string, string> AssertMapping = new Dictionary<string, string>
         {
             ["Assert.Fail"] = "True",
             ["Assert.Inconclusive"] = "Fail",
@@ -29,8 +34,29 @@ namespace MsTestToXunitConverter
             ["Assert.IsTrue"] = "True"
         };
 
+        internal static ExpressionStatementSyntax RewriteMappedExpression(this ExpressionStatementSyntax expression,
+            SemanticModel model)
+        {
+            if (!(expression.Expression is InvocationExpressionSyntax invocation))
+            {
+                return expression;
+            }
+
+            var from = invocation.Expression.ToString();
+
+            if (AssertMapping.TryGetValue(from, out var to))
+            {
+                return expression.ExpressionRewriter(model: model, from: from, to: to);
+            }
+            else
+            {
+                return expression;
+            }
+        }
+        
+
         private static ExpressionStatementSyntax ExpressionRewriter(
-            ExpressionStatementSyntax expression, SemanticModel model,
+            this ExpressionStatementSyntax expression, SemanticModel model,
             string from = null, string to = null, IdentifierNameSyntax identifier = null,
             Func<InvocationExpressionSyntax, InvocationExpressionSyntax> func = null)
         {
@@ -44,12 +70,7 @@ namespace MsTestToXunitConverter
                 return expression;
             }
 
-            if (string.IsNullOrWhiteSpace(from) && !_assertMappingDictionary.TryGetValue(invocation.ToString(), out to))
-            {
-                return expression;
-            }
-
-            if (!invocation.ToString().Equals(from, StringComparison.OrdinalIgnoreCase))
+            if (!invocation.Expression.ToString().Equals(from, StringComparison.OrdinalIgnoreCase))
             {
                 return expression;
             }
@@ -75,11 +96,17 @@ namespace MsTestToXunitConverter
             return expression;
         }
 
-        private static ExpressionStatementSyntax RewriteAssertMessage(this ExpressionStatementSyntax expression,
+        private static ExpressionStatementSyntax RewriteAssertMessage(this ExpressionStatementSyntax expression, 
             SemanticModel model)
         {
-            var invocation = expression.Expression as InvocationExpressionSyntax;
+            if (!(expression.Expression is InvocationExpressionSyntax invocation))
+            {
+                return expression;
+            }
 
+            model.TryGetSpeculativeSemanticModel(invocation.GetLocation())
+
+            //TODO: the invocation has changed and so the semantic model isn't valid anymore
             if (!(model?.GetSymbolInfo(invocation).Symbol is IMethodSymbol method))
             {
                 return expression;
@@ -107,31 +134,33 @@ namespace MsTestToXunitConverter
         
         internal static ExpressionStatementSyntax RewriteInconclusive(this ExpressionStatementSyntax expression)
         {
-            return invocation.InvocationRewriter("Assert.Inconclusive", "Fail").RewriteFail();
+            return expression.ExpressionRewriter(model: null, from: "Assert.Inconclusive", to: "Fail").RewriteFail();
         }
         
         internal static ExpressionStatementSyntax RewriteFail(this ExpressionStatementSyntax expression)
         {
-            Func<InvocationExpressionSyntax, InvocationExpressionSyntax> func = (i) =>
+            InvocationExpressionSyntax Func(InvocationExpressionSyntax i)
             {
                 var args = i.ArgumentList.Arguments.Insert(0, Argument(ParseExpression("false")));
                 return i.WithArgumentList(i.ArgumentList.WithArguments(args));
-            };
+            }
 
-            expression = expression.ExpressionRewriter("Assert.Fail", "True", func: func);
+            expression = expression.ExpressionRewriter(model: null, from: "Assert.Fail", to: "True",
+                func: (Func<InvocationExpressionSyntax, InvocationExpressionSyntax>) Func);
 
             //TODO: Using the Formatter.Annotation like this seems like a smell, I'd rather make it a parameter to this function.
-            return invocation.WithAdditionalAnnotations(Formatter.Annotation);
+            return expression.WithAdditionalAnnotations(Formatter.Annotation);
         }
 
         internal static ExpressionStatementSyntax RewriteContains(this ExpressionStatementSyntax expression)
         {
-            return invocation.InvocationRewriter("StringAssert.Contains", "Assert.Contains", IdentifierName("Assert"));
+            return expression.ExpressionRewriter(model: null, from: "StringAssert.Contains", to: "Assert.Contains",
+                identifier: IdentifierName("Assert"));
         }
 
         internal static ExpressionStatementSyntax RewriteDoesNotContain(this ExpressionStatementSyntax expression)
         {
-            return invocation; //Nothing special to do
+            return expression; //Nothing special to do for now
         }
 
         private static ExpressionStatementSyntax RewriteOfType(this ExpressionStatementSyntax expression, string from,
@@ -145,8 +174,7 @@ namespace MsTestToXunitConverter
 
                 //I promise oldArgs.OfType<TypeOfExpressionSyntax>() does not work... but not sure why. TODO: be more elegant
                 var argument = oldArguments.First(t => t.ToString().StartsWith("typeof"));
-                var typeofExpr = argument?.Expression as TypeOfExpressionSyntax;
-                if (typeofExpr == null)
+                if (!(argument?.Expression is TypeOfExpressionSyntax typeofExpr))
                 {
                     return i;
                 }
@@ -159,7 +187,7 @@ namespace MsTestToXunitConverter
                 return i.WithExpression(mae.WithName(genericName)).WithArgumentList(newArgs);
             };
 
-            return expression.ExpressionRewriter(from, to, func: func);
+            return expression.ExpressionRewriter(model: null, from: from, to: to, func: func);
         }
 
         internal static ExpressionStatementSyntax RewriteIsInstanceOfType(this ExpressionStatementSyntax expression,

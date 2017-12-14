@@ -64,9 +64,9 @@ namespace MsTestToXunitConverter.xUnit
 
         public static Func<TArg1, TResult> Apply<TArg1, TArg2, TResult>(this Func<TArg1, TArg2, TResult> func, TArg2 arg2) => arg1 => func(arg1, arg2);
 
-        internal static InvocationExpressionSyntax GetInvocation(this SyntaxNode node)
+        internal static ExpressionStatementSyntax GetExpressionStatementSyntax(this SyntaxNode node)
         {
-            return node.DescendantNodes().OfType<InvocationExpressionSyntax>().Single();
+            return node.DescendantNodes().OfType<ExpressionStatementSyntax>().Single();
         }
 
         internal static ClassDeclarationSyntax GetClass(this SyntaxNode node, string name)
