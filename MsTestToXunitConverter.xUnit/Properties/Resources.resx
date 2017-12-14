@@ -211,17 +211,41 @@
   <data name="TestAreEqual" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\AssertInvocations\TestAreEqual.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
+  <data name="TestAreEqualMessage" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\AssertInvocations\TestAreEqualMessage.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="TestAreEqualMessage_out" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\AssertInvocations\TestAreEqualMessage.out.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
   <data name="TestAreEqual_out" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\AssertInvocations\TestAreEqual.out.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
   <data name="TestAreNotEqual" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\AssertInvocations\TestAreNotEqual.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
+  <data name="TestAreNotEqualMessage" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\AssertInvocations\TestAreNotEqualMessage.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="TestAreNotEqualMessage_out" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\AssertInvocations\TestAreNotEqualMessage.out.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
   <data name="TestAreNotEqual_out" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\AssertInvocations\TestAreNotEqual.out.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
+  <data name="TestAreNotSameMessage" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\AssertInvocations\TestAreNotSameMessage.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="TestAreNotSameMessage_out" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\AssertInvocations\TestAreNotSameMessage.out.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
   <data name="TestAreSame" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\AssertInvocations\TestAreSame.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="TestAreSameMessage" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\AssertInvocations\TestAreSameMessage.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="TestAreSameMessage_out" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\AssertInvocations\TestAreSameMessage.out.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
   <data name="TestAreSame_out" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\AssertInvocations\TestAreSame.out.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
@@ -259,6 +283,12 @@
   <data name="TestIsFalse" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\AssertInvocations\TestIsFalse.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
+  <data name="TestIsFalseMessage" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\AssertInvocations\TestIsFalseMessage.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="TestIsFalseMessage_out" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\AssertInvocations\TestIsFalseMessage.out.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
   <data name="TestIsFalse_out" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\AssertInvocations\TestIsFalse.out.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
@@ -271,11 +301,23 @@
   <data name="TestIsNotInstanceOfType" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\AssertInvocations\TestIsNotInstanceOfType.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
+  <data name="TestIsNotInstanceOfTypeMessage" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\AssertInvocations\TestIsNotInstanceOfTypeMessage.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="TestIsNotInstanceOfTypeMessage_out" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\AssertInvocations\TestIsNotInstanceOfTypeMessage.out.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
   <data name="TestIsNotInstanceOfType_out" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\AssertInvocations\TestIsNotInstanceOfType.out.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
   <data name="TestIsNotNull" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\AssertInvocations\TestIsNotNull.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="TestIsNotNullMessage" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\AssertInvocations\TestIsNotNullMessage.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="TestIsNotNullMessage_out" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\AssertInvocations\TestIsNotNullMessage.out.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
   <data name="TestIsNotNull_out" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\AssertInvocations\TestIsNotNull.out.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>

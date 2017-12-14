@@ -16,10 +16,12 @@ namespace MsTestToXunitConverter
     {
         private readonly Document document;
         private readonly SyntaxAnnotation annotation = Formatter.Annotation;
+        private readonly SemanticModel model;
 
         internal TestClassRewriter(Document doc)
         {
             document = doc;
+            model = doc.GetSemanticModelAsync().Result;
         }
 
         public async Task<SyntaxNode> VisitSyntaxRoot(SyntaxNode node)
@@ -39,13 +41,8 @@ namespace MsTestToXunitConverter
 
         public override SyntaxNode VisitAttribute(AttributeSyntax node)
         {
-            if (AttributeMapping.TryGetValue(node.Name.ToString(), out var result))
-            {
-                return result;
-            }
-
             //return the node instead of the base.VisitAttribute(node) cause we have nothing left to do
-            return node;
+            return AttributeMapping.TryGetValue(node.Name.ToString(), out var result) ? result : node;
         }
         
         public override SyntaxNode VisitClassDeclaration(ClassDeclarationSyntax node)
@@ -72,22 +69,12 @@ namespace MsTestToXunitConverter
             return base.VisitUsingDirective(node);
         }
 
-        public override SyntaxNode VisitInvocationExpression(InvocationExpressionSyntax node)
+        public override SyntaxNode VisitExpressionStatement(ExpressionStatementSyntax node)
         {
-            node = node.RewriteAreEqual();
-            node = node.RewriteAreNotEqual();
-            node = node.RewriteAreSame();
             node = node.RewriteContains();
             node = node.RewriteDoesNotContain();
-            //node = node.RewriteInconclusive();
-            node = node.RewriteIsFalse();
-            //node = node.RewriteIsInstanceOfType();
-            //node = node.RewriteIsNotInstanceOfType();
-            node = node.RewriteIsNotNull();
-            node = node.RewriteIsNull();
-            node = node.RewriteIsTrue();
-
-            return base.VisitInvocationExpression(node);
+            
+            return base.VisitExpressionStatement(node);
         }
     }
 }

@@ -3,15 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Xunit;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace MsTestToXunitConverter.xUnit
 {
     class TestClass
     {
-        [Fact]
-        public void TestAreNotEqual()
+        public void TestIsNotNullMessage()
         {
-            Assert.NotEqual(1, 2);
+            Assert.IsNotNull(1, "message");
         }
     }
 }

@@ -8,10 +8,9 @@ namespace MsTestToXunitConverter.xUnit
 {
     class TestClass
     {
-        [Fact]
-        public void TestAreNotEqual()
+        public void TestMessage()
         {
-            Assert.NotEqual(1, 2);
+            Assert.NotNull(1); //message
         }
     }
 }
